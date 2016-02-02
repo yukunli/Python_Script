@@ -1,0 +1,444 @@
+
+---twrk21f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 2 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+examples code --- manifest redundant: (['ov7670_driver.c', 'ov7670_driver.h', 'fsl_sccb_master_driver.h', 'ov7670_def.h', 'fsl_sccb_master_driver.c'], 'in usb_examples/usb_device_video_flexio_ov7670_lite-bm')
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---twrk80f150m:
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'fsl_sgtl5000.h', 'sai_edma_transfer.c', 'board.h', 'pin_mux.c', 'sai_interrupt.c', 'sai_interrupt_transfer.c', 'pin_mux.h', 'board.c'], 'in driver_examples-sai')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+board name --- manifest board name: ['Repeated Definition']
+twrk80f150m: Verify Finish! Result = FAIL 6 times
+---twrk21f120m:
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'fsl_sgtl5000.h', 'sai_edma_transfer.c', 'board.h', 'pin_mux.c', 'sai_interrupt.c', 'sai_interrupt_transfer.c', 'pin_mux.h', 'board.c'], 'in driver_examples-sai')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 3 times
+---twrk80f150m:
+drivers --- manifest verification: ['OK']
+board name --- manifest board name: ['Repeated Definition']
+example_name --- manifest missing: ['rtc_func']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'flexio_i2s_edma_transfer.c', 'fsl_sgtl5000.h', 'flexio_i2s_interrupt_transfer.c', 'board.h', 'pin_mux.c', 'pin_mux.h', 'board.c'], 'in driver_examples/flexio-i2s')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+twrk80f150m: Verify Finish! Result = FAIL 5 times
+---twrk80f150m:
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'flexio_i2s_edma_transfer.c', 'fsl_sgtl5000.h', 'flexio_i2s_interrupt_transfer.c', 'board.h', 'pin_mux.c', 'pin_mux.h', 'board.c'], 'in driver_examples/flexio-i2s')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+board name --- manifest board name: ['Repeated Definition']
+twrk80f150m: Verify Finish! Result = FAIL 4 times
+---twrk21f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 2 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---twrk21f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 2 times
+---twrk21f120m:
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'fsl_sgtl5000.h', 'sai_edma_transfer.c', 'board.h', 'pin_mux.c', 'sai_interrupt.c', 'sai_interrupt_transfer.c', 'pin_mux.h', 'board.c'], 'in driver_examples-sai')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 3 times
+---twrk21f120m:
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'fsl_sgtl5000.h', 'sai_edma_transfer.c', 'board.h', 'pin_mux.c', 'sai_interrupt.c', 'sai_interrupt_transfer.c', 'pin_mux.h', 'board.c'], 'in driver_examples-sai')
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 3 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---twrk21f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: cau_api.h in mmcau
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 2 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication --- manifest repeat: netdb.h in lwip
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in Include_common: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in MK64F12_debugger: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in MK64F12_CMSIS: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in bm: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in dspi: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in debug_console: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in smartcard_phy_gpio: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in misc_utilities: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in cmp: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in rnga: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_cm0plus: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in cmt: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in adc16: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in MK64F12_linker: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in MK64F12_startup: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in smartcard_uart: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in common: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in flexbus: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+example_name --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in edma: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in device: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in host_khci: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in ftm: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in include_khci: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_sc000: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in pit: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in pmc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in mpu: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in gpio: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in mmau: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in hid: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in fsl_notifier: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in lwip: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in uart: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in dma_manager: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in fatfs: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in msd: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in cdc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in phdc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in llwu: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in ucosii: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in smartcard_phy_ncn8025: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in include_common: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_cm0: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in pdb: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_cm3: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in wdog: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in sdhc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_cm4: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_cm7: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in sdmmc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in host: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in ewm: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in Include_core_sc300: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in include_ehci: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in crc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in device_khci: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in sai: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in rcm: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in i2c: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in flash: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in lptmr: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in freertos: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in dmamux: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in vref: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in hub: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in linker: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in rtc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in smc: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in port: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in sim: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in startup: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+board name --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in audio: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in enet: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in dac: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in flexcan: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+example_category --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in smartcard: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in clock: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+drivers duplication  --- manifest repeat in ucosiii: ['cau_api.h', 'ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in Include_common: []
+drivers duplication  --- manifest repeat in MK64F12_debugger: []
+drivers duplication  --- manifest repeat in MK64F12_CMSIS: []
+drivers duplication  --- manifest repeat in bm: []
+drivers duplication  --- manifest repeat in dspi: []
+drivers duplication  --- manifest repeat in debug_console: []
+drivers duplication  --- manifest repeat in smartcard_phy_gpio: []
+drivers duplication  --- manifest repeat in misc_utilities: []
+drivers duplication  --- manifest repeat in cmp: []
+drivers duplication  --- manifest repeat in rnga: []
+drivers duplication  --- manifest repeat in Include_core_cm0plus: []
+drivers duplication  --- manifest repeat in Include: []
+drivers duplication  --- manifest repeat in cmt: []
+drivers duplication  --- manifest repeat in adc16: []
+drivers duplication  --- manifest repeat in MK64F12_linker: []
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in MK64F12_startup: []
+drivers duplication  --- manifest repeat in smartcard_uart: []
+drivers duplication  --- manifest repeat in common: []
+drivers duplication  --- manifest repeat in flexbus: []
+example_name --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in edma: []
+drivers duplication  --- manifest repeat in device: []
+drivers duplication  --- manifest repeat in host_khci: []
+drivers duplication  --- manifest repeat in ftm: []
+drivers duplication  --- manifest repeat in include_khci: []
+drivers duplication  --- manifest repeat in Include_core_sc000: []
+drivers duplication  --- manifest repeat in pit: []
+drivers duplication  --- manifest repeat in pmc: []
+drivers duplication  --- manifest repeat in mpu: []
+drivers duplication  --- manifest repeat in gpio: []
+drivers duplication  --- manifest repeat in mmau: []
+drivers duplication  --- manifest repeat in hid: []
+drivers duplication  --- manifest repeat in fsl_notifier: []
+drivers duplication  --- manifest repeat in lwip: []
+drivers duplication  --- manifest repeat in uart: []
+drivers duplication  --- manifest repeat in dma_manager: []
+drivers duplication  --- manifest repeat in fatfs: []
+drivers duplication  --- manifest repeat in msd: []
+drivers duplication  --- manifest repeat in cdc: []
+drivers duplication  --- manifest repeat in phdc: []
+drivers duplication  --- manifest repeat in llwu: []
+drivers duplication  --- manifest repeat in ucosii: []
+drivers duplication  --- manifest repeat in smartcard_phy_ncn8025: []
+drivers duplication  --- manifest repeat in include_common: []
+drivers duplication  --- manifest repeat in Include_core_cm0: []
+drivers duplication  --- manifest repeat in pdb: []
+drivers duplication  --- manifest repeat in Include_core_cm3: []
+drivers duplication  --- manifest repeat in wdog: []
+drivers duplication  --- manifest repeat in sdhc: []
+drivers duplication  --- manifest repeat in Include_core_cm4: []
+drivers duplication  --- manifest repeat in Include_core_cm7: []
+drivers duplication  --- manifest repeat in sdmmc: []
+drivers duplication  --- manifest repeat in host: []
+drivers duplication  --- manifest repeat in ewm: []
+drivers duplication  --- manifest repeat in Include_core_sc300: []
+drivers duplication  --- manifest repeat in include_ehci: []
+drivers duplication  --- manifest repeat in crc: []
+drivers duplication  --- manifest repeat in device_khci: []
+drivers duplication  --- manifest repeat in sai: []
+drivers duplication  --- manifest repeat in rcm: []
+drivers duplication  --- manifest repeat in i2c: []
+drivers duplication  --- manifest repeat in flash: []
+drivers duplication  --- manifest repeat in lptmr: []
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in freertos: []
+drivers duplication  --- manifest repeat in dmamux: []
+drivers duplication  --- manifest repeat in vref: []
+drivers duplication  --- manifest repeat in hub: []
+drivers duplication  --- manifest repeat in linker: []
+drivers duplication  --- manifest repeat in rtc: []
+drivers duplication  --- manifest repeat in smc: []
+drivers duplication  --- manifest repeat in port: []
+drivers duplication  --- manifest repeat in sim: []
+drivers duplication  --- manifest repeat in startup: []
+board name --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in audio: []
+drivers duplication  --- manifest repeat in enet: []
+drivers duplication  --- manifest repeat in dac: []
+drivers duplication  --- manifest repeat in flexcan: []
+example_category --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in smartcard: []
+drivers duplication  --- manifest repeat in clock: []
+drivers duplication  --- manifest repeat in ucosiii: []
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in Include_common: []
+drivers duplication  --- manifest repeat in MK64F12_linker: []
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in Include_core_cm0plus: []
+drivers duplication  --- manifest repeat in startup: []
+example_name --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in Include_core_sc000: []
+drivers duplication  --- manifest repeat in fatfs: []
+drivers duplication  --- manifest repeat in MK64F12_debugger: []
+drivers duplication  --- manifest repeat in ucosii: []
+drivers duplication  --- manifest repeat in freertos: []
+drivers duplication  --- manifest repeat in Include_core_cm0: []
+drivers duplication  --- manifest repeat in dma_manager: []
+drivers duplication  --- manifest repeat in Include_core_cm3: []
+drivers duplication  --- manifest repeat in Include_core_cm4: []
+drivers duplication  --- manifest repeat in MK64F12_startup: []
+drivers duplication  --- manifest repeat in Include_core_cm7: []
+drivers duplication  --- manifest repeat in sdmmc: []
+drivers duplication  --- manifest repeat in lwip: []
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in MK64F12_CMSIS: []
+drivers duplication  --- manifest repeat in Include_core_sc300: []
+drivers duplication  --- manifest repeat in linker: []
+board name --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in Include: []
+drivers duplication  --- manifest repeat in ucosiii: []
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in lwip: []
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in lwip: []
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in lwip: []
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['dfad', 'dfd', 'www']
+drivers duplication  --- manifest repeat in lwip: ['dfad', 'dfd', 'www']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: []
+drivers duplication  --- manifest repeat in lwip: []
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---twrk64f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h']
+drivers duplication  --- manifest repeat in lwip: ['ip_addr.h', 'inet.h', 'icmp.h', 'ip.h', 'netdb.h']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk64f120m: Verify Finish! Result = FAIL 6 times
+---frdmk82f:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+frdmk82f: Verify Finish! Result = FAIL 1 times
+---twrk21f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+driver name duplication --- manifest repeat: debug_console
+drivers --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk21f120m: Verify Finish! Result = FAIL 2 times
+---twrk22f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers duplication --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+---twrk22f120m:
+example code --- manifest verification: ['OK']
+example_name --- manifest verification: ['OK']
+drivers duplication --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+board name --- manifest verification: ['OK']
+twrk22f120m: Verify Finish! Result = PASS 
+---twrk80f150m:
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h']
+examples code --- manifest missing: (['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'flexio_i2s_edma_transfer.c', 'fsl_sgtl5000.h', 'flexio_i2s_interrupt_transfer.c', 'board.h', 'pin_mux.c', 'pin_mux.h', 'board.c'], 'in driver_examples/flexio-i2s')
+board name --- manifest board name: ['Repeated Definition']
+twrk80f150m: Verify Finish! Result = FAIL 4 times
+---twrk80f150m:
+example_name --- manifest verification: ['OK']
+drivers --- manifest verification: ['OK']
+example_category --- manifest verification: ['OK']
+drivers duplication  --- manifest repeat in mmcau: ['cau_api.h']
+examples code --- manifest missingin driver_examples/flexio:i2s: ['clock_config.h', 'fsl_sgtl5000.c', 'clock_config.c', 'flexio_i2s_edma_transfer.c', 'fsl_sgtl5000.h', 'flexio_i2s_interrupt_transfer.c', 'board.h', 'pin_mux.c', 'pin_mux.h', 'board.c']
+board name --- manifest board name: ['Repeated Definition']
+twrk80f150m: Verify Finish! Result = FAIL 4 times

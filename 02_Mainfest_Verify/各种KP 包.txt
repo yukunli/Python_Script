@@ -1,0 +1,16 @@
+release2£º
+
+rtos_windows_iar :
+	C:\01_MY_job\A_TO_DO\Verify_Mainfest\TWR-K21F120M_PKG_sdk_2_0_windows_iar
+
+rtos_windows_all:
+	C:\01_MY_job\A_TO_DO\functionality_of_KSDK_Project_Generator_V2\windows_rtos\TWR-K64F120M_PKG_sdk_2_0_windows_all
+
+rtos_windows_chip_iar:
+	C:\01_MY_job\A_TO_DO\functionality_of_KSDK_Project_Generator_V2\windows_rtos\windows_chip\iar\MK24FN1M0xxx12_PKG_sdk_2_0_windows_iar
+
+tros_windows_chip_all:
+	C:\01_MY_job\A_TO_DO\functionality_of_KSDK_Project_Generator_V2\windows_rtos\windows_chip\MK22FN128xxx12_PKG_sdk_2_0_windows_all
+
+
+python verify_mainfest_test.py "C:\01_MY_job\A_TO_DO\Verify_Mainfest\TWR-K21F120M_PKG_sdk_2_0_windows_iar"
