@@ -125,9 +125,11 @@ class compare():
         global Error1fail_num
         global Error2fail_num
         global OtherErrorfail_num
-        global Erroelist 
+        global Erroelist
+        global NO
+        global compiler_name
         other_errorlist = []
-        html_file = open('.\\compare_result.txt','a')
+        html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
         match = str(fail_build_info[2])
         pattern_flag = 0
         if match == None:
@@ -170,14 +172,17 @@ if __name__ == '__main__':
     global OtherErrorfail_num
     global Error2fail_num
     global Erroelist
-    Erroelist = [0,0,0,0,0,0]
+    global NO
+    global compiler_name
+    Erroelist = [0,0,0,0,0,0,0,0]
     Error1fail_num = 0
     Error2fail_num = 0
     fails_num = 0
     OtherErrorfail_num = 0
     compiler_list = ["iar","uv4","kds","atl"]
     # config the compare info
-    dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/3113/"
+    NO = '3326'
+    dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+NO+"/"
     compiler_name = "iar"
     #atl 
 ##    compare_list = ["collect2.exe: error: ld returned 1 exit status",\
@@ -189,12 +194,17 @@ if __name__ == '__main__':
 ##                    "Symbol s_dummyData multiply defined",\
 ##                    "fsl_slcd.h.* error:.* identifier .* is undefined",\
 ##                    "cannot open source input file .*fsl_clock.h.*: No such file or directory",\
-##                    "the size of an array must be greater than zero"] #uv4
+##                    "the size of an array must be greater than zero",\
+##                    "cannot open source input file .*portmacro.h.*: No such file or directory",
+##                    "error:.*struct .*has no field .*CRC",\
+##                    "No space in execution regions with .ANY selector matching"] 
 ##    #iar
     compare_list = ["duplicate definitions for .*s_dummyData",\
                     "the size of an array must be greater than zero",\
                     "Fatal Error.* cannot open source file .*fsl_clock.h",\
-                    "function .__get_PRIMASK. declared implicitly"]
+                    "function .__get_PRIMASK. declared implicitly",\
+                    "Fatal Error.* cannot open source file .*portmacro.h",\
+                    "Error.*: struct .* has no field .*CRC"]
     #kds
 ##    compare_list = ["duplicate definitions for .*s_dummyData",\
 ##                    "the size of an array must be greater than zero",\
@@ -202,10 +212,10 @@ if __name__ == '__main__':
 ##                    "region m_data overflowed with stack and heap"]
     # end the setting
     
-    resule_file = open('.\\compare_result.txt','w')
+    resule_file = open('.\\'+NO+compiler_name+'_compare_result.txt','w')
     resule_file.truncate()    #clear the file content
     
-    html_file = open('.\\compare_result.txt','a')
+    html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
     html_file.write(dapeng_requst_fail_path+' -- '+compiler_name+' --\n')
     html_file.write('Check The Build Errors : --\n')
     html_file.close()
@@ -216,7 +226,7 @@ if __name__ == '__main__':
     endtime = datetime.datetime.now()
     print endtime - starttime
     
-    html_file = open('.\\compare_result.txt','a')
+    html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
     html_file.write('Final Result: '+'Total compile fails num is '+str(fails_num)+'\n')
     for i in range(0,len(compare_list)):
         html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
