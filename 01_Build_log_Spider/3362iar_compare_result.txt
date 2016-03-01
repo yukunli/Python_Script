@@ -1,0 +1,132 @@
+http://10.192.225.198/dapeng/EditMcuautoRequest/3362/ -- iar --
+Check The Build Errors : --
+1: S2x_p_FRDM-KL81Z_lib_rtos_freertos-frdmkl81z-iar-debug                               *has the other errors*
+2: S2x_p_FRDM-KL81Z_lib_rtos_none-frdmkl81z-iar-debug                                   *has the other errors*
+3: S2x_p_FRDM-KL81Z_lib_rtos_ucosii-frdmkl81z-iar-debug                                 *has the other errors*
+4: S2x_p_FRDM-KL81Z_lib_rtos_ucosiii-frdmkl81z-iar-debug                                *has the other errors*
+1: S2x_p_FRDM-KL81Z_quick-frdmkl81z-iar-debug                                           has the same errors 1
+5: S2x_p_FRDM-KL81Z__st_lib_rtos_freertos-frdmkl81z-iar-debug                           *has the other errors*
+6: S2x_p_FRDM-KL81Z__st_lib_rtos_none-frdmkl81z-iar-debug                               *has the other errors*
+7: S2x_p_FRDM-KL81Z__st_lib_rtos_ucosii-frdmkl81z-iar-debug                             *has the other errors*
+8: S2x_p_FRDM-KL81Z__st_lib_rtos_ucosiii-frdmkl81z-iar-debug                            *has the other errors*
+9: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_freertos-frdmkl81z-iar-debug                      *has the other errors*
+10: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_none-frdmkl81z-iar-debug                         *has the other errors*
+11: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_ucosii-frdmkl81z-iar-debug                       *has the other errors*
+12: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_ucosiii-frdmkl81z-iar-debug                      *has the other errors*
+13: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_freertos-frdmkl81z-iar-debug                 *has the other errors*
+14: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_none-frdmkl81z-iar-debug                     *has the other errors*
+15: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_ucosii-frdmkl81z-iar-debug                   *has the other errors*
+16: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_ucosiii-frdmkl81z-iar-debug                  *has the other errors*
+17: S2x_p__lib_rtos_none_MKL81Z128VLH7-frdmkl81z-iar-debug                              *has the other errors*
+18: S2x_p__lib_rtos_none_MKL81Z128VLK7-frdmkl81z-iar-debug                              *has the other errors*
+19: S2x_p__lib_rtos_none_MKL81Z128VLL7-frdmkl81z-iar-debug                              *has the other errors*
+20: S2x_p__lib_rtos_none_MKL81Z128VMC7-frdmkl81z-iar-debug                              *has the other errors*
+21: S2x_p__lib_rtos_none_MKL81Z128VMP7-frdmkl81z-iar-debug                              *has the other errors*
+22: S2x_p___st_lib_rtos_none_MKL81Z128VLH7-frdmkl81z-iar-debug                          *has the other errors*
+23: S2x_p___st_lib_rtos_none_MKL81Z128VLK7-frdmkl81z-iar-debug                          *has the other errors*
+24: S2x_p___st_lib_rtos_none_MKL81Z128VLL7-frdmkl81z-iar-debug                          *has the other errors*
+25: S2x_p___st_lib_rtos_none_MKL81Z128VMC7-frdmkl81z-iar-debug                          *has the other errors*
+26: S2x_p___st_lib_rtos_none_MKL81Z128VMP7-frdmkl81z-iar-debug                          *has the other errors*
+27: S2x_p_FRDM-KL81Z_lib_rtos_freertos-frdmkl81z-iar-release                            *has the other errors*
+28: S2x_p_FRDM-KL81Z_lib_rtos_none-frdmkl81z-iar-release                                *has the other errors*
+29: S2x_p_FRDM-KL81Z_lib_rtos_ucosii-frdmkl81z-iar-release                              *has the other errors*
+30: S2x_p_FRDM-KL81Z_lib_rtos_ucosiii-frdmkl81z-iar-release                             *has the other errors*
+2: S2x_p_FRDM-KL81Z_quick-frdmkl81z-iar-release                                         has the same errors 1
+31: S2x_p_FRDM-KL81Z__st_lib_rtos_freertos-frdmkl81z-iar-release                        *has the other errors*
+32: S2x_p_FRDM-KL81Z__st_lib_rtos_none-frdmkl81z-iar-release                            *has the other errors*
+33: S2x_p_FRDM-KL81Z__st_lib_rtos_ucosii-frdmkl81z-iar-release                          *has the other errors*
+34: S2x_p_FRDM-KL81Z__st_lib_rtos_ucosiii-frdmkl81z-iar-release                         *has the other errors*
+35: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_freertos-frdmkl81z-iar-release                   *has the other errors*
+36: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_none-frdmkl81z-iar-release                       *has the other errors*
+37: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_ucosii-frdmkl81z-iar-release                     *has the other errors*
+38: S2x_p_tool_iar_FRDM-KL81Z_lib_rtos_ucosiii-frdmkl81z-iar-release                    *has the other errors*
+39: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_freertos-frdmkl81z-iar-release               *has the other errors*
+40: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_none-frdmkl81z-iar-release                   *has the other errors*
+41: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_ucosii-frdmkl81z-iar-release                 *has the other errors*
+42: S2x_p_tool_iar_FRDM-KL81Z__st_lib_rtos_ucosiii-frdmkl81z-iar-release                *has the other errors*
+43: S2x_p__lib_rtos_none_MKL81Z128VLH7-frdmkl81z-iar-release                            *has the other errors*
+44: S2x_p__lib_rtos_none_MKL81Z128VLK7-frdmkl81z-iar-release                            *has the other errors*
+45: S2x_p__lib_rtos_none_MKL81Z128VLL7-frdmkl81z-iar-release                            *has the other errors*
+46: S2x_p__lib_rtos_none_MKL81Z128VMC7-frdmkl81z-iar-release                            *has the other errors*
+47: S2x_p__lib_rtos_none_MKL81Z128VMP7-frdmkl81z-iar-release                            *has the other errors*
+48: S2x_p___st_lib_rtos_none_MKL81Z128VLH7-frdmkl81z-iar-release                        *has the other errors*
+49: S2x_p___st_lib_rtos_none_MKL81Z128VLK7-frdmkl81z-iar-release                        *has the other errors*
+50: S2x_p___st_lib_rtos_none_MKL81Z128VLL7-frdmkl81z-iar-release                        *has the other errors*
+51: S2x_p___st_lib_rtos_none_MKL81Z128VMC7-frdmkl81z-iar-release                        *has the other errors*
+52: S2x_p___st_lib_rtos_none_MKL81Z128VMP7-frdmkl81z-iar-release                        *has the other errors*
+1: S2x_p_tool_iar_TWR-K21D50M_lib_rtos_freertos-twrk21d50m-iar-debug                    has the same errors 0
+2: S2x_p_tool_iar_TWR-K21D50M__st_lib_rtos_freertos-twrk21d50m-iar-debug                has the same errors 0
+3: S2x_p_TWR-K21D50M_lib_rtos_freertos-twrk21d50m-iar-debug                             has the same errors 0
+4: S2x_p_TWR-K21D50M__st_lib_rtos_freertos-twrk21d50m-iar-debug                         has the same errors 0
+5: S2x_p_tool_iar_TWR-K21D50M_lib_rtos_freertos-twrk21d50m-iar-release                  has the same errors 0
+6: S2x_p_tool_iar_TWR-K21D50M__st_lib_rtos_freertos-twrk21d50m-iar-release              has the same errors 0
+7: S2x_p_TWR-K21D50M_lib_rtos_freertos-twrk21d50m-iar-release                           has the same errors 0
+8: S2x_p_TWR-K21D50M__st_lib_rtos_freertos-twrk21d50m-iar-release                       has the same errors 0
+9: S2x_p_tool_iar_TWR-K60D100M_lib_rtos_freertos-twrk60d100m-iar-debug                  has the same errors 0
+10: S2x_p_tool_iar_TWR-K60D100M__st_lib_rtos_freertos-twrk60d100m-iar-debug             has the same errors 0
+11: S2x_p_TWR-K60D100M_lib_rtos_freertos-twrk60d100m-iar-debug                          has the same errors 0
+12: S2x_p_TWR-K60D100M__st_lib_rtos_freertos-twrk60d100m-iar-debug                      has the same errors 0
+13: S2x_p_tool_iar_TWR-K60D100M_lib_rtos_freertos-twrk60d100m-iar-release               has the same errors 0
+14: S2x_p_tool_iar_TWR-K60D100M__st_lib_rtos_freertos-twrk60d100m-iar-release           has the same errors 0
+15: S2x_p_TWR-K60D100M_lib_rtos_freertos-twrk60d100m-iar-release                        has the same errors 0
+16: S2x_p_TWR-K60D100M__st_lib_rtos_freertos-twrk60d100m-iar-release                    has the same errors 0
+53: S2x_p__lib_rtos_none_MKL81Z128VLH7-twrkl81z72m-iar-debug                            *has the other errors*
+54: S2x_p__lib_rtos_none_MKL81Z128VLK7-twrkl81z72m-iar-debug                            *has the other errors*
+55: S2x_p__lib_rtos_none_MKL81Z128VLL7-twrkl81z72m-iar-debug                            *has the other errors*
+56: S2x_p__lib_rtos_none_MKL81Z128VMC7-twrkl81z72m-iar-debug                            *has the other errors*
+57: S2x_p__lib_rtos_none_MKL81Z128VMP7-twrkl81z72m-iar-debug                            *has the other errors*
+58: S2x_p___st_lib_rtos_none_MKL81Z128VLH7-twrkl81z72m-iar-debug                        *has the other errors*
+59: S2x_p___st_lib_rtos_none_MKL81Z128VLK7-twrkl81z72m-iar-debug                        *has the other errors*
+60: S2x_p___st_lib_rtos_none_MKL81Z128VLL7-twrkl81z72m-iar-debug                        *has the other errors*
+61: S2x_p___st_lib_rtos_none_MKL81Z128VMC7-twrkl81z72m-iar-debug                        *has the other errors*
+62: S2x_p___st_lib_rtos_none_MKL81Z128VMP7-twrkl81z72m-iar-debug                        *has the other errors*
+63: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_freertos-twrkl81z72m-iar-debug                 *has the other errors*
+64: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_none-twrkl81z72m-iar-debug                     *has the other errors*
+65: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_ucosii-twrkl81z72m-iar-debug                   *has the other errors*
+66: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_ucosiii-twrkl81z72m-iar-debug                  *has the other errors*
+67: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_freertos-twrkl81z72m-iar-debug             *has the other errors*
+68: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_none-twrkl81z72m-iar-debug                 *has the other errors*
+69: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_ucosii-twrkl81z72m-iar-debug               *has the other errors*
+70: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_ucosiii-twrkl81z72m-iar-debug              *has the other errors*
+71: S2x_p_TWR-KL81Z72M_lib_rtos_freertos-twrkl81z72m-iar-debug                          *has the other errors*
+72: S2x_p_TWR-KL81Z72M_lib_rtos_none-twrkl81z72m-iar-debug                              *has the other errors*
+73: S2x_p_TWR-KL81Z72M_lib_rtos_ucosii-twrkl81z72m-iar-debug                            *has the other errors*
+74: S2x_p_TWR-KL81Z72M_lib_rtos_ucosiii-twrkl81z72m-iar-debug                           *has the other errors*
+3: S2x_p_TWR-KL81Z72M_quick-twrkl81z72m-iar-debug                                       has the same errors 1
+75: S2x_p_TWR-KL81Z72M__st_lib_rtos_freertos-twrkl81z72m-iar-debug                      *has the other errors*
+76: S2x_p_TWR-KL81Z72M__st_lib_rtos_none-twrkl81z72m-iar-debug                          *has the other errors*
+77: S2x_p_TWR-KL81Z72M__st_lib_rtos_ucosii-twrkl81z72m-iar-debug                        *has the other errors*
+78: S2x_p_TWR-KL81Z72M__st_lib_rtos_ucosiii-twrkl81z72m-iar-debug                       *has the other errors*
+79: S2x_p__lib_rtos_none_MKL81Z128VLH7-twrkl81z72m-iar-release                          *has the other errors*
+80: S2x_p__lib_rtos_none_MKL81Z128VLK7-twrkl81z72m-iar-release                          *has the other errors*
+81: S2x_p__lib_rtos_none_MKL81Z128VLL7-twrkl81z72m-iar-release                          *has the other errors*
+82: S2x_p__lib_rtos_none_MKL81Z128VMC7-twrkl81z72m-iar-release                          *has the other errors*
+83: S2x_p__lib_rtos_none_MKL81Z128VMP7-twrkl81z72m-iar-release                          *has the other errors*
+84: S2x_p___st_lib_rtos_none_MKL81Z128VLH7-twrkl81z72m-iar-release                      *has the other errors*
+85: S2x_p___st_lib_rtos_none_MKL81Z128VLK7-twrkl81z72m-iar-release                      *has the other errors*
+86: S2x_p___st_lib_rtos_none_MKL81Z128VLL7-twrkl81z72m-iar-release                      *has the other errors*
+87: S2x_p___st_lib_rtos_none_MKL81Z128VMC7-twrkl81z72m-iar-release                      *has the other errors*
+88: S2x_p___st_lib_rtos_none_MKL81Z128VMP7-twrkl81z72m-iar-release                      *has the other errors*
+89: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_freertos-twrkl81z72m-iar-release               *has the other errors*
+90: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_none-twrkl81z72m-iar-release                   *has the other errors*
+91: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_ucosii-twrkl81z72m-iar-release                 *has the other errors*
+92: S2x_p_tool_iar_TWR-KL81Z72M_lib_rtos_ucosiii-twrkl81z72m-iar-release                *has the other errors*
+93: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_freertos-twrkl81z72m-iar-release           *has the other errors*
+94: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_none-twrkl81z72m-iar-release               *has the other errors*
+95: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_ucosii-twrkl81z72m-iar-release             *has the other errors*
+96: S2x_p_tool_iar_TWR-KL81Z72M__st_lib_rtos_ucosiii-twrkl81z72m-iar-release            *has the other errors*
+97: S2x_p_TWR-KL81Z72M_lib_rtos_freertos-twrkl81z72m-iar-release                        *has the other errors*
+98: S2x_p_TWR-KL81Z72M_lib_rtos_none-twrkl81z72m-iar-release                            *has the other errors*
+99: S2x_p_TWR-KL81Z72M_lib_rtos_ucosii-twrkl81z72m-iar-release                          *has the other errors*
+100: S2x_p_TWR-KL81Z72M_lib_rtos_ucosiii-twrkl81z72m-iar-release                        *has the other errors*
+4: S2x_p_TWR-KL81Z72M_quick-twrkl81z72m-iar-release                                     has the same errors 1
+101: S2x_p_TWR-KL81Z72M__st_lib_rtos_freertos-twrkl81z72m-iar-release                   *has the other errors*
+102: S2x_p_TWR-KL81Z72M__st_lib_rtos_none-twrkl81z72m-iar-release                       *has the other errors*
+103: S2x_p_TWR-KL81Z72M__st_lib_rtos_ucosii-twrkl81z72m-iar-release                     *has the other errors*
+104: S2x_p_TWR-KL81Z72M__st_lib_rtos_ucosiii-twrkl81z72m-iar-release                    *has the other errors*
+5: S2x_p_TWR-KL82Z72M_quick-twrkl82z72m-iar-debug                                       has the same errors 1
+6: S2x_p_TWR-KL82Z72M_quick-twrkl82z72m-iar-release                                     has the same errors 1
+Final Result: Total compile fails num is 126
+Final Result:  This Error 0 num is 16
+Final Result:  This Error 1 num is 6
+Final Result: Other Errors fails num is 104  END at: 2016-02-24 15:57:26.194000

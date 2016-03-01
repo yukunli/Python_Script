@@ -6,6 +6,10 @@ import string
 import datetime
 import time
 import sys
+from Tkinter import *
+import ttk 
+import tkFileDialog
+import tkMessageBox
 
 DEBUG = False
 ##############################################
@@ -160,9 +164,46 @@ class compare():
            
         html_file.close()
             
+class Setting_Gui:
+    """
+    """
+    def __init__(self,master = None):
         
-            
+        self.master = master
+        self.frame = Frame(self.master)
+        self.master.geometry('1000x200')
+        self.master.title("Build LOG spider1.0") 
+        self.master.geometry('500x200')
+        Button(self.master, text='Refresh The Settings Info', bg='blue',fg='white',\
+               font=('Arial', 10),command=self.Refresh_input).pack(fill=X,side=BOTTOM)
         
+        self.CaseNo_Input = StringVar()
+        self.CaseNo_Input.set("3367")   
+        CaseNo_entry = Entry(self.master,text = self.CaseNo_Input,width=8,background='white',
+                                font=('Arial', 15),foreground='black').place(x=120,y=30)
+        Label(self.master,text='Requst Number:',font=('Arial', 10)).place(x=10,y=30)
+
+        self.compiler_Input = StringVar()
+        self.compiler_Input.set("iar")
+        Compiler_combobox = ttk.Combobox(self.master,text=self.compiler_Input,values=["iar","uv4","kds","atl","gcc_arm"],\
+                                           width=5,font=('Arial', 15)).place(x=335,y=30)
+        Label(self.master,text='Compiler select:',font=('Arial', 10)).place(x=230,y=30)
+
+        Run_Button=Button(self.master,text=' Run ',command=self.Get_settingInfo,font=('Arial', 10,'bold')).place(x=435,y=30)
+
+        Error_info = Text(self.master).place(x=120,y=60)
+        Error_info.insert(END,'1...')
+##        self.master.update()
+        
+    def Refresh_input(self):
+        print " Please ..."
+    def Get_settingInfo(self):
+        CaseNo = self.CaseNo_Input.get()
+        print CaseNo
+        CompilerName = self.compiler_Input.get()
+        print CompilerName
+        
+
 ####################################################
 
 if __name__ == '__main__':
@@ -180,6 +221,11 @@ if __name__ == '__main__':
     fails_num = 0
     OtherErrorfail_num = 0
     compiler_list = ["iar","uv4","kds","atl"]
+    
+    root = Tk()
+    app = Setting_Gui(root)
+    root.mainloop()
+    
     # ============config the compare info===================
     NO = '3367'
     compiler_name = "iar"
@@ -244,7 +290,9 @@ if __name__ == '__main__':
             
                 }
     # ========== end ===================================
- 
+    
+
+     
     dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+NO+"/" 
     resule_file = open('.\\'+NO+compiler_name+'_compare_result.txt','w')
     resule_file.truncate()    #clear the file content
@@ -255,8 +303,8 @@ if __name__ == '__main__':
     html_file.close()
     
     starttime = datetime.datetime.now()
-    iar_failcase = compare(dapeng_requst_fail_path,compiler_name,compare_dict[compiler_name])
-    iar_failcase.compare_fail_log()
+##    iar_failcase = compare(dapeng_requst_fail_path,compiler_name,compare_dict[compiler_name])
+##    iar_failcase.compare_fail_log()
     endtime = datetime.datetime.now()
     print endtime - starttime
     
@@ -266,6 +314,7 @@ if __name__ == '__main__':
         html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
     html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
     html_file.close()
+    
  
    
 

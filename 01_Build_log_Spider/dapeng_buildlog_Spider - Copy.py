@@ -5,7 +5,6 @@ import urllib
 import string
 import datetime
 import time
-import sys
 
 DEBUG = False
 ##############################################
@@ -79,7 +78,6 @@ class get_fail_caseinfo():
             html = None
             print "read url fail in:  " + url
         finally:
-            page.close()
             return html
     def write_html_txt(self,html_page):
         html_file = open('.\\page_html.txt','w')
@@ -92,7 +90,6 @@ class get_fail_caseinfo():
         html_file.write(html_page)
         html_file.close()
 #####################################################
-        
 class compare():
     def __init__(self,dapeng_requst_path,compiler,compare_list = []):
         self.requstPath = dapeng_requst_path
@@ -151,7 +148,7 @@ class compare():
                 break
         if pattern_flag == 0:
 ##            print "Other Errors fails has happend! such as: " +  str(fail_build_info[1])
-##            sys.exit()
+##            exit()
             print "! !! !!! OtherErrorfail_num"
             OtherErrorfail_num += 1
             ss = str(OtherErrorfail_num)+ ': '+str(fail_build_info[1])
@@ -167,6 +164,7 @@ class compare():
 
 if __name__ == '__main__':
 
+    
     global fails_num
     global Error1fail_num
     global OtherErrorfail_num
@@ -182,7 +180,7 @@ if __name__ == '__main__':
     compiler_list = ["iar","uv4","kds","atl"]
     # ============config the compare info===================
     NO = '3367'
-    compiler_name = "iar"
+    compiler_name = "kds"
     compare_dict = {
         'iar': [
 ##                    "duplicate definitions for .*s_dummyData",\
@@ -194,12 +192,12 @@ if __name__ == '__main__':
                     "Error.*: This instruction is not available in the selected cpu/core",\
                     "Fatal Error.* cannot open source file .*portmacro.h",\
                     "Error.*: struct .* has no field .*CRC",\
-##                    "Fatal Error.* cannot open source file .*fsl_uart.h",\
+                    "Fatal Error.* cannot open source file .*fsl_uart.h",\
 ##                    "Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
 ##                    "Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
 ##                    "Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
                     "Error.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined",\
-                    "Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined",\
+                    "Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined"
                ],
         'uv4': [
 ##                    "fsl_enet.h.* error:.*identifier .* is undefined",\
@@ -215,37 +213,34 @@ if __name__ == '__main__':
                     "error:.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
                     "error:.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
                     "error:.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
-                    "error:.* cannot open source input file .*fsl_uart.h.*: No such file or directory",\
-                    "error:.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined"
+                    "error:.* cannot open source input file .*fsl_uart.h.*: No such file or directory"
                ],
         
         'atl': [
-##                    "collect2.exe: error: ld returned 1 exit status",\
-##                    "fsl_slcd.h:.* error: unknown type name",\
-##                    "fsl_enet.c.* error: unknown type name",\
-##                    "fatal error: fsl_clock.h: No such file or directory",\
-                    " region .*m_data.* overflowed by .* bytes",\
+                    "collect2.exe: error: ld returned 1 exit status",\
+                    "fsl_slcd.h:.* error: unknown type name",\
+                    "fsl_enet.c.* error: unknown type name",\
+                    "fatal error: fsl_clock.h: No such file or directory"
+               ],
+        'kds': [
+##                    "duplicate definitions for .*s_dummyData",\
+##                    "the size of an array must be greater than zero",\
+##                    "fsl_clock.h: No such file or directory",\
+                    "region m_data overflowed with stack and heap",\
+                    "error: 'TSI_Type' has no member named .*CRC",\
                     "fatal error: portmacro.h: No such file or directory",\
-                    "fatal error: fsl_uart.h: No such file or directory",\
-                    "error: unknown type name .*CAN_Type",\
+##                    "fatal error: fsl_uart.h: No such file or directory",\
                     "error: unknown type name .*DAC_Type",\
                     "error: unknown type name .*LPUART_Type",\
                     "error: unknown type name .*TSI_Type",\
-                    "error: unknown type name .*ENET_Type"
-               ],
-        'kds': [
-                    "duplicate definitions for .*s_dummyData",\
-                    "the size of an array must be greater than zero",\
-                    "fsl_clock.h: No such file or directory",\
-                    "region m_data overflowed with stack and heap",\
-                    "error: 'TSI_Type' has no member named .*CRC",\
-                    "fatal error: portmacro.h: No such file or directory"
+                    "error: unknown type name .*ENET_Type",\
+                    "error: unknown type name .*CAN_Type'"
                ]
             
-                }
+                   }
     # ========== end ===================================
  
-    dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+NO+"/" 
+    dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+NO+"/"
     resule_file = open('.\\'+NO+compiler_name+'_compare_result.txt','w')
     resule_file.truncate()    #clear the file content
     

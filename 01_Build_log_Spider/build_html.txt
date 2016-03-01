@@ -219,20 +219,20 @@ Request Detail Information
 <td valign="top"><a name="subheader1" id="subheader1"></a> 
 <!-- SubHeader-->
 <form id="form1" enctype="multipart/form-data" action="/dapeng//handleMcuautoRequestDetail/" method="post">
-<input type='hidden' name='csrfmiddlewaretoken' value='qfWumLSELltB9QYIWsqVuwc7oJbzJq78' />
+<input type='hidden' name='csrfmiddlewaretoken' value='JfN9d1efdNZF9DrvEyYFJ93JsOsMhIjz' />
 
  
 	<p><h3>Request Detail Information<h3></p>
  	<table width="90%">
 	<tr >
 		<td width="10%" style="text-align:right;color:#017bba"><b>Test Request</b>:</td>
-		<td width="10%"><a href='/dapeng/EditMcuautoRequest/3113' target='_blank'>Project_Generator_Tool_FC_SDK2.0_RC4.1_Windows_Chips_All_Build</a></td>
+		<td width="10%"><a href='/dapeng/EditMcuautoRequest/3367' target='_blank'>KSDK_Project_Gen_Tool_SDK2.0_Rel2_RC1_Win_Chips_Full_Build_Again</a></td>
 		
 		<td width="12%" style="text-align:right;color:#017bba"><b>Test Case Name</b>:</td>
-		<td width="8%">S2x_p___st_lib_rtos_none_MKL33Z256VMP4</td>
+		<td width="8%">S2x_p___st_lib_rtos_none_MKL36Z128VLL4</td>
 		
 		<td width="12%" style="text-align:right;color:#017bba"><b>Platform</b>:</td>
-		<td width="12%">twrkl43z48m</td>
+		<td width="12%">frdmkl46z</td>
 		
 		<td width="12%" style="text-align:right;color:#017bba"><b>Compiler</b>:</td>
 		<td width="12%">iar</td>
@@ -242,16 +242,16 @@ Request Detail Information
 	</tr>
 	<tr>
 		<td style="text-align:right;color:#017bba"><b>Build Station</b>:</td>
-		<td>ZCHLABB46681-20</td>
+		<td>B19831-04</td>
 		
 		<td style="text-align:right;color:#017bba"><b>Build Result</b>:</td>
 		<td>Fail</td>
 		
 		<td style="text-align:right;color:#017bba"><b>Build Start Time</b>:</td>
-		<td>Jan. 31, 2016, 8:32 a.m.</td>
+		<td>Feb. 24, 2016, 11:33 p.m.</td>
 		
 		<td style="text-align:right;color:#017bba"><b>Build End Time</b>:</td>
-		<td>Jan. 31, 2016, 8:32 a.m.</td>
+		<td>Feb. 24, 2016, 11:33 p.m.</td>
 	</tr>
 	<tr>
 		<td style="text-align:right;color:#017bba"><b>Run Station</b>:</td>
@@ -271,7 +271,7 @@ Request Detail Information
 		<td>Finished</td>
 		
 		<td style="text-align:right;color:#017bba"><b>Branch Name</b>:</td>
-		<td colspan='3'>MKL33Z256xxx4_PKG_sdk_2_0_windows_all_Release1_RC4_User_Apps_20160130021952</td>
+		<td colspan='3'>MKL36Z128xxx4_PKG_sdk_2_0_windows_all_Release2_RC1_User_Apps_20160224134147</td>
 		
 		<td style="text-align:right;color:#017bba"><b>Patch Name</b>:</td>
 		<td colspan='3'></td>
@@ -279,19 +279,19 @@ Request Detail Information
 	</table>
 	<p><input type='Button' value='Re Run' name='rerun' style='position:absolute;right:500px' onclick='submitrequest()'></p>
 	<p><h3>Build logfile<h3></p>
-	<strong><font size=3>/opt/lampp/htdocs/dapeng/logs//build_log/3113/4618604/demo_S2x_p___st_lib_rtos_none_MKL33Z256VMP4_twrkl43z48m_iar</strong></font>
+	<strong><font size=3>/opt/lampp/htdocs/dapeng/logs//build_log/3367/4976297/demo_S2x_p___st_lib_rtos_none_MKL36Z128VLL4_frdmkl46z_iar</strong></font>
 <table class=plain_table_border width=100%>
-<tr><th>Name</th><th>Size</th><th>Date</th></tr><tr><td><img src='/dapeng/static/pics/folder.gif'> <a href='/dapeng//showMcuautoRequestDetail/4618604/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMTEzLzQ2MTg2MDQ=
-/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL3J1bl9sb2cvMzExMy80NjE4NjA0
-/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2Jpbi8zMTEzLzQ2MTg2MDQ=
+<tr><th>Name</th><th>Size</th><th>Date</th></tr><tr><td><img src='/dapeng/static/pics/folder.gif'> <a href='/dapeng//showMcuautoRequestDetail/4976297/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMzY3LzQ5NzYyOTc=
+/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL3J1bl9sb2cvMzM2Ny80OTc2Mjk3
+/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2Jpbi8zMzY3LzQ5NzYyOTc=
 /'>[ .. ]</a></td><td>&#60;DIR&#62;</td><td></td></tr>
-<tr><td><img src='/dapeng/static/pics/file.gif'> <a href='/dapeng//downloadfile/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMTEzLzQ2MTg2MDQvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzNaMjU2Vk1QNF90d3JrbDQzejQ4bV9pYXIvaWFyX2lkZV8yMDE2LTAxLTMxLTA4LTMyLTM5LnR4dA==/' onmouseout="ShowLogTipMouseOut('1',event);" onmouseover="ShowLogTip('L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMTEzLzQ2MTg2MDQvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzNaMjU2Vk1QNF90d3JrbDQzejQ4bV9pYXIvaWFyX2lkZV8yMDE2LTAxLTMxLTA4LTMyLTM5LnR4dA==',event);" onmousemove="ShowLogTip('L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMTEzLzQ2MTg2MDQvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzNaMjU2Vk1QNF90d3JrbDQzejQ4bV9pYXIvaWFyX2lkZV8yMDE2LTAxLTMxLTA4LTMyLTM5LnR4dA==',event);" >iar_ide_2016-01-31-08-32-39.txt</a></td><td>78216</td><td>Sun Jan 31 08:32:40 2016</td></tr>
-<tr><td><img src='/dapeng/static/pics/folder.gif'> <a href='/dapeng//showMcuautoRequestDetail/4618604/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMTEzLzQ2MTg2MDQvZGVt
-b19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzNaMjU2Vk1QNF90d3JrbDQzejQ4bV9pYXIv
-bW9yZV8yMDE2LTAxLTMxLTA4LTMyLTM5
-/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL3J1bl9sb2cvMzExMy80NjE4NjA0
-/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2Jpbi8zMTEzLzQ2MTg2MDQ=
-/'>more_2016-01-31-08-32-39</a></td><td>&#60;DIR&#62;</td><td></td></tr>
+<tr><td><img src='/dapeng/static/pics/folder.gif'> <a href='/dapeng//showMcuautoRequestDetail/4976297/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMzY3LzQ5NzYyOTcvZGVt
+b19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzZaMTI4VkxMNF9mcmRta2w0NnpfaWFyL21v
+cmVfMjAxNi0wMi0yNC0yMy0zMy0yMQ==
+/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL3J1bl9sb2cvMzM2Ny80OTc2Mjk3
+/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2Jpbi8zMzY3LzQ5NzYyOTc=
+/'>more_2016-02-24-23-33-21</a></td><td>&#60;DIR&#62;</td><td></td></tr>
+<tr><td><img src='/dapeng/static/pics/file.gif'> <a href='/dapeng//downloadfile/L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMzY3LzQ5NzYyOTcvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzZaMTI4VkxMNF9mcmRta2w0NnpfaWFyL2lhcl9pZGVfMjAxNi0wMi0yNC0yMy0zMy0yMS50eHQ=/' onmouseout="ShowLogTipMouseOut('1',event);" onmouseover="ShowLogTip('L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMzY3LzQ5NzYyOTcvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzZaMTI4VkxMNF9mcmRta2w0NnpfaWFyL2lhcl9pZGVfMjAxNi0wMi0yNC0yMy0zMy0yMS50eHQ=',event);" onmousemove="ShowLogTip('L29wdC9sYW1wcC9odGRvY3MvZGFwZW5nL2xvZ3MvL2J1aWxkX2xvZy8zMzY3LzQ5NzYyOTcvZGVtb19TMnhfcF9fX3N0X2xpYl9ydG9zX25vbmVfTUtMMzZaMTI4VkxMNF9mcmRta2w0NnpfaWFyL2lhcl9pZGVfMjAxNi0wMi0yNC0yMy0zMy0yMS50eHQ=',event);" >iar_ide_2016-02-24-23-33-21.txt</a></td><td>94525</td><td>Wed Feb 24 23:33:21 2016</td></tr>
 </table>
 	<p>
 	<p><h3>Run logfile<h3></p>
@@ -300,8 +300,8 @@ bW9yZV8yMDE2LTAxLTMxLTA4LTMyLTM5
 	<p><h3>Binary<h3></p>
 	
 	<p>
-	<input type="hidden" value="3113" name="requestid" id="requestid">
-	<input type="hidden" value="4618604" name="requestdetailid" id="requestdetailid">
+	<input type="hidden" value="3367" name="requestid" id="requestid">
+	<input type="hidden" value="4976297" name="requestdetailid" id="requestdetailid">
 	</p>
 	<div id='logdialog' title='Log File'></div>
 

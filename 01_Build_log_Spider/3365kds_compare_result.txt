@@ -1,0 +1,125 @@
+http://10.192.225.198/dapeng/EditMcuautoRequest/3365/ -- kds --
+Check The Build Errors : --
+1: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_freertos_MKL02Z32VFM4-frdmkl02z-kds-debug         has the same errors 0
+2: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_ucosii_MKL02Z32VFM4-frdmkl02z-kds-debug           has the same errors 0
+3: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_ucosiii_MKL02Z32VFM4-frdmkl02z-kds-debug          has the same errors 0
+4: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_freertos_MKL02Z32VFM4-frdmkl02z-kds-debug     has the same errors 0
+5: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_ucosii_MKL02Z32VFM4-frdmkl02z-kds-debug       has the same errors 0
+6: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_ucosiii_MKL02Z32VFM4-frdmkl02z-kds-debug      has the same errors 0
+7: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_freertos_MKL02Z32VFM4-frdmkl02z-kds-release       has the same errors 0
+8: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_ucosii_MKL02Z32VFM4-frdmkl02z-kds-release         has the same errors 0
+9: S2x_p_tool_kds_FRDM-KL02Z_lib_rtos_ucosiii_MKL02Z32VFM4-frdmkl02z-kds-release        has the same errors 0
+10: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_freertos_MKL02Z32VFM4-frdmkl02z-kds-release  has the same errors 0
+11: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_ucosii_MKL02Z32VFM4-frdmkl02z-kds-release    has the same errors 0
+12: S2x_p_tool_kds_FRDM-KL02Z__st_lib_rtos_ucosiii_MKL02Z32VFM4-frdmkl02z-kds-release   has the same errors 0
+13: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_freertos_MKL03Z32VFK4-frdmkl03z-kds-debug        has the same errors 0
+14: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_ucosii_MKL03Z32VFK4-frdmkl03z-kds-debug          has the same errors 0
+15: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_ucosiii_MKL03Z32VFK4-frdmkl03z-kds-debug         has the same errors 0
+16: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_freertos_MKL03Z32VFK4-frdmkl03z-kds-debug    has the same errors 0
+17: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_ucosii_MKL03Z32VFK4-frdmkl03z-kds-debug      has the same errors 0
+18: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_ucosiii_MKL03Z32VFK4-frdmkl03z-kds-debug     has the same errors 0
+19: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_freertos_MKL03Z32VFK4-frdmkl03z-kds-release      has the same errors 0
+20: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_ucosii_MKL03Z32VFK4-frdmkl03z-kds-release        has the same errors 0
+21: S2x_p_tool_kds_FRDM-KL03Z_lib_rtos_ucosiii_MKL03Z32VFK4-frdmkl03z-kds-release       has the same errors 0
+22: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_freertos_MKL03Z32VFK4-frdmkl03z-kds-release  has the same errors 0
+23: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_ucosii_MKL03Z32VFK4-frdmkl03z-kds-release    has the same errors 0
+24: S2x_p_tool_kds_FRDM-KL03Z__st_lib_rtos_ucosiii_MKL03Z32VFK4-frdmkl03z-kds-release   has the same errors 0
+25: S2x_p_FRDM-KL25Z_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-debug                has the same errors 0
+26: S2x_p_FRDM-KL25Z_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-debug                  has the same errors 0
+27: S2x_p_FRDM-KL25Z_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-debug                 has the same errors 0
+28: S2x_p_FRDM-KL25Z__st_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-debug            has the same errors 0
+29: S2x_p_FRDM-KL25Z__st_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-debug              has the same errors 0
+30: S2x_p_FRDM-KL25Z__st_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-debug             has the same errors 0
+31: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-debug       has the same errors 0
+32: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-debug         has the same errors 0
+33: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-debug        has the same errors 0
+34: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-debug   has the same errors 0
+35: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-debug     has the same errors 0
+36: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-debug    has the same errors 0
+37: S2x_p_FRDM-KL25Z_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-release              has the same errors 0
+38: S2x_p_FRDM-KL25Z_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-release                has the same errors 0
+39: S2x_p_FRDM-KL25Z_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-release               has the same errors 0
+40: S2x_p_FRDM-KL25Z__st_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-release          has the same errors 0
+41: S2x_p_FRDM-KL25Z__st_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-release            has the same errors 0
+42: S2x_p_FRDM-KL25Z__st_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-release           has the same errors 0
+43: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-release     has the same errors 0
+44: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-release       has the same errors 0
+45: S2x_p_tool_kds_FRDM-KL25Z_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-release      has the same errors 0
+46: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_freertos_MKL25Z128VLK4-frdmkl25z-kds-release has the same errors 0
+47: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_ucosii_MKL25Z128VLK4-frdmkl25z-kds-release   has the same errors 0
+48: S2x_p_tool_kds_FRDM-KL25Z__st_lib_rtos_ucosiii_MKL25Z128VLK4-frdmkl25z-kds-release  has the same errors 0
+49: S2x_p_FRDM-KL26Z_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-debug                has the same errors 0
+50: S2x_p_FRDM-KL26Z_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-debug                  has the same errors 0
+51: S2x_p_FRDM-KL26Z_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-debug                 has the same errors 0
+52: S2x_p_FRDM-KL26Z__st_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-debug            has the same errors 0
+53: S2x_p_FRDM-KL26Z__st_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-debug              has the same errors 0
+54: S2x_p_FRDM-KL26Z__st_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-debug             has the same errors 0
+55: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-debug       has the same errors 0
+56: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-debug         has the same errors 0
+57: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-debug        has the same errors 0
+58: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-debug   has the same errors 0
+59: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-debug     has the same errors 0
+60: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-debug    has the same errors 0
+61: S2x_p_FRDM-KL26Z_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-release              has the same errors 0
+62: S2x_p_FRDM-KL26Z_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-release                has the same errors 0
+63: S2x_p_FRDM-KL26Z_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-release               has the same errors 0
+64: S2x_p_FRDM-KL26Z__st_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-release          has the same errors 0
+65: S2x_p_FRDM-KL26Z__st_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-release            has the same errors 0
+66: S2x_p_FRDM-KL26Z__st_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-release           has the same errors 0
+67: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-release     has the same errors 0
+68: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-release       has the same errors 0
+69: S2x_p_tool_kds_FRDM-KL26Z_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-release      has the same errors 0
+70: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_freertos_MKL26Z128VLH4-frdmkl26z-kds-release has the same errors 0
+71: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_ucosii_MKL26Z128VLH4-frdmkl26z-kds-release   has the same errors 0
+72: S2x_p_tool_kds_FRDM-KL26Z__st_lib_rtos_ucosiii_MKL26Z128VLH4-frdmkl26z-kds-release  has the same errors 0
+1: S2x_p_FRDM-KL82Z_quick_MKL82Z128VLK7-frdmkl82z-kds-debug                             has the same errors 1
+2: S2x_p_FRDM-KL82Z_quick_MKL82Z128VLK7-frdmkl82z-kds-release                           has the same errors 1
+1: S2x_p_tool_kds_TWR-K21D50M_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-debug     has the same errors 2
+2: S2x_p_tool_kds_TWR-K21D50M__st_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-debug has the same errors 2
+3: S2x_p_TWR-K21D50M_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-debug              has the same errors 2
+4: S2x_p_TWR-K21D50M__st_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-debug          has the same errors 2
+5: S2x_p_tool_kds_TWR-K21D50M_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-release   has the same errors 2
+6: S2x_p_tool_kds_TWR-K21D50M__st_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-releasehas the same errors 2
+7: S2x_p_TWR-K21D50M_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-release            has the same errors 2
+8: S2x_p_TWR-K21D50M__st_lib_rtos_freertos_MK21DN512AVMC5-twrk21d50m-kds-release        has the same errors 2
+9: S2x_p_tool_kds_TWR-K60D100M_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-debug   has the same errors 2
+10: S2x_p_tool_kds_TWR-K60D100M__st_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-debughas the same errors 2
+11: S2x_p_TWR-K60D100M_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-debug           has the same errors 2
+12: S2x_p_TWR-K60D100M__st_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-debug       has the same errors 2
+13: S2x_p_tool_kds_TWR-K60D100M_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-releasehas the same errors 2
+14: S2x_p_tool_kds_TWR-K60D100M__st_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-releasehas the same errors 2
+15: S2x_p_TWR-K60D100M_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-release         has the same errors 2
+16: S2x_p_TWR-K60D100M__st_lib_rtos_freertos_MK60DN512VMD10-twrk60d100m-kds-release     has the same errors 2
+73: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-debug   has the same errors 0
+74: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-debug     has the same errors 0
+75: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-debug    has the same errors 0
+76: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-debughas the same errors 0
+77: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-debug has the same errors 0
+78: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-debughas the same errors 0
+79: S2x_p_TWR-KL25Z48M_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-debug            has the same errors 0
+80: S2x_p_TWR-KL25Z48M_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-debug              has the same errors 0
+81: S2x_p_TWR-KL25Z48M_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-debug             has the same errors 0
+82: S2x_p_TWR-KL25Z48M__st_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-debug        has the same errors 0
+83: S2x_p_TWR-KL25Z48M__st_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-debug          has the same errors 0
+84: S2x_p_TWR-KL25Z48M__st_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-debug         has the same errors 0
+85: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-release has the same errors 0
+86: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-release   has the same errors 0
+87: S2x_p_tool_kds_TWR-KL25Z48M_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-release  has the same errors 0
+88: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-releasehas the same errors 0
+89: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-releasehas the same errors 0
+90: S2x_p_tool_kds_TWR-KL25Z48M__st_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-releasehas the same errors 0
+91: S2x_p_TWR-KL25Z48M_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-release          has the same errors 0
+92: S2x_p_TWR-KL25Z48M_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-release            has the same errors 0
+93: S2x_p_TWR-KL25Z48M_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-release           has the same errors 0
+94: S2x_p_TWR-KL25Z48M__st_lib_rtos_freertos_MKL25Z128VLK4-twrkl25z48m-kds-release      has the same errors 0
+95: S2x_p_TWR-KL25Z48M__st_lib_rtos_ucosii_MKL25Z128VLK4-twrkl25z48m-kds-release        has the same errors 0
+96: S2x_p_TWR-KL25Z48M__st_lib_rtos_ucosiii_MKL25Z128VLK4-twrkl25z48m-kds-release       has the same errors 0
+3: S2x_p_TWR-KL81Z72M_quick_MKL81Z128VMC7-twrkl81z72m-kds-debug                         has the same errors 1
+4: S2x_p_TWR-KL81Z72M_quick_MKL81Z128VMC7-twrkl81z72m-kds-release                       has the same errors 1
+5: S2x_p_TWR-KL82Z72M_quick_MKL82Z128VMC7-twrkl82z72m-kds-debug                         has the same errors 1
+6: S2x_p_TWR-KL82Z72M_quick_MKL82Z128VMC7-twrkl82z72m-kds-release                       has the same errors 1
+Final Result: Total compile fails num is 118
+Final Result:  This Error 0 num is 96
+Final Result:  This Error 1 num is 6
+Final Result:  This Error 2 num is 16
+Final Result: Other Errors fails num is 0  END at: 2016-02-24 15:30:46.923000
