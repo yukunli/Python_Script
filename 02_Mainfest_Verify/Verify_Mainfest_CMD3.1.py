@@ -10,7 +10,6 @@ import sys
 
 #########################################################
 #Compilers Project Definition
-#Contain app name
 COMPILERS_PROJECT = {
         "armgcc"            :   'CMakeLists.txt',
         "atl"               :   '.launch',
@@ -45,7 +44,6 @@ class SDKSource:
       
     def get_device_list(self) :
         return self._get_folder_list(self.device_path)
-    
     
     def get_SDKS_examples(self):
         examples_dict = {}
@@ -93,7 +91,7 @@ class SDKSource:
                     new_putle = (dsrc,srcfil_list[:],srcfil_path)
                     source_list.append(new_putle)
         if DEBUG:
-            print "\nget driver source files in: " + 'drivers'+'/'+ device_name
+            print "get driver source files in: " + 'drivers'+'/'+ device_name
         return source_list
 
     def _scan_app(self, suit_path,board_name):
@@ -116,8 +114,9 @@ class SDKSource:
             AppParent = os.path.dirname(parent).replace('\\','/')
             #get the category and example name and the source files  in the appname/ folder
             if cmp(Last_AppParent, AppParent)!=0 and re.match(r'.*\.eww|.*\.cproject|.*\.uvprojx|.*\.bat.*',''.join(os.listdir(parent))):
-
+                ##hello_world_qspi_alias, hello_world_qspi
                 #get appname
+##                print AppParent
                 appname = os.path.basename(AppParent)
                 #get category and get source path
                 for exam_type in SUITS_REQUIRE:
@@ -147,8 +146,7 @@ class SDKSource:
                 del new_putle
                 source_list = []
         if DEBUG :
-            print "==================================================================",num
-            print scan_app_list[5] 
+            print "==",num
         return scan_app_list
 ############################################################################
 #===========================================================================
@@ -159,16 +157,18 @@ class ManifestInfo:
                                                             sourceFiles[:], includeFiles[:])}
     """
     def __init__(self,SDK_path):
-        xml_file = SDK_path + '/ksdk_manifest.xml'
+        for item in os.listdir(SDK_path):
+            if re.findall(r'.*_manifest.xml',item):
+                xml_file = SDK_path +'/'+ item
+                break
         if os.path.exists(xml_file):
             tree = ET.parse(xml_file)
             self.root = tree.getroot()
         else:
-            raise  ValueError("Can't find the ksdk_manifest.xml in : %s"%xml_file)
+            raise  ValueError("Can't find the manifest file in : %s"%xml_file)
 
         self.board_list = self.get_board_list()
         self.device_list = self.get_device_list()
-    
         tool_list = self.get_tool_list()
         compiler = self.get_compiler_list()
 
@@ -201,6 +201,7 @@ class ManifestInfo:
         if DEBUG:
             print tooList
         return tooList
+    
     def get_compiler_list(self):
         cpiList = []
         for compilersPresent in self.root.findall('compilers'):
@@ -214,7 +215,7 @@ class ManifestInfo:
     def get_driver_components(self):
         com_drvdict = {}    
         for device in self.device_list:
-            com_drvdict[device] = self._scan_components('driver',device) 
+            com_drvdict[device] = self._scan_components('driver',device)
         return com_drvdict
 
     def get_utilities_components(self):
@@ -259,45 +260,32 @@ class ManifestInfo:
         for i in range(len(driver_types)):  
             for driversPresent in self.root.findall('components'):
                   for componentType in driversPresent.findall('component'):
-                        if componentType.get('type') == driver_types[i]:
-                                if componentType.get('device') == device_name:
-                                    drvName = componentType.get('name')
-                                    # HACK: for K80 lmem_cache to lmem
-                                    # if drvName == 'lmem_cache':
-                                    #     drvName = 'lmem'
-                                    for sources in componentType.findall('source'):
-                                        for files in sources.findall('files'):
-                                            #print 'File: ' + files.get('mask')
-                                            if '_dma_' in files.get('mask'):
-                                              #print 'DMA'
-                                                if self.dmaCount > 0:
-                                                    if sources.get('type') == 'src':
-                                                        sourcePaths.append(str(sources.get('path')))
-                                                        sourceFiles.append(str(files.get('mask')))
-                                                    elif sources.get('type') == 'c_include':
-                                                        includePaths.append(str(sources.get('path')))
-                                                        includeFiles.append(str(files.get('mask')))
-                                            else:
-                                                if sources.get('type') == 'src':
-                                                    sourcePaths.append(str(sources.get('path')))
-                                                    sourceFiles.append(str(files.get('mask')))
-                                                elif sources.get('type') == 'c_include':
-                                                    includePaths.append(str(sources.get('path')))
-                                                    includeFiles.append(str(files.get('mask')))
+                        if componentType.get('type') == driver_types[i] and componentType.get('device') == device_name:
+                                
+                            drvName = componentType.get('name')
 
-                                    #New tuple for each driver containing name and paths
-                                    newDrvTuple = (drvName,driver_types[i],sourcePaths[:], includePaths[:], \
-                                                                sourceFiles[:], includeFiles[:])
-                                    #Append drvList with new tuple for
-                                    drvList.append(newDrvTuple)
-                                    sourcePaths = []
-                                    includePaths = []
-                                    sourceFiles = []
-                                    includeFiles = []
-                                    del newDrvTuple
+                            for sources in componentType.findall('source'):
+                                for files in sources.findall('files'):
+                                    if sources.get('type') == 'src':
+                                        sourcePaths.append(str(sources.get('path')))
+                                        sourceFiles.append(str(files.get('mask')))
+                                    elif sources.get('type') == 'c_include':
+                                        includePaths.append(str(sources.get('path')))
+                                        includeFiles.append(str(files.get('mask')))
+
+                            #New tuple for each driver containing name and paths
+                            newDrvTuple = (drvName,driver_types[i],sourcePaths[:], includePaths[:], \
+                                                        sourceFiles[:], includeFiles[:])
+                            #Append drvList with new tuple for
+                            drvList.append(newDrvTuple)
+                            sourcePaths = []
+                            includePaths = []
+                            sourceFiles = []
+                            includeFiles = []
+                            del newDrvTuple
 
         if DEBUG:
-            print "\nGet the drivers of : " + driver_type +'\n'
+            print "Get the drivers of : " + driver_type +'\n'
         return drvList
 
     def _scan_examples(self,board_name):                     
@@ -353,10 +341,9 @@ class ManifestInfo:
                                 
         if DEBUG:
             examples_num = len(examList)
-            print 'get the platform Mainfest examples   success!'
             print 'The examples_num is '+str(examples_num)
-            print "\nget the exampels of : " + board_name +'\n'
-            print examList[0]
+            print "get the exampels of : " + board_name +'\n'
+            print 'get the platform Mainfest examples   success!'
         return examList
 
 
@@ -381,7 +368,6 @@ class Verification:
         self.fail_num = 0
         
         verify1 = self.Verify_boardname()
-        
         verify2 = self.Verify_devicename()
         
         self.boarepeat_flag = self.Verify_repeatboard()
@@ -391,12 +377,11 @@ class Verification:
         verify6 = self.Verify_repeatcomponts()
         verify7 = self.Verify_examples()
         
-        
     def Verify_boardname(self):
-        return self._simple_compare(self.SDK_Source.board_list, self.Manifest_Info.board_list,'Board name ')
+        return self._simple_compare(self.SDK_Source.board_list, self.Manifest_Info.board_list,'Board name')
 
     def Verify_devicename(self):
-        return self._simple_compare(self.SDK_Source.device_list, self.Manifest_Info.device_list,'Device name ')
+        return self._simple_compare(self.SDK_Source.device_list, self.Manifest_Info.device_list,'Device name')
     
     def Verify_repeatboard(self):
         """
@@ -425,7 +410,7 @@ class Verification:
         redevice = {}
         for item in self.Manifest_Info.device_list:
             if self.Manifest_Info.device_list.count(item) > 1 and not(item in redevice) :
-                print 'Result: The device '+ item +' has been repeated!'
+                print 'Result: Verify repeat device, the device '+ item +' has been repeated ~~ '
                 self.fail_num += 1
                 self.result[str(self.fail_num)+' Device duplication '+ " --- manifest repeat the "] = item
                 self.fail_num += 1
@@ -449,7 +434,9 @@ class Verification:
             drilistSDK = dridictSDK[device][0][1]
             for i in range(len(dridictXML[device])):
                 drilistXML += dridictXML[device][i][4]+ dridictXML[device][i][5]
-            self._simple_compare(drilistSDK,drilistXML,device+' driver compontants ')
+            self._simple_compare(drilistSDK,drilistXML,device+' driver components')
+            del drilistSDK[:]
+            del drilistXML[:]
         
     def Verify_repeatcomponts(self):
 
@@ -476,7 +463,7 @@ class Verification:
                         print 'The driver name '+ drvname + ' is repeated'
                         repeatname_num += 1
                         self.fail_num += 1
-                        self.result[str(self.fail_num)+' '+ device+' Compontens duplication' + " --- manifest repeat"] = drvname +' of '+ componttype_List[k]
+                        self.result[str(self.fail_num)+' '+ device+' Componens duplication' + " --- manifest repeat"] = drvname +' of '+ componttype_List[k]
                         
                 for filname in drvfliedict:
                     if filname == 'CMSIS':
@@ -487,13 +474,15 @@ class Verification:
                             print  'The drivers file '+ j + ' is repeated'
                             self.fail_num += 1
                             repeatname_num += 1
-                            self.result[str(self.fail_num)+' '+ device+' Compontens duplication' + " --- manifest repeat"] = j +' in '+ filname         
+                            self.result[str(self.fail_num)+' '+ device+' Componens duplication' + " --- manifest repeat"] = j +' in '+ filname         
                 drvnameList = []
                 drvflieList = []
                 drvfliedict = {}
         if repeatname_num == 0:
-                result['drivers duplication' + " --- manifest verification"] = ["OK"]
-        print 'Result: this compare done. Repeated driver name hava '+str(repeatname_num)  
+            result['drivers duplication' + " --- manifest verification"] = ["OK"]
+            print 'Result: Drivers duplication verify done. Success! '
+        else:
+            print 'Result: Drivers duplication verify done. Repeated driver has '+str(repeatname_num)  
             
     def Verify_examples(self):
         """
@@ -516,7 +505,7 @@ class Verification:
                 #verify whether the example of the xml is repeat       
                 if self.boarepeat_flag and re_num >1 :
                     if DEBUG:
-                        print SDKitem[1]+ ' ' +SDKitem[0]+' repeat in mainfest:'+str(re_num)+' times\n'
+                        print SDKitem[1]+ ' ' +SDKitem[0]+' repeat in manifest:'+str(re_num)+' times\n'
                     self.fail_num +=1
                     self.result[str(self.fail_num)+ ' examples duplication  --- manifest repeat the'] = SDKitem[1]+ ' ' +SDKitem[0] +' '+ str(re_num)+' times'
                 re_num = 0
@@ -525,6 +514,7 @@ class Verification:
         if fail_count == self.fail_num :
             self.result[ 'examples duplication' + " --- manifest verification"] = ["OK"]
             self.result[ 'examples code' + " --- manifest verification"] = ["OK"]
+            print "Result: Examples code and duplication verify done. Success!"
           
     def _simple_compare(self,listSDK,listXML,compare_type):
 
@@ -532,7 +522,7 @@ class Verification:
         diff2 = list(set(listXML).difference(listSDK))
 
         if not diff1 and not diff2:
-            print 'Result: '+compare_type+' compare done, success!'
+            print 'Result: '+compare_type+' verify done. Success!'
             self.result[compare_type + " --- manifest verification"] = ["OK"]
             return 1
         else:
@@ -555,11 +545,11 @@ class Verification:
             return 1
         else:
             if  diff1:
-                print categoryname+ ' ' +examplename+'  vierify fail!\n', diff1 , ' mainftes has less these files'
+                print categoryname+ ' ' +examplename+'  verify fail!\n', diff1 , ' manifest has less these files'
                 self.fail_num += 1
                 self.result[str(self.fail_num)+ " examples code --- manifest missing"] = str(diff1) +' in '+categoryname +'/'+ examplename
             if  diff2:
-                print categoryname+ ' ' +examplename+'  vierify fail!\n',  diff2,' mainftes has more these files'
+                print categoryname+ ' ' +examplename+'  verify fail!\n',  diff2,' mainfest has more these files'
                 self.fail_num += 1
                 self.result[str(self.fail_num)+ " examples code --- manifest redundant"] = str(diff2) +' in ' +categoryname +'/'+ examplename
 
@@ -571,14 +561,14 @@ def put_result(result_path,result,fialnum):
     head = '--- '+result_path+' Verify:\n'
     if fialnum == 0:
         print 'Verify Finish! Result = PASS \n'
-        result_file = open(result_path+'/Virify_Manifest_PASS.yml','a')
+        result_file = open(result_path+'/Verify_Manifest_PASS.yml','a')
         result_file.close()
     else:
+        print 'Verify Finish! Result = FAIL \n'
         result_file = open(result_path+'/Verify_Manifest_Fialed.yml','a')
         result_file.write( head )
         for i in result:
             result_file.write(i + ': ' + str(result[i]) + '\n')
-        print  fialnum
         result_file.write('--- Verify Finish! Result = FAIL '+ str(fialnum) +' times\n' )
         result_file.close()
 #========================================================================
@@ -586,10 +576,11 @@ if __name__ == '__main__':
     # add SDK path configuration for SDK 2.0 KEx packages batch invoke
     result = dict()
     
-    SDK_Path = "C:\\01_MY_job\\A_TO_DO\Verify_Mainfest\\TWR-K21F120M_PKG_sdk_2_0_windows_iar"
+    SDK_Path = "C:\\01_MY_job\\A_TO_DO\\TWR-K60D100M_PKG_sdk_2_0_windows_all"
     arg_list = sys.argv[1:]
     if len(arg_list) > 0: SDK_Path = str(arg_list[0])
-    
+
+    print "=== VERIFY THE MANIFEST: "+ SDK_Path + " ==="
     Verification = Verification(SDK_Path)
     put_result(SDK_Path,Verification.result,Verification.fail_num)
     
