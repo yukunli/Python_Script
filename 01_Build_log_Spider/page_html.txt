@@ -369,7 +369,7 @@ View Request
 <td valign="top"><a name="subheader1" id="subheader1"></a> 
 <!-- SubHeader-->
 <form id="form1" enctype="multipart/form-data" action="/dapeng//handleMcuautoRequest/" method="post">
-<input type='hidden' name='csrfmiddlewaretoken' value='ZO6rL6EbMj3lfjtwx93B3FsZ27UyWBNY' />
+<input type='hidden' name='csrfmiddlewaretoken' value='yM3CCcFpXejpaw3VmnPuNaWzrUx8LlA0' />
 
  
 <div>

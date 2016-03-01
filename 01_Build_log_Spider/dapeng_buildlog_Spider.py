@@ -189,15 +189,14 @@ if __name__ == '__main__':
 ##                    "the size of an array must be greater than zero",\
 ##                    "Fatal Error.* cannot open source file .*fsl_clock.h",\
 ##                    "Error.*: Cannot call intrinsic function .*__nounwind __DSB.* from Thumb mode in this architecture",\
-##                    "Warning.* function .__get_PRIMASK. declared implicitly",\
-##                    "Error.*: Cannot call intrinsic function .*__nounwind __WFI.* from Thumb mode in this architecture",\
-                    "Error.*: This instruction is not available in the selected cpu/core",\
+                    "Warning.* function .__get_PRIMASK. declared implicitly",\
+                    "Error.*: Cannot call intrinsic function .*__nounwind __WFI.* from Thumb mode in this architecture",\
                     "Fatal Error.* cannot open source file .*portmacro.h",\
                     "Error.*: struct .* has no field .*CRC",\
-##                    "Fatal Error.* cannot open source file .*fsl_uart.h",\
-##                    "Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
-##                    "Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
-##                    "Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
+                    "Fatal Error.* cannot open source file .*fsl_uart.h",\
+                    "Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
+                    "Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
+                    "Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
                     "Error.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined",\
                     "Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined",\
                ],

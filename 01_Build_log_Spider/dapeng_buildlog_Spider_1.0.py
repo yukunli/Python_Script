@@ -131,10 +131,10 @@ class compare():
         global Error2fail_num
         global OtherErrorfail_num
         global Erroelist
-        global NO
+        global Requst_NO
         global compiler_name
         other_errorlist = []
-        html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
+        html_file = open('.\\'+Requst_NO+compiler_name+'_compare_result.txt','a')
         match = str(fail_build_info[2])
         pattern_flag = 0
         if match == None:
@@ -171,56 +171,122 @@ class Setting_Gui:
         
         self.master = master
         self.frame = Frame(self.master)
-        self.master.geometry('1000x200')
+        self.master.geometry('500x500')
+        self.master.winfo_width()
+        self.master.winfo_height()
         self.master.title("Build LOG spider1.0") 
-        self.master.geometry('500x200')
         Button(self.master, text='Refresh The Settings Info', bg='blue',fg='white',\
-               font=('Arial', 10),command=self.Refresh_input).pack(fill=X,side=BOTTOM)
-        
+               font=('Arial', 10),command=self.Refresh_info).pack(fill=X,side=BOTTOM)
+        ##Requst number
         self.CaseNo_Input = StringVar()
         self.CaseNo_Input.set("3367")   
         CaseNo_entry = Entry(self.master,text = self.CaseNo_Input,width=8,background='white',
                                 font=('Arial', 15),foreground='black').place(x=120,y=30)
         Label(self.master,text='Requst Number:',font=('Arial', 10)).place(x=10,y=30)
 
+        ##Compiler select
         self.compiler_Input = StringVar()
         self.compiler_Input.set("iar")
         Compiler_combobox = ttk.Combobox(self.master,text=self.compiler_Input,values=["iar","uv4","kds","atl","gcc_arm"],\
                                            width=5,font=('Arial', 15)).place(x=335,y=30)
         Label(self.master,text='Compiler select:',font=('Arial', 10)).place(x=230,y=30)
+        ## run button
+        Run_Button=Button(self.master,text=' Run ',command=self.Run_spider,font=('Arial', 10,'bold')).place(x=435,y=30)
 
-        Run_Button=Button(self.master,text=' Run ',command=self.Get_settingInfo,font=('Arial', 10,'bold')).place(x=435,y=30)
+        ## Error info text
+        self.ERROR_Info = Text(self.master,font=('Arial',10),height=10,width=60)
+        self.ERROR_Info.insert(INSERT,"1:HELLO...\n")
+        self.ERROR_Info.insert(END,"2:hdddoahd\n")
+        self.ERROR_Info.insert(END,"3:hdddoahd\n")
+        self.ERROR_Info.place(x=30,y=100)
 
-        Error_info = Text(self.master).place(x=120,y=60)
-        Error_info.insert(END,'1...')
-##        self.master.update()
         
-    def Refresh_input(self):
+        self.ERROR_Info.tag_add("here", "1.0", "1.2")
+        self.ERROR_Info.tag_config("here", background="black", foreground="green")
+        self.ERROR_Info.tag_add("here", "2.0", "2.2")
+        self.ERROR_Info.tag_config("here", background="black", foreground="green")
+        self.master.update()
+       
+        print self.ERROR_Info.get('1.0',END)
+    def Refresh_info(self):
         print " Please ..."
-    def Get_settingInfo(self):
+        CaseNo = self.CaseNo_Input.get()
+        CompilerName = self.compiler_Input.get()
+        self.ERROR_Info.delete('1.0',END)
+        fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','r')
+        Errors = fileERROR.readlines()
+        for line,i in Errors:
+           self.ERROR_Info.insert(END,line)
+        fileERROR.close()
+    def _Get_settingInfo(self):
+
+        compare_dict = {}
+        ERROR_List = []
         CaseNo = self.CaseNo_Input.get()
         print CaseNo
         CompilerName = self.compiler_Input.get()
         print CompilerName
-        
+        fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','w')
+        fileERROR.write(self.ERROR_Info.get('1.0',END))
+        fileERROR.close()
+        fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','r')
+        Errors = fileERROR.readlines()
+        fileERROR.close()
+        for line in Errors:
+            Error_type = re.match(r"^\d:(.*)",line)
+            if Error_type:
+                print line
+                ERROR_List.append(''.join(Error_type.groups(0)))
+        compare_dict[CompilerName] = ERROR_List
+        print (CaseNo,CompilerName,compare_dict[CompilerName])
+        return (CaseNo,CompilerName,compare_dict[CompilerName])
+    def Run_spider(self):
 
+        global Requst_NO
+        global compiler_name
+        global fails_num
+        global Error1fail_num
+        global OtherErrorfail_num
+        global Error2fail_num
+        global Erroelist
+        Erroelist = [0,0,0,0,0,0,0,0,0]
+        Error1fail_num = 0
+        Error2fail_num = 0
+        fails_num = 0
+        OtherErrorfail_num = 0
+        compiler_list = ["iar","uv4","kds","atl"]
+        
+        Settings = self._Get_settingInfo()
+
+        Requst_NO = str(Settings[0])
+        compiler_name = Settings[1]
+        
+        dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+Requst_NO+"/" 
+        resule_file = open('.\\'+Requst_NO+Settings[1]+'_compare_result.txt','w')
+        resule_file.truncate()    #clear the file content
+        
+        html_file = open('.\\'+Requst_NO+compiler_name+'_compare_result.txt','a')
+        html_file.write(dapeng_requst_fail_path+' -- '+compiler_name+' --\n')
+        html_file.write('Check The Build Errors : --\n')
+        html_file.close()
+    
+        starttime = datetime.datetime.now()
+        iar_failcase = compare(dapeng_requst_fail_path,compiler_name,Settings[2])
+        iar_failcase.compare_fail_log()
+        endtime = datetime.datetime.now()
+        print endtime - starttime
+        
+        html_file = open('.\\'+Requst_NO+compiler_name+'_compare_result.txt','a')
+        html_file.write('Final Result: '+'Total compile fails num is '+str(fails_num)+'\n')
+        for i in range(0,len(Settings[2])):
+            html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
+        html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
+        html_file.close()
 ####################################################
 
 if __name__ == '__main__':
 
-    global fails_num
-    global Error1fail_num
-    global OtherErrorfail_num
-    global Error2fail_num
-    global Erroelist
-    global NO
-    global compiler_name
-    Erroelist = [0,0,0,0,0,0,0,0,0]
-    Error1fail_num = 0
-    Error2fail_num = 0
-    fails_num = 0
-    OtherErrorfail_num = 0
-    compiler_list = ["iar","uv4","kds","atl"]
+   
     
     root = Tk()
     app = Setting_Gui(root)
@@ -292,30 +358,7 @@ if __name__ == '__main__':
     # ========== end ===================================
     
 
-     
-    dapeng_requst_fail_path = "http://10.192.225.198/dapeng/EditMcuautoRequest/"+NO+"/" 
-    resule_file = open('.\\'+NO+compiler_name+'_compare_result.txt','w')
-    resule_file.truncate()    #clear the file content
-    
-    html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
-    html_file.write(dapeng_requst_fail_path+' -- '+compiler_name+' --\n')
-    html_file.write('Check The Build Errors : --\n')
-    html_file.close()
-    
-    starttime = datetime.datetime.now()
-##    iar_failcase = compare(dapeng_requst_fail_path,compiler_name,compare_dict[compiler_name])
-##    iar_failcase.compare_fail_log()
-    endtime = datetime.datetime.now()
-    print endtime - starttime
-    
-    html_file = open('.\\'+NO+compiler_name+'_compare_result.txt','a')
-    html_file.write('Final Result: '+'Total compile fails num is '+str(fails_num)+'\n')
-    for i in range(0,len(compare_dict[compiler_name])):
-        html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
-    html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
-    html_file.close()
-    
- 
+
    
 
     
