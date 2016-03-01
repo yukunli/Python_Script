@@ -1,0 +1,36 @@
+## Python ##
+############
+*.pyc
+dirToList.py
+iarGenTest.py
+kT_rel_path_test.py
+projStringTest.py
+testScript.py
+test_sdk.py
+
+## Text files ##
+################
+*.txt
+
+## JSON Files ##
+################
+*.json
+
+## Exe ##
+#########
+*.exe
+KSDK_Project_Generator
+
+## Zips ##
+##########
+*.zip
+
+## OSX items ##
+###############
+.DS_Store
+
+## Other ##
+###########
+*.ewp
+*.eww
+*.uvprojx

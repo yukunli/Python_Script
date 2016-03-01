@@ -1,0 +1,17 @@
+## Python ##
+############
+*.pyc
+
+## Zip Files ##
+###############
+*.zip
+
+## OSX items ##
+###############
+.DS_Store
+
+## Build Folders ##
+###################
+build/
+dist/
+KSDK_Project_Generator_1.0_GA/

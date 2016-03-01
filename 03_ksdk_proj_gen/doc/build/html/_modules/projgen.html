@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>projgen &mdash; KSDK_Project_Generator 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KSDK_Project_Generator 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for projgen</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">File:  projgen.py</span>
+<span class="sd">=================</span>
+<span class="sd">Copyright (c) 2015 Freescale Semiconductor</span>
+
+<span class="sd">Brief</span>
+<span class="sd">+++++</span>
+<span class="sd">**Main file for KSDK project creation GUI**</span>
+
+<span class="sd">.. codeauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. sectionauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. versionadded:: 0.0.5</span>
+
+<span class="sd">TODO</span>
+<span class="sd">++++</span>
+<span class="sd">.. todolist:: </span>
+
+<span class="sd">API</span>
+<span class="sd">+++</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">## USER MODULES</span>
+<span class="kn">from</span> <span class="nn">ksdkGUI</span> <span class="kn">import</span> <span class="n">PgGui</span><span class="p">,</span> <span class="n">PGKSDK_VERSION</span><span class="p">,</span> <span class="n">PGKSDK_NAME</span>
+<span class="kn">import</span> <span class="nn">ksdkGUI</span> <span class="kn">as</span> <span class="nn">kGUI</span>
+<span class="kn">import</span> <span class="nn">ksdkImg</span> <span class="kn">as</span> <span class="nn">kImg</span>
+
+<span class="c">## PYTHON MODULES</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ttk</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">_winreg</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../index.html#projgen.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Main file for KSDK Project Generator</span>
+
+<span class="sd">    .. todo::</span>
+
+<span class="sd">        test on Linux, OSX</span>
+
+<span class="sd">    .. todo::</span>
+
+<span class="sd">        go over comments for documentation; params, etc...</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">osName</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>                                                <span class="c"># Call Tkinter object &#39;root&#39;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Style</span><span class="p">()</span>
+
+    <span class="c">#tkMessageBox.showinfo(&quot;Error&quot;, &#39;Path: &#39; + os.getcwd())</span>
+
+    <span class="c"># Set ttk style for the OS</span>
+    <span class="k">if</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Linux&#39;</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">theme_use</span><span class="p">(</span><span class="s">&#39;alt&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">theme_use</span><span class="p">(</span><span class="s">&#39;vista&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">theme_use</span><span class="p">(</span><span class="s">&#39;aqua&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span><span class="p">:</span>                                     <span class="c"># Check if running on Windows</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">iconbitmap</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s">&#39;./kds_icon.ico&#39;</span><span class="p">)</span>           <span class="c"># Use the .ico file if in Windows</span>
+        <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">iconbitmap</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Linux&#39;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="s">&quot;photo&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">kImg</span><span class="o">.</span><span class="n">boardImages</span><span class="p">[</span><span class="s">&#39;kds_icon.gif&#39;</span><span class="p">])</span> <span class="c"># Use the .gif file if in Linux</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;wm&#39;</span><span class="p">,</span> <span class="s">&#39;iconphoto&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+
+    <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">PGKSDK_NAME</span> <span class="o">+</span> <span class="s">&#39; -- &#39;</span> <span class="o">+</span> <span class="n">PGKSDK_VERSION</span><span class="p">)</span>   <span class="c"># Set title of Tkinter window</span>
+
+    <span class="k">if</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s">&#39;#E7E7E7&#39;</span><span class="p">)</span>
+
+    <span class="n">screenWidth</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">winfo_screenwidth</span><span class="p">()</span>
+    <span class="n">screenHeight</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">winfo_screenheight</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span><span class="p">:</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="n">_winreg</span><span class="o">.</span><span class="n">OpenKey</span><span class="p">(</span><span class="n">_winreg</span><span class="o">.</span><span class="n">HKEY_CURRENT_USER</span><span class="p">,</span> <span class="s">&quot;Control Panel</span><span class="se">\\</span><span class="s">Desktop</span><span class="se">\\</span><span class="s">WindowMetrics&quot;</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">_winreg</span><span class="o">.</span><span class="n">QueryValueEx</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;AppliedDPI&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c">#print &quot;DPI value: &quot; + str(value)</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">96</span><span class="p">:</span>
+            <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">120</span><span class="p">:</span>
+            <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span> <span class="o">=</span> <span class="mf">1.25</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">144</span><span class="p">:</span>
+            <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span> <span class="o">=</span> <span class="mf">1.5</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">192</span><span class="p">:</span>
+            <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span> <span class="o">=</span> <span class="mf">2.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span> <span class="o">=</span> <span class="n">value</span> <span class="o">/</span> <span class="mf">96.0</span>
+
+        <span class="c">#print &quot;DPI scale: &quot; + str(kGUI.WIN_SCALE)</span>
+
+        <span class="n">windowWidth</span> <span class="o">=</span> <span class="p">(</span><span class="mi">570</span> <span class="o">*</span> <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span><span class="p">)</span>
+        <span class="n">windowHeight</span> <span class="o">=</span> <span class="p">(</span><span class="mi">420</span> <span class="o">*</span> <span class="n">kGUI</span><span class="o">.</span><span class="n">WIN_SCALE</span><span class="p">)</span>
+
+        <span class="c"># Get x &amp; y location for centering the window</span>
+        <span class="n">xLocation</span> <span class="o">=</span> <span class="n">screenWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowWidth</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">yLocation</span> <span class="o">=</span> <span class="n">screenHeight</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowHeight</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">windowWidth</span><span class="p">,</span> <span class="n">windowHeight</span><span class="p">,</span> <span class="n">xLocation</span><span class="p">,</span> <span class="n">yLocation</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">osName</span> <span class="o">==</span> <span class="s">&#39;Linux&#39;</span><span class="p">:</span>
+
+        <span class="n">windowWidth</span> <span class="o">=</span> <span class="mi">605</span>
+        <span class="n">windowHeight</span> <span class="o">=</span> <span class="mi">420</span>
+
+        <span class="c"># Get x &amp; y location for centering the window</span>
+        <span class="n">xLocation</span> <span class="o">=</span> <span class="n">screenWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowWidth</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">yLocation</span> <span class="o">=</span> <span class="n">screenHeight</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowHeight</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">windowWidth</span><span class="p">,</span> <span class="n">windowHeight</span><span class="p">,</span> <span class="n">xLocation</span><span class="p">,</span> <span class="n">yLocation</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="c">#print &quot;Mac Version&quot;</span>
+
+        <span class="n">macVer</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">mac_ver</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c">#print macVer[:5]</span>
+
+        <span class="k">if</span> <span class="n">macVer</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;10.10&#39;</span><span class="p">:</span>
+            <span class="n">windowWidth</span> <span class="o">=</span> <span class="mi">620</span>
+            <span class="n">windowHeight</span> <span class="o">=</span> <span class="mi">480</span>
+        <span class="k">elif</span> <span class="n">macVer</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;10.11&#39;</span><span class="p">:</span>
+            <span class="n">windowWidth</span> <span class="o">=</span> <span class="mi">680</span>
+            <span class="n">windowHeight</span> <span class="o">=</span> <span class="mi">480</span>            
+
+        <span class="c"># Get x &amp; y location for centering the window</span>
+        <span class="n">xLocation</span> <span class="o">=</span> <span class="n">screenWidth</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowWidth</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">yLocation</span> <span class="o">=</span> <span class="n">screenHeight</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">windowHeight</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">windowWidth</span><span class="p">,</span> <span class="n">windowHeight</span><span class="p">,</span> <span class="n">xLocation</span><span class="p">,</span> <span class="n">yLocation</span><span class="p">))</span>
+
+    <span class="n">root</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">FALSE</span><span class="p">)</span>
+    <span class="n">gui</span> <span class="o">=</span> <span class="n">PgGui</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">gui</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>                                          <span class="c"># Destroy the Tkinter object &#39;root&#39;</span>
+    <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+<span class="c">#########################</span>
+<span class="c">##  Call main routine  ##</span>
+<span class="c">#########################</span></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Freescale Semiconductor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

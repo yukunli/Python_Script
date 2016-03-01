@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ksdkTools &mdash; KSDK_Project_Generator 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KSDK_Project_Generator 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ksdkTools</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">File:  ksdkTools.py</span>
+<span class="sd">===================</span>
+<span class="sd">Copyright (c) 2015 Freescale Semiconductor</span>
+
+<span class="sd">Brief</span>
+<span class="sd">+++++</span>
+<span class="sd">**Methods for KSDK data manipulation**</span>
+
+<span class="sd">.. codeauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. sectionauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. versionadded:: 0.0.5</span>
+
+<span class="sd">UML</span>
+<span class="sd">+++</span>
+<span class="sd">.. uml:: {{/../../../src/ksdkTools.py</span>
+
+<span class="sd">API</span>
+<span class="sd">+++</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">xml.dom.minidom</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="c">#: Controls debug_log behavior: &#39;debug&#39;, &#39;log&#39;, or None</span>
+<span class="n">PG_SESSION</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="KsdkTools"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools">[docs]</a><span class="k">class</span> <span class="nc">KsdkTools</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.debug_log"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.debug_log">[docs]</a>    <span class="k">def</span> <span class="nf">debug_log</span><span class="p">(</span><span class="n">outStr</span><span class="p">,</span> <span class="n">errMsg</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Used to print messages to the console for debugging</span>
+<span class="sd">        or to console a log file if not a debug session</span>
+
+<span class="sd">        :param outStr: Message to display in terminal</span>
+<span class="sd">        :param errMsg: Exception traceback string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">errMsg</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fileNname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">errMsg</span><span class="o">.</span><span class="n">tb_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">errString</span> <span class="o">=</span> <span class="s">&#39; in &#39;</span> <span class="o">+</span> <span class="n">fileNname</span> <span class="o">+</span> <span class="s">&#39; on line &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">errMsg</span><span class="o">.</span><span class="n">tb_lineno</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fileNname</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="n">errString</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">PG_SESSION</span> <span class="o">==</span> <span class="s">&#39;debug&#39;</span><span class="p">:</span>
+            <span class="c"># Print to the console</span>
+            <span class="k">print</span> <span class="s">&#39;DEBUG: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">outStr</span><span class="p">)</span> <span class="o">+</span> <span class="n">errString</span>
+        <span class="k">elif</span> <span class="n">PG_SESSION</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span><span class="p">:</span>
+            <span class="c"># Append log file</span>
+            <span class="n">curDate</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;[%m/</span><span class="si">%d</span><span class="s">/%Y:%I:%M:%S %p]&quot;</span><span class="p">)</span>
+            <span class="n">logStr</span> <span class="o">=</span> <span class="s">&#39;LOG&#39;</span> <span class="o">+</span> <span class="n">curDate</span> <span class="o">+</span> <span class="s">&#39;: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">outStr</span><span class="p">)</span> <span class="o">+</span> <span class="n">errString</span>
+            <span class="n">logStamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;[%m_</span><span class="si">%d</span><span class="s">_%Y]&quot;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">logStr</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;session_log_&#39;</span> <span class="o">+</span> <span class="n">logStamp</span> <span class="o">+</span> <span class="s">&#39;.txt&#39;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">logStr</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.string_replace"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.string_replace">[docs]</a>    <span class="k">def</span> <span class="nf">string_replace</span><span class="p">(</span><span class="n">userString</span><span class="p">,</span> <span class="n">oldString</span><span class="p">,</span> <span class="n">newString</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function replaces a substring and returns the new string</span>
+
+<span class="sd">        :param userString: The string to be modified</span>
+<span class="sd">        :param oldString: The current substring</span>
+<span class="sd">        :param newString: The substring that will be inserted</span>
+<span class="sd">        :returns: A newly modified string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">userString</span><span class="p">[:]</span>
+        <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">oldLength</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">oldString</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">isOldName</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">stringLocals</span> <span class="o">=</span> <span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">oldString</span><span class="p">),</span> <span class="n">contents</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stringLocals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span><span class="p">[:</span><span class="n">stringLocals</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">newString</span> <span class="o">+</span> <span class="n">contents</span><span class="p">[(</span><span class="n">stringLocals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> \
+                                                                              <span class="o">+</span> <span class="n">oldLength</span><span class="p">):]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="n">contents</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.replace_name_in_file"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.replace_name_in_file">[docs]</a>    <span class="k">def</span> <span class="nf">replace_name_in_file</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">oldString</span><span class="p">,</span> <span class="n">newString</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Change references from oldString to newString</span>
+
+<span class="sd">        :param filePath: File to be modified</span>
+<span class="sd">        :param oldString: The current substring</span>
+<span class="sd">        :param newString: The substring that will be inserted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s">&quot;r+b&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">oldLength</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">oldString</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">isOldName</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">stringLocals</span> <span class="o">=</span> <span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">oldString</span><span class="p">),</span> <span class="n">contents</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stringLocals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">contents</span> <span class="o">=</span> <span class="n">contents</span><span class="p">[:</span><span class="n">stringLocals</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">newString</span> <span class="o">+</span> <span class="n">contents</span><span class="p">[(</span><span class="n">stringLocals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> \
+                                                                              <span class="o">+</span> <span class="n">oldLength</span><span class="p">):]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">isOldName</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s">&quot;w+b&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="KsdkTools.mask_features"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.mask_features">[docs]</a>    <span class="k">def</span> <span class="nf">mask_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksdkPath</span><span class="p">,</span> <span class="n">ksdkVersion</span><span class="p">,</span> <span class="n">featureList</span><span class="p">,</span> <span class="n">partName</span><span class="p">,</span> <span class="n">packName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Mask off features based on what is available for this part</span>
+
+<span class="sd">        :param ksdkPath: Absolute path of KSDK installation being used</span>
+<span class="sd">        :param ksdkVersion: version of the KSDK being used</span>
+<span class="sd">        :param featureList: List of features to be modified</span>
+<span class="sd">        :param partName: Name of target part</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c">#TODO: Edit for 1.3.0 compatibility</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ksdkVersion</span> <span class="o">==</span> <span class="s">&#39;1.2.0&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ksdkVersion</span> <span class="o">==</span> <span class="s">&#39;1.3.0&#39;</span><span class="p">):</span>
+            <span class="n">featureFile</span> <span class="o">=</span> <span class="n">ksdkPath</span> <span class="o">+</span> <span class="s">&#39;/platform/devices/&#39;</span> <span class="o">+</span> <span class="n">partName</span> <span class="o">+</span> \
+                          <span class="s">&#39;/include/&#39;</span> <span class="o">+</span> <span class="n">partName</span> <span class="o">+</span> <span class="s">&#39;_features.h&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">preProc</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;#if&#39;</span><span class="p">,</span> <span class="s">&#39;#elif&#39;</span><span class="p">,</span> <span class="s">&#39;#endif&#39;</span><span class="p">]</span>
+
+        <span class="n">portCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dmaCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tsiVersion</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">partFeatures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">featIndex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lineIndex</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">preProcType</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">featLine</span> <span class="o">=</span> <span class="s">&#39;/* SOC module features */&#39;</span>
+        <span class="n">defLine</span> <span class="o">=</span> <span class="s">&#39;defined(CPU_&#39;</span> <span class="o">+</span> <span class="n">packName</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span>
+
+        <span class="c"># Get line where SOC module features begin</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">featureFile</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">newLine</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">featLine</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">featIndex</span> <span class="o">=</span> <span class="n">index</span>
+                    <span class="n">lineIndex</span> <span class="o">=</span> <span class="n">featIndex</span>
+                    <span class="k">break</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c">#self.debug_log(&#39;Feature start: &#39; + str(featIndex))</span>
+
+        <span class="c"># Get line where the package is defined, if defined</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">featureFile</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">featIndex</span><span class="p">):</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">newLine</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s">&#39;#if&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">preProcType</span> <span class="o">=</span> <span class="n">preProc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;#if&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="s">&#39;#elif&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">preProcType</span> <span class="o">=</span> <span class="n">preProc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;#elif&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">defLine</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">preProcType</span> <span class="o">==</span> <span class="n">preProc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;#if&#39;</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="n">featIndex</span> <span class="o">+</span> <span class="mi">100</span><span class="p">:</span>
+                            <span class="n">lineIndex</span> <span class="o">=</span> <span class="n">featIndex</span>
+                            <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">preProcType</span> <span class="o">==</span> <span class="n">preProc</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;#elif&#39;</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="n">featIndex</span> <span class="o">+</span> <span class="mi">300</span><span class="p">:</span>
+                            <span class="n">lineIndex</span> <span class="o">=</span> <span class="n">featIndex</span>
+                            <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">lineIndex</span> <span class="o">=</span> <span class="n">index</span>
+                        <span class="k">break</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c">#self.debug_log(&#39;Index start: &#39; + str(lineIndex))</span>
+
+        <span class="c"># Begin feature checking from package check to end of section</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">featureFile</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">lineIndex</span><span class="p">):</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">newLine</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">preProcType</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">preProc</span><span class="p">[</span><span class="n">preProcType</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="s">&#39;#define FSL_FEATURE_SOC&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">partFeatures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newLine</span><span class="p">)</span>
+                    <span class="c">#print newLine</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">smartCardCnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">smartCardUart</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">featureList</span><span class="p">):</span>
+            <span class="n">isValid</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;sai&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_I2S_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;rnga&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_RNG_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;flexbus&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_FB_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;quadtmr&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_TMR_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;qspi&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_QuadSPIO_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;sdramc&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_SDRAM_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;smartcard&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_ENVSIM_&#39;</span>
+            <span class="k">elif</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;lmem_cache&#39;</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_LMEM_&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span>
+            <span class="c">#print &#39;List: &#39; + temp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug_log</span><span class="p">(</span><span class="s">&#39;List: &#39;</span> <span class="o">+</span> <span class="n">temp</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">partFeatures</span><span class="p">:</span>
+                <span class="c">#self.debug_log(&#39;File: &#39; + p)</span>
+                <span class="k">if</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="c">#self.debug_log(p)</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="c">#self.debug_log(p[countEndIndex - 1:countEndIndex])</span>
+                    <span class="n">insCount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">insCount</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="c">#self.debug_log(&#39;Zero instance&#39;)</span>
+                        <span class="n">isValid</span> <span class="o">=</span> <span class="bp">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">isValid</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">isValid</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="c">#self.debug_log(&#39;Zero instance&#39;)</span>
+                <span class="n">featureList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;N/A&#39;</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">isValid</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">while</span> <span class="n">isValid</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">featureList</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;N/A&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">isValid</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="c"># Check for special features</span>
+        <span class="n">copCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">isIrtc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">featureFile</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">newLine</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_SIM_HAS_COP_WATCHDOG&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="c">#self.debug_log(newLine[countEndIndex - 1:countEndIndex])</span>
+                    <span class="n">copCount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_SOC_PORT_COUNT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="c">#self.debug_log(p[countEndIndex - 1:countEndIndex])</span>
+                    <span class="n">portCount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_SOC_DMA_COUNT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="c">#self.debug_log(p[countEndIndex - 1:countEndIndex])</span>
+                    <span class="n">dmaCount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_TSI_VERSION&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">tsiVersion</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_RTC_IS_IRTC&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">isIrtc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_SOC_EMVSIM_COUNT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">smartCardCnt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_UART_HAS_SMART_CARD_SUPPORT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">smartCardUart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">copCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">featureList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;cop&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">isIrtc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tempI</span> <span class="o">=</span> <span class="n">featureList</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;rtc&#39;</span><span class="p">)</span>
+            <span class="n">featureList</span><span class="p">[</span><span class="n">tempI</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;irtc&#39;</span>
+
+        <span class="k">if</span> <span class="n">smartCardCnt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">featureList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;smartcard&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">smartCardUart</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">featureList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;smartcard&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">portCount</span><span class="p">,</span> <span class="n">dmaCount</span><span class="p">,</span> <span class="n">tsiVersion</span><span class="p">]</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.get_smartcard_type"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.get_smartcard_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_smartcard_type</span><span class="p">(</span><span class="n">ksdkPath</span><span class="p">,</span> <span class="n">partName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns smartcard type from feature file</span>
+
+<span class="sd">        : param ksdkPath: Path to KSDK parent directory</span>
+<span class="sd">        : param partName: Family name of part</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">featureFile</span> <span class="o">=</span> <span class="n">ksdkPath</span> <span class="o">+</span> <span class="s">&#39;/platform/devices/&#39;</span> <span class="o">+</span> <span class="n">partName</span> <span class="o">+</span> \
+                          <span class="s">&#39;/include/&#39;</span> <span class="o">+</span> <span class="n">partName</span> <span class="o">+</span> <span class="s">&#39;_features.h&#39;</span>
+
+        <span class="n">smartCardDirect</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">smartCardUart</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">featureFile</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">newLine</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_SOC_EMVSIM_COUNT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">smartCardDirect</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">]))</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span>
+                <span class="k">if</span> <span class="s">&#39;FSL_FEATURE_UART_HAS_SMART_CARD_SUPPORT&#39;</span> <span class="ow">in</span> <span class="n">newLine</span><span class="p">:</span>
+                    <span class="n">countEndIndex</span> <span class="o">=</span> <span class="n">newLine</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+                    <span class="n">smartCardUart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">newLine</span><span class="p">[</span><span class="n">countEndIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span><span class="n">countEndIndex</span><span class="p">])</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">smartType</span> <span class="o">=</span> <span class="n">smartCardDirect</span> <span class="o">|</span> <span class="n">smartCardUart</span>
+
+        <span class="c">#print &#39;Smart Type&#39; + str(smartType)</span>
+
+        <span class="k">return</span> <span class="n">smartType</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.list_files"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.list_files">[docs]</a>    <span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns list of all files in path</span>
+
+<span class="sd">        :param filePath: absolute path to seach for files</span>
+
+<span class="sd">        :returns: A list of file names in the path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">f</span><span class="p">))]</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.list_dirs"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.list_dirs">[docs]</a>    <span class="k">def</span> <span class="nf">list_dirs</span><span class="p">(</span><span class="n">dirPath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns list of all directories in path</span>
+
+<span class="sd">        :param dirPath: absolute path to seach for directories</span>
+
+<span class="sd">        :returns: A list of directory names in the path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dirPath</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirPath</span><span class="p">,</span> <span class="n">f</span><span class="p">))]</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="KsdkTools.update_file"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.update_file">[docs]</a>    <span class="k">def</span> <span class="nf">update_file</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">oldFile</span><span class="p">,</span> <span class="n">oldName</span><span class="p">,</span> <span class="n">newName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Updates file to change name and references to new name</span>
+
+<span class="sd">        :param oldFile: path to file</span>
+<span class="sd">        :param oldName: refrence name to be changed in file and in file name</span>
+<span class="sd">        :param newName: new name to be used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">newFile</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="n">oldFile</span><span class="p">,</span> <span class="n">oldName</span><span class="p">,</span> <span class="n">newName</span><span class="p">)</span>
+        <span class="c">#print oldFile</span>
+        <span class="c">#print newFile</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">oldFile</span><span class="p">,</span> <span class="n">newFile</span><span class="p">)</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">replace_name_in_file</span><span class="p">(</span><span class="n">newFile</span><span class="p">,</span> <span class="n">oldName</span><span class="p">,</span> <span class="n">newName</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="KsdkTools.usb_make_list_update"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.usb_make_list_update">[docs]</a>    <span class="k">def</span> <span class="nf">usb_make_list_update</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">isDevice</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">cloneName</span><span class="p">,</span> <span class="n">newName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Special file update for usb CMakeLists.txt</span>
+
+<span class="sd">        :param isDevice: is USB device?</span>
+<span class="sd">        :param filePath: path to CMakeLists.txt</span>
+<span class="sd">        :param cloneName: name from clonable list in GUI</span>
+<span class="sd">        :param newName: name of the new project being created</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">isDevice</span><span class="p">:</span>
+            <span class="n">oldMk</span> <span class="o">=</span> <span class="s">&#39;dev_&#39;</span> <span class="o">+</span> <span class="n">cloneName</span><span class="p">[</span><span class="n">cloneName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;device-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39;device-&#39;</span><span class="p">):]</span>
+            <span class="n">oldMk</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="n">oldMk</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+            <span class="n">newMk</span> <span class="o">=</span> <span class="s">&#39;dev_&#39;</span> <span class="o">+</span> <span class="n">cloneName</span><span class="p">[</span><span class="n">cloneName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;device-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39;device-&#39;</span><span class="p">):</span><span class="n">cloneName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)]</span>
+            <span class="n">newMk</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="n">newMk</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">newName</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">replace_name_in_file</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">oldMk</span><span class="p">,</span> <span class="n">newMk</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">oldMk</span> <span class="o">=</span> <span class="n">cloneName</span><span class="p">[</span><span class="n">cloneName</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="n">oldMk</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="n">oldMk</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+            <span class="n">newMk</span> <span class="o">=</span> <span class="n">cloneName</span><span class="p">[</span><span class="n">cloneName</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">cloneName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)]</span>
+            <span class="n">newMk</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="n">newMk</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">newName</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">replace_name_in_file</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">oldMk</span><span class="p">,</span> <span class="n">newMk</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.cdt_fix_post_xml"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.cdt_fix_post_xml">[docs]</a>    <span class="k">def</span> <span class="nf">cdt_fix_post_xml</span><span class="p">(</span><span class="n">dirPath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fixed .cproject files after using xml write in python.</span>
+
+<span class="sd">        :param dirPath: path to directory containing .cproject file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c">#Remove / if present in path</span>
+        <span class="k">if</span> <span class="n">dirPath</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span><span class="p">:</span>
+            <span class="n">dirPath</span> <span class="o">=</span> <span class="n">dirPath</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c">#Edit file to make it CDT project (add &lt;?fileVersion 4.0.0?&gt;)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.cproject&#39;</span><span class="p">,</span> <span class="s">&quot;r+b&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.txt&#39;</span><span class="p">,</span> <span class="s">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.txt&#39;</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.txt&#39;</span><span class="p">,</span> <span class="s">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">fileVer</span> <span class="o">=</span> <span class="s">&quot;&lt;?fileVersion 4.0.0?&gt;&quot;</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span> <span class="o">+</span> <span class="n">fileVer</span> <span class="o">+</span> <span class="n">content</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.txt&#39;</span><span class="p">,</span> <span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.cproject&#39;</span><span class="p">)</span>
+
+        <span class="c">#Clean up temporary file</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dirPath</span> <span class="o">+</span> <span class="s">&#39;/.txt&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.check_proj_name"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.check_proj_name">[docs]</a>    <span class="k">def</span> <span class="nf">check_proj_name</span><span class="p">(</span><span class="n">nameString</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Checks project name for validity</span>
+
+<span class="sd">        :param nameString: string containing the project name</span>
+
+<span class="sd">        :returns: True if string is valid, False if invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">isMatch</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;[^0-9a-zA-Z_-]&#39;</span><span class="p">,</span> <span class="n">nameString</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">isMatch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.check_wksp_name"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.check_wksp_name">[docs]</a>    <span class="k">def</span> <span class="nf">check_wksp_name</span><span class="p">(</span><span class="n">nameString</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Checks workspace path for validity</span>
+
+<span class="sd">        :param nameString: string containing the workspace path</span>
+
+<span class="sd">        :returns: True if string is valid, False if invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">isMatch</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;[^.0-9a-zA-Z_:/</span><span class="se">\\</span><span class="s">-]&#39;</span><span class="p">,</span> <span class="n">nameString</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">isMatch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.pretty_xml"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.pretty_xml">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_xml</span><span class="p">(</span><span class="n">xmlElement</span><span class="p">,</span> <span class="n">xmlEncoding</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Edit xml element to make it more readable</span>
+
+<span class="sd">        :param xmlElement: xml element to formatted</span>
+<span class="sd">        :param xmlEncoding: xml encoding</span>
+
+<span class="sd">        :returns: Tab formatted xml string to be parsed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">origString</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">xmlElement</span><span class="p">,</span> <span class="n">xmlEncoding</span><span class="p">)</span>
+
+        <span class="n">newString</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">dom</span><span class="o">.</span><span class="n">minidom</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">origString</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">newString</span><span class="o">.</span><span class="n">toprettyxml</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.get_rel_path"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.get_rel_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_rel_path</span><span class="p">(</span><span class="n">pathOrigin</span><span class="p">,</span> <span class="n">pathDest</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Takes two paths, and returns a string to navigate to the second from the first</span>
+
+<span class="sd">        :param pathOrigin: String containing the path to navigate from</span>
+<span class="sd">        :param pathDest: String containing the path to navigate to</span>
+
+<span class="sd">        :returns: String of relative path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">pathDest</span><span class="p">,</span> <span class="n">pathOrigin</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.get_all_indices"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.get_all_indices">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_indices</span><span class="p">(</span><span class="n">strName</span><span class="p">,</span> <span class="n">charName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns a list of all indices of a char in string</span>
+
+<span class="sd">        :param strName: String to search</span>
+<span class="sd">        :param charName: Character to search for</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">getChar</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strName</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">getChar</span> <span class="o">==</span> <span class="n">charName</span><span class="p">:</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">indices</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="KsdkTools.update_json_file"><a class="viewcode-back" href="../index.html#ksdkTools.KsdkTools.update_json_file">[docs]</a>    <span class="k">def</span> <span class="nf">update_json_file</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">valueKey</span><span class="p">,</span> <span class="n">newVal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Updated JSON file with new value for specified key</span>
+
+<span class="sd">        :param fileName: Name of file to update (needs path)</span>
+<span class="sd">        :param valueKey: Key of JSON entry to update</span>
+<span class="sd">        :param newVal: New value to write</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">newData</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s">&quot;r+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">origData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">newData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">origData</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">newData</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">valueKey</span><span class="p">]</span> <span class="o">=</span> <span class="n">newVal</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">newData</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Freescale Semiconductor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

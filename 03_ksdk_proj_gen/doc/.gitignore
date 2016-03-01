@@ -1,0 +1,20 @@
+## Python ##
+############
+*.pyc
+ksdkImg.py
+
+## Text files ##
+################
+*.txt
+
+## Bat files ##
+################
+*.bat
+
+## Make files ##
+################
+Makefile
+
+## Folders ##
+################
+

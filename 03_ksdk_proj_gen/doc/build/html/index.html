@@ -1,0 +1,1895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to PGKSDK’s documentation! &mdash; KSDK_Project_Generator 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="KSDK_Project_Generator 0.0.5 documentation" href="#" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-pgksdk-s-documentation">
+<h1>Welcome to PGKSDK&#8217;s documentation!<a class="headerlink" href="#welcome-to-pgksdk-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<span class="target" id="module-projgen"></span><div class="section" id="file-projgen-py">
+<h2>File:  projgen.py<a class="headerlink" href="#file-projgen-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="brief">
+<h3>Brief<a class="headerlink" href="#brief" title="Permalink to this headline">¶</a></h3>
+<p><strong>Main file for KSDK project creation GUI</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+<div class="section" id="todo">
+<h3>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">test on Linux, OSX</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-0"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\projgen.py:docstring of projgen.main, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">go over comments for documentation; params, etc...</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-1"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\projgen.py:docstring of projgen.main, line 7.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Add 1.3.0 support</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-2"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkObj.py:docstring of ksdkObj.kinetisSDK.get_projects, line 5.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-3"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkAtl.py:docstring of ksdkAtl.KsdkAtl, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-4"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkAtl.py:docstring of ksdkAtl.KsdkAtl, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-5"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkIar.py:docstring of ksdkIar.KsdkIar, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-6"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkIar.py:docstring of ksdkIar.KsdkIar, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-7"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkKds.py:docstring of ksdkKds.KsdkKds, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-8"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkKds.py:docstring of ksdkKds.KsdkKds, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-9"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkMdk.py:docstring of ksdkMdk.KsdkMdk, line 3.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-10"><em>original entry</em></a> is located in  C:\Users\b45635\PGKSDK\ksdk_proj_gen\src\ksdkMdk.py:docstring of ksdkMdk.KsdkMdk, line 3.)</p>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="projgen.main">
+<code class="descclassname">projgen.</code><code class="descname">main</code><span class="sig-paren">(</span><em>argv</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/projgen.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#projgen.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main file for KSDK Project Generator</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">test on Linux, OSX</p>
+</div>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">go over comments for documentation; params, etc...</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<span class="target" id="module-ksdkGUI"></span><div class="section" id="file-ksdkgui-py">
+<h2>File:  ksdkGUI.py<a class="headerlink" href="#file-ksdkgui-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id1">
+<h3>Brief<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Class for PGKSDK GUI</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+<div class="section" id="inheritance">
+<h3>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h3>
+<p class="graphviz">
+<img src="_images/inheritance-5783eea7a137f6ec063af5f0421ef0b6f8a24ada.png" alt="Inheritance diagram of ksdkGUI" usemap="#inheritance796c1a54a3" class="inheritance"/>
+<map id="inheritance796c1a54a3" name="inheritance796c1a54a3">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="131,137,252,160"/>
+<area shape="rect" id="node6" title="Internal class." alt="" coords="295,71,391,94"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="5,137,88,160"/>
+<area shape="rect" id="node3" title="Geometry manager Grid." alt="" coords="152,5,232,27"/>
+<area shape="rect" id="node4" title="Geometry manager Pack." alt="" coords="149,49,234,71"/>
+<area shape="rect" id="node5" title="Geometry manager Place." alt="" coords="148,93,236,115"/>
+<area shape="rect" id="node9" title="Base class for Tk themed widgets." alt="" coords="433,71,507,94"/>
+<area shape="rect" id="node7" href="#ksdkGUI.PgGui" title="This class contains all the methods used to generate the GUI widgets" alt="" coords="663,71,763,94"/>
+<area shape="rect" id="node8" title="Ttk Frame widget is a container, used to group other widgets" alt="" coords="550,71,620,94"/>
+</map>
+</p>
+</div>
+<div class="section" id="uml">
+<h3>UML<a class="headerlink" href="#uml" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkGUI.png"><img alt="_images/classes_ksdkGUI.png" src="_images/classes_ksdkGUI.png" /></a>
+</div>
+<div class="section" id="id2">
+<h3>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="ksdkGUI.PGKSDK_NAME">
+<code class="descclassname">ksdkGUI.</code><code class="descname">PGKSDK_NAME</code><em class="property"> = 'KSDK Project Generator'</em><a class="headerlink" href="#ksdkGUI.PGKSDK_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>PGKSDK name displayed in window bar</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="ksdkGUI.PGKSDK_VERSION">
+<code class="descclassname">ksdkGUI.</code><code class="descname">PGKSDK_VERSION</code><em class="property"> = '1.0'</em><a class="headerlink" href="#ksdkGUI.PGKSDK_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>PGKSDK Version displayed in window bar</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ksdkGUI.PgGui">
+<em class="property">class </em><code class="descclassname">ksdkGUI.</code><code class="descname">PgGui</code><span class="sig-paren">(</span><em>master=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains all the methods used to generate the GUI widgets</p>
+<dl class="method">
+<dt id="ksdkGUI.PgGui.advanced_gui">
+<code class="descname">advanced_gui</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.advanced_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.advanced_gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback method to launch Advanced options menu</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.advanced_help">
+<code class="descname">advanced_help</code><span class="sig-paren">(</span><em>master</em>, <em>helpText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.advanced_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.advanced_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function for &#8216;Help&#8217; button to provide a brieft user guide and links to websites</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master</strong> &#8211; Tkinter object</li>
+<li><strong>helpText</strong> &#8211; Text string to be displayed in pop-up window</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.ask_set_directory">
+<code class="descname">ask_set_directory</code><span class="sig-paren">(</span><em>isTyped</em>, <em>widgetIndex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.ask_set_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.ask_set_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback method for browe selection of KSDK directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.begin_advanced_gen">
+<code class="descname">begin_advanced_gen</code><span class="sig-paren">(</span><em>master</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.begin_advanced_gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.begin_advanced_gen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.begin_quick_gen">
+<code class="descname">begin_quick_gen</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.begin_quick_gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.begin_quick_gen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.build_advanced">
+<code class="descname">build_advanced</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.build_advanced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.build_advanced" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build project based on advanced settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.clone_update">
+<code class="descname">clone_update</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.clone_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.clone_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the advanced GUI when the user picks a new board</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.close_and_run">
+<code class="descname">close_and_run</code><span class="sig-paren">(</span><em>master</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.close_and_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.close_and_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call main GUI and destroy the pop-up.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.launch_basic">
+<code class="descname">launch_basic</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.launch_basic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.launch_basic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show warning that the other menu will not build based on the settings
+in the advanced menu.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.main_gui">
+<code class="descname">main_gui</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.main_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.main_gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class method for generate first menu &#8216;Quick start menu&#8217;</p>
+<p>It appends the list of widgets (buttons, labels, entries, etc...)
+in order for the next menu method to remove those widgets on launch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.package_select">
+<code class="descname">package_select</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.package_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.package_select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop-up to prompt user for a package</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.poll_advanced">
+<code class="descname">poll_advanced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.poll_advanced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.poll_advanced" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to poll user selection of advanced menu in order to update</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.poll_selection">
+<code class="descname">poll_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.poll_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.poll_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to poll user selection of listbox in order to update image</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.pop_adv_devices">
+<code class="descname">pop_adv_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_adv_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.pop_adv_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to populate list of devices in advanced menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.pop_main_boards">
+<code class="descname">pop_main_boards</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_main_boards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.pop_main_boards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to populate list of boards in main_gui&#8217;s listbox</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.pop_up_help">
+<code class="descname">pop_up_help</code><span class="sig-paren">(</span><em>master</em>, <em>helpText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_up_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.pop_up_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function for &#8216;Help&#8217; button to provide a brieft user guide and links to websites</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master</strong> &#8211; Tkinter object</li>
+<li><strong>helpText</strong> &#8211; Text string to be displayed in pop-up window</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.proj_set_directory">
+<code class="descname">proj_set_directory</code><span class="sig-paren">(</span><em>isTyped</em>, <em>widgetIndex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.proj_set_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.proj_set_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback method for browe selection of directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.qck_gen_proj">
+<code class="descname">qck_gen_proj</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.qck_gen_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.qck_gen_proj" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Callback method to generate project, tell user where the project is now located,</dt>
+<dd>and open folder.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.safe_return">
+<code class="descname">safe_return</code><span class="sig-paren">(</span><em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.safe_return"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.safe_return" title="Permalink to this definition">¶</a></dt>
+<dd><p>When pop-up is closed, safely without build</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.update_dev">
+<code class="descname">update_dev</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.update_dev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update GUI from device to board and vice versa</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.update_gui">
+<code class="descname">update_gui</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.update_gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates advanced GUI based on &#8216;new&#8217; or &#8216;clone&#8217; selection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.update_package">
+<code class="descname">update_package</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.update_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update project device package</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.update_tips">
+<code class="descname">update_tips</code><span class="sig-paren">(</span><em>usageText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_tips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.update_tips" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback method to display help text when user hovers over a widget</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>usageText</strong> &#8211; Text string to be displayed in GUI</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkGUI.PgGui.view_project">
+<code class="descname">view_project</code><span class="sig-paren">(</span><em>pathString</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.view_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.view_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open containing folder and destroy window</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkGUI.PgGui.web_launch">
+<em class="property">static </em><code class="descname">web_launch</code><span class="sig-paren">(</span><em>boardName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.web_launch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkGUI.PgGui.web_launch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback method to launch freescale.com webpage for selected board or KSDK</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boardName</strong> &#8211; String of board that has been selected.</td>
+</tr>
+</tbody>
+</table>
+<p>:todo:</p>
+<div class="highlight-python"><div class="highlight"><pre>Put correct URL for tool location
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">ksdkGUI.</code><code class="descname">PgGui</code><span class="sig-paren">(</span><em>master=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>This class contains all the methods used to generate the GUI widgets</p>
+<dl class="method">
+<dt>
+<code class="descname">advanced_gui</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.advanced_gui"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback method to launch Advanced options menu</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">advanced_help</code><span class="sig-paren">(</span><em>master</em>, <em>helpText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.advanced_help"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback function for &#8216;Help&#8217; button to provide a brieft user guide and links to websites</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master</strong> &#8211; Tkinter object</li>
+<li><strong>helpText</strong> &#8211; Text string to be displayed in pop-up window</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">ask_set_directory</code><span class="sig-paren">(</span><em>isTyped</em>, <em>widgetIndex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.ask_set_directory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback method for browe selection of KSDK directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">begin_advanced_gen</code><span class="sig-paren">(</span><em>master</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.begin_advanced_gen"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">begin_quick_gen</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.begin_quick_gen"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">build_advanced</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.build_advanced"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Build project based on advanced settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">clone_update</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.clone_update"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Update the advanced GUI when the user picks a new board</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">close_and_run</code><span class="sig-paren">(</span><em>master</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.close_and_run"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call main GUI and destroy the pop-up.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">launch_basic</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.launch_basic"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Show warning that the other menu will not build based on the settings
+in the advanced menu.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">main_gui</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.main_gui"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Main class method for generate first menu &#8216;Quick start menu&#8217;</p>
+<p>It appends the list of widgets (buttons, labels, entries, etc...)
+in order for the next menu method to remove those widgets on launch.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">package_select</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.package_select"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Pop-up to prompt user for a package</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">poll_advanced</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.poll_advanced"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Method to poll user selection of advanced menu in order to update</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">poll_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.poll_selection"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Method to poll user selection of listbox in order to update image</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">pop_adv_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_adv_devices"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Method to populate list of devices in advanced menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">pop_main_boards</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_main_boards"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Method to populate list of boards in main_gui&#8217;s listbox</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">pop_up_help</code><span class="sig-paren">(</span><em>master</em>, <em>helpText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.pop_up_help"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback function for &#8216;Help&#8217; button to provide a brieft user guide and links to websites</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>master</strong> &#8211; Tkinter object</li>
+<li><strong>helpText</strong> &#8211; Text string to be displayed in pop-up window</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">proj_set_directory</code><span class="sig-paren">(</span><em>isTyped</em>, <em>widgetIndex</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.proj_set_directory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback method for browe selection of directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">qck_gen_proj</code><span class="sig-paren">(</span><em>master</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.qck_gen_proj"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="docutils">
+<dt>Callback method to generate project, tell user where the project is now located,</dt>
+<dd>and open folder.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>master</strong> &#8211; Tkinter object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">safe_return</code><span class="sig-paren">(</span><em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.safe_return"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>When pop-up is closed, safely without build</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">update_dev</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_dev"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Update GUI from device to board and vice versa</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">update_gui</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_gui"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Updates advanced GUI based on &#8216;new&#8217; or &#8216;clone&#8217; selection</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">update_package</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_package"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Update project device package</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">update_tips</code><span class="sig-paren">(</span><em>usageText</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.update_tips"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback method to display help text when user hovers over a widget</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>usageText</strong> &#8211; Text string to be displayed in GUI</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">view_project</code><span class="sig-paren">(</span><em>pathString</em>, <em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.view_project"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Open containing folder and destroy window</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><code class="descname">web_launch</code><span class="sig-paren">(</span><em>boardName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkGUI.html#PgGui.web_launch"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Callback method to launch freescale.com webpage for selected board or KSDK</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boardName</strong> &#8211; String of board that has been selected.</td>
+</tr>
+</tbody>
+</table>
+<p>:todo:</p>
+<div class="highlight-python"><div class="highlight"><pre>Put correct URL for tool location
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkObj"></span><div class="section" id="file-ksdkobj-py">
+<h2>File:  ksdkObj.py<a class="headerlink" href="#file-ksdkobj-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id3">
+<h3>Brief<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><strong>Class for creating a KSDK object</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Inheritance<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p class="graphviz">
+<img src="_images/inheritance-2b78dfe16cd8bd0af7fcafe72d015ffaf821beb2.png" alt="Inheritance diagram of ksdkObj" usemap="#inheritancea202faea97" class="inheritance"/>
+<map id="inheritancea202faea97" name="inheritancea202faea97">
+<area shape="rect" id="node1" href="#ksdkObj.kinetisSDK" title="ksdkObj.kinetisSDK" alt="" coords="5,5,144,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="id5">
+<h3>UML<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkObj.png"><img alt="_images/classes_ksdkObj.png" src="_images/classes_ksdkObj.png" /></a>
+</div>
+<div class="section" id="id6">
+<h3>API<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="ksdkObj.toolList">
+<code class="descclassname">ksdkObj.</code><code class="descname">toolList</code><em class="property"> = [('GCC Makefile', 'armgcc', 'gcc'), ('Kinetis Design Studio', 'kds', 'gcc'), ('Atollic TrueSTUDIO', 'atl', 'gcc'), ('IAR Embedded Workbench for ARM', 'iar', 'iar'), ('Keil MDK-ARM', 'mdk', 'arm')]</em><a class="headerlink" href="#ksdkObj.toolList" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of supported toolchains</p>
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt id="ksdkObj.kinetisSDK">
+<em class="property">class </em><code class="descclassname">ksdkObj.</code><code class="descname">kinetisSDK</code><span class="sig-paren">(</span><em>ksdkPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_boards">
+<code class="descname">get_boards</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_boards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_boards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get supported board list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_dev_pkg">
+<code class="descname">get_dev_pkg</code><span class="sig-paren">(</span><em>deviceName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_dev_pkg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_dev_pkg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get supported device packages</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>deviceName</strong> &#8211; name of device being used</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_devices">
+<code class="descname">get_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_devices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get supported devices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_drivers">
+<code class="descname">get_drivers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_drivers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_drivers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get supported platform driver list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_hal">
+<code class="descname">get_hal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_hal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_hal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get support HAL list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_libs">
+<code class="descname">get_libs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_libs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_libs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Browse lib folder to get supported library list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_other">
+<code class="descname">get_other</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_other"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_other" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use ksdk_manifest file to get other supported drivers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_projects">
+<code class="descname">get_projects</code><span class="sig-paren">(</span><em>boardName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_projects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_projects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use board and ksdk tree to list available projects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boardName</strong> &#8211; name of board used to find demos</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Add 1.3.0 support</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkObj.kinetisSDK.get_version">
+<code class="descname">get_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkObj.html#kinetisSDK.get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkObj.kinetisSDK.get_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get KSDK version from manifest file</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkProj"></span><div class="section" id="file-ksdkproj-py">
+<h2>File:  ksdkProj.py<a class="headerlink" href="#file-ksdkproj-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id7">
+<h3>Brief<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p><strong>Class for KSDK project object</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>Inheritance<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p class="graphviz">
+<img src="_images/inheritance-131acaaecf9ff7922b744f03b853213a4a7d0617.png" alt="Inheritance diagram of ksdkProj" usemap="#inheritance1f2e293838" class="inheritance"/>
+<map id="inheritance1f2e293838" name="inheritance1f2e293838">
+<area shape="rect" id="node1" href="#ksdkObj.kinetisSDK" title="ksdkObj.kinetisSDK" alt="" coords="5,5,144,31"/>
+<area shape="rect" id="node2" href="#ksdkProj.ksdkProjClass" title="ksdkProj.ksdkProjClass" alt="" coords="192,5,353,31"/>
+</map>
+</p>
+</div>
+<div class="section" id="id9">
+<h3>UML<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkProj.png"><img alt="_images/classes_ksdkProj.png" src="_images/classes_ksdkProj.png" /></a>
+</div>
+<div class="section" id="id10">
+<h3>API<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<dl class="class">
+<dt id="ksdkProj.ksdkProjClass">
+<em class="property">class </em><code class="descclassname">ksdkProj.</code><code class="descname">ksdkProjClass</code><span class="sig-paren">(</span><em>prjName</em>, <em>ksdkVer</em>, <em>ksdkPath</em>, <em>osName</em>, <em>userName</em>, <em>date</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="ksdkProj.ksdkProjClass.add_all_drv">
+<code class="descname">add_all_drv</code><span class="sig-paren">(</span><em>driverList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.add_all_drv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.add_all_drv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add all drivers to project paths</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>driverList</strong> &#8211; list of drivers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.add_all_hal">
+<code class="descname">add_all_hal</code><span class="sig-paren">(</span><em>halList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.add_all_hal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.add_all_hal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add all HAL components to the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>halList</strong> &#8211; list of HAL components to be added</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.add_board">
+<code class="descname">add_board</code><span class="sig-paren">(</span><em>boardSelection</em>, <em>boardList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.add_board"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.add_board" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map user&#8217;s board selection back to the boards list to get names for project dependencies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>boardSelection</strong> &#8211; index of board list from GUI</li>
+<li><strong>boardList</strong> &#8211; list of boards in KSDK installation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.add_device">
+<code class="descname">add_device</code><span class="sig-paren">(</span><em>fullName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.add_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.add_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate device tuple from device fullName</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullName</strong> &#8211; name of the device to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.add_tool">
+<code class="descname">add_tool</code><span class="sig-paren">(</span><em>toolSelect</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.add_tool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.add_tool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add toolchain to the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>toolSelect</strong> &#8211; index of toolList to be added from project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.clean_up">
+<code class="descname">clean_up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.clean_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.clean_up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans up project information to avoid including previous data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.copy_all_components">
+<code class="descname">copy_all_components</code><span class="sig-paren">(</span><em>destParent</em>, <em>cloneName</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.copy_all_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.copy_all_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies all device related components to create a standalone project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.copy_device_components">
+<code class="descname">copy_device_components</code><span class="sig-paren">(</span><em>destParent</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.copy_device_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.copy_device_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copies all device related components to create a standalone project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.fast_build_GCC">
+<code class="descname">fast_build_GCC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.fast_build_GCC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.fast_build_GCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick Generate GCC project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.get_proj_config">
+<code class="descname">get_proj_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.get_proj_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.get_proj_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize project configuration into string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.lib_set_package">
+<code class="descname">lib_set_package</code><span class="sig-paren">(</span><em>projectPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.lib_set_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.lib_set_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure library project for the selected package</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>projectPath</strong> &#8211; path of lib project to edit</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.make_hw_file">
+<code class="descname">make_hw_file</code><span class="sig-paren">(</span><em>sourcePath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.make_hw_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.make_hw_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create hardware_init file for project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sourcePath</strong> &#8211; absolute path to which hardware_init will be added</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.make_main_file">
+<code class="descname">make_main_file</code><span class="sig-paren">(</span><em>sourcePath</em>, <em>includeList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.make_main_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.make_main_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the main.c and main.h files for the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sourcePath</strong> &#8211; directory to which main files will be added</li>
+<li><strong>includeList</strong> &#8211; list of drivers to be added</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkProj.ksdkProjClass.my_thread_monitor">
+<em class="property">static </em><code class="descname">my_thread_monitor</code><span class="sig-paren">(</span><em>myThreads</em>, <em>numThreads</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.my_thread_monitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.my_thread_monitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Very crude thread monitor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.proj_clone">
+<code class="descname">proj_clone</code><span class="sig-paren">(</span><em>cloneName</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.proj_clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.proj_clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clone existing KSDK project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cloneName</strong> &#8211; name of the project to clone</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkProj.ksdkProjClass.remove_tool">
+<code class="descname">remove_tool</code><span class="sig-paren">(</span><em>toolSelect</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkProj.html#ksdkProjClass.remove_tool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkProj.ksdkProjClass.remove_tool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove toolchain to the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>toolSelect</strong> &#8211; index of toolList to be removed from project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkTools"></span><div class="section" id="file-ksdktools-py">
+<h2>File:  ksdkTools.py<a class="headerlink" href="#file-ksdktools-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id11">
+<h3>Brief<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p><strong>Methods for KSDK data manipulation</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>UML<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkTools.png"><img alt="_images/classes_ksdkTools.png" src="_images/classes_ksdkTools.png" /></a>
+</div>
+<div class="section" id="id13">
+<h3>API<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="ksdkTools.PG_SESSION">
+<code class="descclassname">ksdkTools.</code><code class="descname">PG_SESSION</code><em class="property"> = None</em><a class="headerlink" href="#ksdkTools.PG_SESSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls debug_log behavior: &#8216;debug&#8217;, &#8216;log&#8217;, or None</p>
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt id="ksdkTools.KsdkTools">
+<em class="property">class </em><code class="descclassname">ksdkTools.</code><code class="descname">KsdkTools</code><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.cdt_fix_post_xml">
+<em class="property">static </em><code class="descname">cdt_fix_post_xml</code><span class="sig-paren">(</span><em>dirPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.cdt_fix_post_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.cdt_fix_post_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixed .cproject files after using xml write in python.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dirPath</strong> &#8211; path to directory containing .cproject file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.check_proj_name">
+<em class="property">static </em><code class="descname">check_proj_name</code><span class="sig-paren">(</span><em>nameString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.check_proj_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.check_proj_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks project name for validity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nameString</strong> &#8211; string containing the project name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if string is valid, False if invalid</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.check_wksp_name">
+<em class="property">static </em><code class="descname">check_wksp_name</code><span class="sig-paren">(</span><em>nameString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.check_wksp_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.check_wksp_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks workspace path for validity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nameString</strong> &#8211; string containing the workspace path</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if string is valid, False if invalid</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.debug_log">
+<em class="property">static </em><code class="descname">debug_log</code><span class="sig-paren">(</span><em>outStr</em>, <em>errMsg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.debug_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.debug_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to print messages to the console for debugging
+or to console a log file if not a debug session</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>outStr</strong> &#8211; Message to display in terminal</li>
+<li><strong>errMsg</strong> &#8211; Exception traceback string</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.get_all_indices">
+<em class="property">static </em><code class="descname">get_all_indices</code><span class="sig-paren">(</span><em>strName</em>, <em>charName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.get_all_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.get_all_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all indices of a char in string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>strName</strong> &#8211; String to search</li>
+<li><strong>charName</strong> &#8211; Character to search for</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.get_rel_path">
+<em class="property">static </em><code class="descname">get_rel_path</code><span class="sig-paren">(</span><em>pathOrigin</em>, <em>pathDest</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.get_rel_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.get_rel_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes two paths, and returns a string to navigate to the second from the first</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pathOrigin</strong> &#8211; String containing the path to navigate from</li>
+<li><strong>pathDest</strong> &#8211; String containing the path to navigate to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">String of relative path</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.get_smartcard_type">
+<em class="property">static </em><code class="descname">get_smartcard_type</code><span class="sig-paren">(</span><em>ksdkPath</em>, <em>partName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.get_smartcard_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.get_smartcard_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns smartcard type from feature file</p>
+<p>: param ksdkPath: Path to KSDK parent directory
+: param partName: Family name of part</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.list_dirs">
+<em class="property">static </em><code class="descname">list_dirs</code><span class="sig-paren">(</span><em>dirPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.list_dirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.list_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of all directories in path</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dirPath</strong> &#8211; absolute path to seach for directories</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of directory names in the path</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.list_files">
+<em class="property">static </em><code class="descname">list_files</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.list_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.list_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of all files in path</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; absolute path to seach for files</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of file names in the path</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkTools.KsdkTools.mask_features">
+<code class="descname">mask_features</code><span class="sig-paren">(</span><em>ksdkPath</em>, <em>ksdkVersion</em>, <em>featureList</em>, <em>partName</em>, <em>packName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.mask_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.mask_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask off features based on what is available for this part</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ksdkPath</strong> &#8211; Absolute path of KSDK installation being used</li>
+<li><strong>ksdkVersion</strong> &#8211; version of the KSDK being used</li>
+<li><strong>featureList</strong> &#8211; List of features to be modified</li>
+<li><strong>partName</strong> &#8211; Name of target part</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.pretty_xml">
+<em class="property">static </em><code class="descname">pretty_xml</code><span class="sig-paren">(</span><em>xmlElement</em>, <em>xmlEncoding</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.pretty_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.pretty_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edit xml element to make it more readable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>xmlElement</strong> &#8211; xml element to formatted</li>
+<li><strong>xmlEncoding</strong> &#8211; xml encoding</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Tab formatted xml string to be parsed</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.replace_name_in_file">
+<em class="property">static </em><code class="descname">replace_name_in_file</code><span class="sig-paren">(</span><em>filePath</em>, <em>oldString</em>, <em>newString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.replace_name_in_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.replace_name_in_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change references from oldString to newString</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filePath</strong> &#8211; File to be modified</li>
+<li><strong>oldString</strong> &#8211; The current substring</li>
+<li><strong>newString</strong> &#8211; The substring that will be inserted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.string_replace">
+<em class="property">static </em><code class="descname">string_replace</code><span class="sig-paren">(</span><em>userString</em>, <em>oldString</em>, <em>newString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.string_replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.string_replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function replaces a substring and returns the new string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>userString</strong> &#8211; The string to be modified</li>
+<li><strong>oldString</strong> &#8211; The current substring</li>
+<li><strong>newString</strong> &#8211; The substring that will be inserted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A newly modified string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ksdkTools.KsdkTools.update_file">
+<em class="property">classmethod </em><code class="descname">update_file</code><span class="sig-paren">(</span><em>oldFile</em>, <em>oldName</em>, <em>newName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.update_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.update_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates file to change name and references to new name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>oldFile</strong> &#8211; path to file</li>
+<li><strong>oldName</strong> &#8211; refrence name to be changed in file and in file name</li>
+<li><strong>newName</strong> &#8211; new name to be used</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ksdkTools.KsdkTools.update_json_file">
+<em class="property">static </em><code class="descname">update_json_file</code><span class="sig-paren">(</span><em>fileName</em>, <em>valueKey</em>, <em>newVal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.update_json_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.update_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updated JSON file with new value for specified key</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fileName</strong> &#8211; Name of file to update (needs path)</li>
+<li><strong>valueKey</strong> &#8211; Key of JSON entry to update</li>
+<li><strong>newVal</strong> &#8211; New value to write</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ksdkTools.KsdkTools.usb_make_list_update">
+<em class="property">classmethod </em><code class="descname">usb_make_list_update</code><span class="sig-paren">(</span><em>isDevice</em>, <em>filePath</em>, <em>cloneName</em>, <em>newName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkTools.html#KsdkTools.usb_make_list_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkTools.KsdkTools.usb_make_list_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special file update for usb CMakeLists.txt</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>isDevice</strong> &#8211; is USB device?</li>
+<li><strong>filePath</strong> &#8211; path to CMakeLists.txt</li>
+<li><strong>cloneName</strong> &#8211; name from clonable list in GUI</li>
+<li><strong>newName</strong> &#8211; name of the new project being created</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkAtl"></span><div class="section" id="file-ksdkatl-py">
+<h2>File:  ksdkAtl.py<a class="headerlink" href="#file-ksdkatl-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id14">
+<h3>Brief<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p><strong>Methods for ATL project creation for KSDK</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.6.</span></p>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>UML<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkAtl.png"><img alt="_images/classes_ksdkAtl.png" src="_images/classes_ksdkAtl.png" /></a>
+</div>
+<div class="section" id="id16">
+<h3>API<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ksdkAtl.KsdkAtl">
+<em class="property">class </em><code class="descclassname">ksdkAtl.</code><code class="descname">KsdkAtl</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkAtl.KsdkAtl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for generating ATL projects</p>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt id="ksdkAtl.KsdkAtl.gen_cproject">
+<code class="descname">gen_cproject</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_cproject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkAtl.KsdkAtl.gen_cproject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the cproject file for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkAtl.KsdkAtl.gen_debug">
+<code class="descname">gen_debug</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkAtl.KsdkAtl.gen_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate debug launch files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkAtl.KsdkAtl.gen_project">
+<code class="descname">gen_project</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkAtl.KsdkAtl.gen_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the eww files for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkAtl.KsdkAtl.gen_settings">
+<code class="descname">gen_settings</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkAtl.KsdkAtl.gen_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate settings files for ATL project</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">ksdkAtl.</code><code class="descname">KsdkAtl</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Class for generating ATL projects</p>
+<div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">gen_cproject</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_cproject"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the cproject file for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_debug</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_debug"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate debug launch files</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_project</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_project"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the eww files for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_settings</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkAtl.html#KsdkAtl.gen_settings"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate settings files for ATL project</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkIar"></span><div class="section" id="file-ksdkiar-py">
+<h2>File:  ksdkIar.py<a class="headerlink" href="#file-ksdkiar-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id17">
+<h3>Brief<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p><strong>Methods for IAR project creation for KSDK</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.6.</span></p>
+</div>
+</div>
+<div class="section" id="id18">
+<h3>UML<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkIar.png"><img alt="_images/classes_ksdkIar.png" src="_images/classes_ksdkIar.png" /></a>
+</div>
+<div class="section" id="id19">
+<h3>API<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ksdkIar.KsdkIar">
+<em class="property">class </em><code class="descclassname">ksdkIar.</code><code class="descname">KsdkIar</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkIar.KsdkIar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for generating IAR EWARM projects</p>
+<div class="admonition-todo admonition" id="index-5">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt id="ksdkIar.KsdkIar.gen_ewp">
+<code class="descname">gen_ewp</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar.gen_ewp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkIar.KsdkIar.gen_ewp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the ewp files for IAR project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkIar.KsdkIar.gen_eww">
+<code class="descname">gen_eww</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar.gen_eww"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkIar.KsdkIar.gen_eww" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the eww files for IAR project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">ksdkIar.</code><code class="descname">KsdkIar</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Class for generating IAR EWARM projects</p>
+<div class="admonition-todo admonition" id="index-6">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">gen_ewp</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar.gen_ewp"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the ewp files for IAR project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_eww</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkIar.html#KsdkIar.gen_eww"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the eww files for IAR project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkKds"></span><div class="section" id="file-ksdkkds-py">
+<h2>File:  ksdkKds.py<a class="headerlink" href="#file-ksdkkds-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id20">
+<h3>Brief<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p><strong>Methods for KDS project creation for KSDK</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.6.</span></p>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>UML<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkKds.png"><img alt="_images/classes_ksdkKds.png" src="_images/classes_ksdkKds.png" /></a>
+</div>
+<div class="section" id="id22">
+<h3>API<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ksdkKds.KsdkKds">
+<em class="property">class </em><code class="descclassname">ksdkKds.</code><code class="descname">KsdkKds</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkKds.KsdkKds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for generating KDS projects</p>
+<div class="admonition-todo admonition" id="index-7">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt id="ksdkKds.KsdkKds.gen_cproject">
+<code class="descname">gen_cproject</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_cproject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkKds.KsdkKds.gen_cproject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the cproject file for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkKds.KsdkKds.gen_debug">
+<code class="descname">gen_debug</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkKds.KsdkKds.gen_debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate debug launch files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkKds.KsdkKds.gen_project">
+<code class="descname">gen_project</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkKds.KsdkKds.gen_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the eww files for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkKds.KsdkKds.gen_working_set">
+<code class="descname">gen_working_set</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_working_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkKds.KsdkKds.gen_working_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate KDS working set for project</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">ksdkKds.</code><code class="descname">KsdkKds</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Class for generating KDS projects</p>
+<div class="admonition-todo admonition" id="index-8">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">gen_cproject</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_cproject"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the cproject file for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_debug</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_debug"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate debug launch files</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_project</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_project"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the eww files for KDS project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_working_set</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkKds.html#KsdkKds.gen_working_set"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate KDS working set for project</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkMdk"></span><div class="section" id="file-ksdkmdk-py">
+<h2>File:  ksdkMdk.py<a class="headerlink" href="#file-ksdkmdk-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id23">
+<h3>Brief<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p><strong>Methods for MDK project creation for KSDK</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.6.</span></p>
+</div>
+</div>
+<div class="section" id="id24">
+<h3>UML<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/classes_ksdkIar.png"><img alt="_images/classes_ksdkIar.png" src="_images/classes_ksdkIar.png" /></a>
+</div>
+<div class="section" id="id25">
+<h3>API<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="ksdkMdk.KsdkMdk">
+<em class="property">class </em><code class="descclassname">ksdkMdk.</code><code class="descname">KsdkMdk</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkMdk.KsdkMdk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for generating Keil MDK-ARM projects</p>
+<div class="admonition-todo admonition" id="index-9">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt id="ksdkMdk.KsdkMdk.gen_proj">
+<code class="descname">gen_proj</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.gen_proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkMdk.KsdkMdk.gen_proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the uvprojx files for Keil project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkMdk.KsdkMdk.gen_wkspace">
+<code class="descname">gen_wkspace</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.gen_wkspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkMdk.KsdkMdk.gen_wkspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the uvmpw files for Keil project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ksdkMdk.KsdkMdk.get_memory_loc">
+<code class="descname">get_memory_loc</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.get_memory_loc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ksdkMdk.KsdkMdk.get_memory_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get memory local and return tuple of memory information from scatter file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">ksdkMdk.</code><code class="descname">KsdkMdk</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Class for generating Keil MDK-ARM projects</p>
+<div class="admonition-todo admonition" id="index-10">
+<p class="first admonition-title">Todo</p>
+<p class="last">Edit class to make it a child of ksdkProjClass</p>
+</div>
+<dl class="method">
+<dt>
+<code class="descname">gen_proj</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.gen_proj"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the uvprojx files for Keil project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">gen_wkspace</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.gen_wkspace"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Generate the uvmpw files for Keil project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ksdkProj</strong> &#8211; Instance of a KSDK project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_memory_loc</code><span class="sig-paren">(</span><em>ksdkProj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ksdkMdk.html#KsdkMdk.get_memory_loc"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get memory local and return tuple of memory information from scatter file</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-ksdkImg"></span><div class="section" id="file-ksdkimg-py">
+<h2>File:  ksdkImg.py<a class="headerlink" href="#file-ksdkimg-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id26">
+<h3>Brief<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<p><strong>Dictionary of image files</strong></p>
+<p><em>Code author: B45635&lt;getpass.getuser()&#64;freescale.com&gt;</em></p>
+<p><em>Section author: B45635&lt;getpass.getuser()&#64;freescale.com&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+</div>
+<span class="target" id="module-imageMaker"></span><div class="section" id="file-imagemaker-py">
+<h2>File:  imageMaker.py<a class="headerlink" href="#file-imagemaker-py" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015 Freescale Semiconductor</p>
+<div class="section" id="id27">
+<h3>Brief<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<p><strong>Use this script to generate image dictionary for KSDK Project Generator tool</strong></p>
+<p><em>Code author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<p><em>Section author: M. Hunt &lt;<a class="reference external" href="mailto:Martyn&#46;Hunt&#37;&#52;&#48;freescale&#46;com">Martyn<span>&#46;</span>Hunt<span>&#64;</span>freescale<span>&#46;</span>com</a>&gt;</em></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.0.5.</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to PGKSDK&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#file-projgen-py">File:  projgen.py</a><ul>
+<li><a class="reference internal" href="#brief">Brief</a></li>
+<li><a class="reference internal" href="#todo">TODO</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkgui-py">File:  ksdkGUI.py</a><ul>
+<li><a class="reference internal" href="#id1">Brief</a></li>
+<li><a class="reference internal" href="#inheritance">Inheritance</a></li>
+<li><a class="reference internal" href="#uml">UML</a></li>
+<li><a class="reference internal" href="#id2">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkobj-py">File:  ksdkObj.py</a><ul>
+<li><a class="reference internal" href="#id3">Brief</a></li>
+<li><a class="reference internal" href="#id4">Inheritance</a></li>
+<li><a class="reference internal" href="#id5">UML</a></li>
+<li><a class="reference internal" href="#id6">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkproj-py">File:  ksdkProj.py</a><ul>
+<li><a class="reference internal" href="#id7">Brief</a></li>
+<li><a class="reference internal" href="#id8">Inheritance</a></li>
+<li><a class="reference internal" href="#id9">UML</a></li>
+<li><a class="reference internal" href="#id10">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdktools-py">File:  ksdkTools.py</a><ul>
+<li><a class="reference internal" href="#id11">Brief</a></li>
+<li><a class="reference internal" href="#id12">UML</a></li>
+<li><a class="reference internal" href="#id13">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkatl-py">File:  ksdkAtl.py</a><ul>
+<li><a class="reference internal" href="#id14">Brief</a></li>
+<li><a class="reference internal" href="#id15">UML</a></li>
+<li><a class="reference internal" href="#id16">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkiar-py">File:  ksdkIar.py</a><ul>
+<li><a class="reference internal" href="#id17">Brief</a></li>
+<li><a class="reference internal" href="#id18">UML</a></li>
+<li><a class="reference internal" href="#id19">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkkds-py">File:  ksdkKds.py</a><ul>
+<li><a class="reference internal" href="#id20">Brief</a></li>
+<li><a class="reference internal" href="#id21">UML</a></li>
+<li><a class="reference internal" href="#id22">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkmdk-py">File:  ksdkMdk.py</a><ul>
+<li><a class="reference internal" href="#id23">Brief</a></li>
+<li><a class="reference internal" href="#id24">UML</a></li>
+<li><a class="reference internal" href="#id25">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-ksdkimg-py">File:  ksdkImg.py</a><ul>
+<li><a class="reference internal" href="#id26">Brief</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-imagemaker-py">File:  imageMaker.py</a><ul>
+<li><a class="reference internal" href="#id27">Brief</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Freescale Semiconductor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

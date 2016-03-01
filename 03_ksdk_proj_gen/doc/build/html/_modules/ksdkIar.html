@@ -1,0 +1,891 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ksdkIar &mdash; KSDK_Project_Generator 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KSDK_Project_Generator 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ksdkIar</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">File:  ksdkIar.py</span>
+<span class="sd">===================</span>
+<span class="sd">Copyright (c) 2015 Freescale Semiconductor</span>
+
+<span class="sd">Brief</span>
+<span class="sd">+++++</span>
+<span class="sd">**Methods for IAR project creation for KSDK**</span>
+
+<span class="sd">.. codeauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. sectionauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. versionadded:: 0.0.6</span>
+
+<span class="sd">UML</span>
+<span class="sd">+++</span>
+<span class="sd">.. uml:: {{/../../../src/ksdkIar.py</span>
+
+<span class="sd">API</span>
+<span class="sd">+++</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">## USER MODULES</span>
+<span class="kn">from</span> <span class="nn">ksdkTools</span> <span class="kn">import</span> <span class="n">KsdkTools</span> <span class="k">as</span> <span class="n">kT</span>
+<span class="kn">from</span> <span class="nn">ksdkProj</span> <span class="kn">import</span> <span class="n">ksdkProjClass</span>
+<span class="kn">import</span> <span class="nn">iarFiles</span> <span class="kn">as</span> <span class="nn">iF</span>
+
+<span class="c">## PYTHON MODULES</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+
+<span class="c">## Important ewp tags</span>
+<span class="n">CDEFINES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;CCDefines&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">CDEFINES_USB</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;CCDefines&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;_DEBUG=1&#39;</span><span class="p">]}</span>
+<span class="n">CINCLUDES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;CCIncludePath2&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">ASMDEFINES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;ADefines&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]}</span>
+<span class="n">ASMINCLUDES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;AUserIncludes&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">LINKOUT</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkOutputFile&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="s">&#39;.out&#39;</span><span class="p">}</span>
+<span class="n">LINKDEFINES</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkConfigDefines&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;__stack_size__=&#39;</span><span class="p">,</span> <span class="s">&#39;__heap_size__=&#39;</span><span class="p">]}</span>
+<span class="n">LINKDEFINES_USB</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkConfigDefines&#39;</span><span class="p">,</span> \
+                  <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;__ram_vector_table__=1&#39;</span><span class="p">,</span> <span class="s">&#39;__stack_size__=&#39;</span><span class="p">,</span> <span class="s">&#39;__heap_size__=&#39;</span><span class="p">]}</span>
+<span class="n">LINKICF</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkIcfFile&#39;</span><span class="p">,</span> <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;.icf&#39;</span><span class="p">]}</span>
+<span class="n">LINKLIBS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkAdditionalLibs&#39;</span><span class="p">,</span> \
+           <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;lib/ksdk_xxx_lib/iar/ddd/debug/libksdk_xxx.a&#39;</span><span class="p">]}</span>
+<span class="n">LINKLIBS_USB</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;IlinkAdditionalLibs&#39;</span><span class="p">,</span> \
+               <span class="s">&#39;state&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;lib/ksdk_xxx_lib/iar/ddd/debug/libksdk_xxx.a&#39;</span><span class="p">,</span> \
+                         <span class="s">&#39;usb/usb_core/device/build/iar/usbd_sdk_yyy_zzz/debug/libusbd_zzz.a&#39;</span><span class="p">,</span> \
+                         <span class="s">&#39;usb/usb_core/device/build/iar/usbh_sdk_yyy_zzz/debug/libusbh_zzz.a&#39;</span><span class="p">]}</span>
+
+<span class="n">EWP_STARTUP</span> <span class="o">=</span>\
+<span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;startup&#39;</span><span class="p">,</span>\
+ <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;platform/devices/xxx/startup/iar/startup_xxx.s&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/devices/xxx/startup/system_xxx.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/devices/xxx/startup/system_xxx.h&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/devices/startup.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/devices/startup.h&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_UTILITIES</span> <span class="o">=</span>\
+<span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;utilities&#39;</span><span class="p">,</span>\
+ <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;platform/utilities/src/fsl_debug_console.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/utilities/inc/fsl_debug_console.h&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/utilities/src/print_scan.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;platform/utilities/inc/print_scan.h&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_BOARD</span> <span class="o">=</span>\
+<span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;board&#39;</span><span class="p">,</span>\
+ <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;$PROJ_DIR$/../board/gpio_pins.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../board/gpio_pins.h&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../board/pin_mux.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../board/pin_mux.h&#39;</span><span class="p">,</span>\
+          <span class="s">&#39;$PROJ_DIR$/../board/board.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../board/board.h&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../hardware_init.c&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_SOURCES</span> <span class="o">=</span>\
+<span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;sources&#39;</span><span class="p">,</span>\
+ <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;$PROJ_DIR$/../main.c&#39;</span><span class="p">,</span> \
+          <span class="s">&#39;$PROJ_DIR$/../main.h&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_FREERTOS</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;free-rtos&#39;</span><span class="p">,</span>\
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;rtos/FreeRTOS/config/xxx/iar/FreeRTOSConfig.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/croutine.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/event_groups.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/FreeRTOS.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/list.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/mpu_wrappers.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/portable.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/projdefs.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/queue.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/semphr.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/StackMacros.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/task.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/include/timers.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/port/iar/port.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/port/iar/portasm.s&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/port/iar/portmacro.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/port/iar/portTicks.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/croutine.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/event_groups.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/heap_1.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/heap_2.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/heap_3.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/heap_4.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/list.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/queue.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/tasks.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/FreeRTOS/src/timers.c&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_MQX</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;mqx&#39;</span><span class="p">,</span>\
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;rtos/mqx/mqx/source/bsp/bsp.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/mqx/source/bsp/bsp_config.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/mqx/source/bsp/init_bsp.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/mqx/source/bsp/mqx_main.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/mqx/source/include/mqx.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/common/lite_config.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/common/mqx_cnfg.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/common/small_ram_config.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/common/verif_enabled_config.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/mcu/xxx/mqx_sdk_config.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/mqx/config/board/bbb/user_config.h&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_UCOSII</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;ucosii&#39;</span><span class="p">,</span>\
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;rtos/uCOSII/src/config/app_hooks.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_core.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Ports/ccc/Generic/IAR/os_cpu.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Ports/ccc/Generic/IAR/os_cpu_a.asm&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Ports/ccc/Generic/IAR/os_cpu_c.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Ports/ccc/Generic/IAR/os_dbg.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_flag.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_mbox.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_mem.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_mutex.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_q.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_sem.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_task.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_time.c&#39;</span><span class="p">,</span> \
+             <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source/os_tmr.c&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWP_UCOSIII</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">,</span>\
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;rtos/uCOSIII/src/uC-CPU/cpu_core.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uC-CPU/ccc/IAR/cpu_a.asm&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uC-CPU/ccc/IAR/cpu_c.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/config/os_app_hooks.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_cfg_app.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_core.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Ports/ccc/Generic/IAR/os_cpu.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Ports/ccc/Generic/IAR/os_cpu_a.asm&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Ports/ccc/Generic/IAR/os_cpu_c.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_dbg.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_flag.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_int.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_mem.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_msg.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_mutex.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_pend_multi.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_prio.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_q.c&#39;</span><span class="p">,</span>
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_sem.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_stat.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_task.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_tick.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_time.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_tmr.c&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_type.h&#39;</span><span class="p">,</span>\
+             <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source/os_var.c&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">EWW_BATCH_ALL</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;all&#39;</span><span class="p">,</span>
+    <span class="s">&#39;member&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">},</span>\
+               <span class="p">{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">}]</span>
+<span class="p">}</span>
+
+<span class="n">EWW_BATCH_DBG</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">,</span>
+    <span class="s">&#39;member&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">}]</span>
+<span class="p">}</span>
+
+<span class="n">EWW_BATCH_RLS</span> <span class="o">=</span>\
+<span class="p">{</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">,</span>
+    <span class="s">&#39;member&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">}]</span>
+<span class="p">}</span>
+
+<span class="n">EWW_PROJECTS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;path&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+<div class="viewcode-block" id="KsdkIar"><a class="viewcode-back" href="../index.html#ksdkIar.KsdkIar">[docs]</a><span class="k">class</span> <span class="nc">KsdkIar</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Class for generating IAR EWARM projects</span>
+
+<span class="sd">        .. todo:: Edit class to make it a child of ksdkProjClass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Init class</span>
+
+<span class="sd">        :param ksdkProj: Instance of a KSDK project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">workSpace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">userName</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">userName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLinked</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">isLinked</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+        <span class="c">## Determine if this is a USB or standard project</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projType</span> <span class="o">=</span> <span class="s">&#39;usb&#39;</span> <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">useUSB</span> <span class="k">else</span> <span class="s">&#39;std&#39;</span>
+
+        <span class="c"># Create local copies of the tag dictionaries</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">projType</span> <span class="o">==</span> <span class="s">&#39;std&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">CDEFINES</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKDEFINES</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKLIBS</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">CDEFINES_USB</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKDEFINES_USB</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKLIBS_USB</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">CINCLUDES</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asmDefines</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ASMDEFINES</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asmIncludes</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ASMINCLUDES</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkOut</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKOUT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkIcf</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">LINKICF</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_STARTUP</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_UTILITIES</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ewpBoard</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_BOARD</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ewpSources</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_SOURCES</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_FREERTOS</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_MQX</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosii&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_UCOSII</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWP_UCOSIII</span><span class="p">)</span>
+
+        <span class="c"># Copy dictionaries for .eww batch buildss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWW_BATCH_ALL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWW_BATCH_DBG</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWW_BATCH_RLS</span><span class="p">)</span>
+
+        <span class="c"># Copy project path dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">EWW_PROJECTS</span><span class="p">)</span>
+
+        <span class="c">#self.parent = &quot;C:\\Users\\b45635\\PGKSDK\\IAR&quot;</span>
+        <span class="c">#self.name = &#39;Test&#39;</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="KsdkIar.gen_ewp"><a class="viewcode-back" href="../index.html#ksdkIar.KsdkIar.gen_ewp">[docs]</a>    <span class="k">def</span> <span class="nf">gen_ewp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Generate the ewp files for IAR project</span>
+
+<span class="sd">        :param ksdkProj: Instance of a KSDK project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">iarPath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span> <span class="k">else</span> <span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;/iar&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLinked</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">=</span> <span class="s">&#39;$PROJ_DIR$/&#39;</span> <span class="o">+</span> <span class="n">kT</span><span class="o">.</span><span class="n">get_rel_path</span><span class="p">(</span><span class="n">iarPath</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">sdkPath</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">=</span> <span class="s">&#39;$PROJ_DIR$/../&#39;</span>
+
+        <span class="c"># Populate ksdkProj specifics to dictionaries</span>
+
+        <span class="c">## Set name of out file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkOut</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.out&#39;</span>
+
+        <span class="c">## Configure linker option</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkIcf</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/devices/&#39;</span> <span class="o">+</span>\
+                                <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/linker/iar/&#39;</span> <span class="o">+</span>\
+                                <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_flash.icf&#39;</span>
+
+        <span class="c">## Set a define for the device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;CPU_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c">##                Added to fix K80 application build issues                   ##</span>
+        <span class="c">#if (ksdkProj.device[1] == &#39;MK80F25615&#39;) or (ksdkProj.device[1] == &#39;MK82F25615&#39;):</span>
+        <span class="c">#    self.cDefines[&#39;state&#39;].append(&#39;USING_DIRECT_INTERFACE=1&#39;)</span>
+        <span class="c">##                Added to fix UART smartcard application build issues        ##</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">drvList</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;smartcard&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">kT</span><span class="o">.</span><span class="n">get_smartcard_type</span><span class="p">(</span><span class="n">ksdkProj</span><span class="o">.</span><span class="n">sdkPath</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;USING_DIRECT_INTERFACE=1&#39;</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">kT</span><span class="o">.</span><span class="n">get_smartcard_type</span><span class="p">(</span><span class="n">ksdkProj</span><span class="o">.</span><span class="n">sdkPath</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;USING_NCN8025_INTERFACE=1&#39;</span><span class="p">)</span>
+        <span class="c">################################################################################</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">useBSP</span><span class="p">:</span>
+            <span class="n">boardType</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">boardType</span> <span class="o">==</span> <span class="s">&#39;FRDM&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;FREEDOM&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">boardType</span> <span class="o">==</span> <span class="s">&#39;TWR&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;TOWER&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">boardType</span> <span class="o">==</span> <span class="s">&#39;USB&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;BOARD_USE_VIRTUALCOM&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;DONGLE&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">boardType</span> <span class="o">==</span> <span class="s">&#39;MRB&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;MRB_KW01&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;FSL_RTOS_FREE_RTOS&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;FSL_RTOS_MQX&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosii&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;FSL_RTOS_UCOSII&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;FSL_RTOS_UCOSIII&#39;</span><span class="p">)</span>
+
+        <span class="c">## Add C include paths necessary for project</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/osa/inc&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/utilities/inc&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/CMSIS/Include&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/devices&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/devices/&#39;</span> <span class="o">+</span>\
+                                                          <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/include&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/devices/&#39;</span> <span class="o">+</span>\
+                                                          <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;/startup&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/hal/inc&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/drivers/inc&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;platform/system/inc&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;$PROJ_DIR$/../../..&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">useBSP</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;$PROJ_DIR$/../board&quot;</span><span class="p">)</span>
+
+        <span class="c">## Add device specific driver include paths</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">drvList</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">halList</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span>
+
+        <span class="c"># Add rtos paths</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/FreeRTOS/config/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s">&#39;/iar&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/FreeRTOS/port/iar&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/FreeRTOS/include&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/FreeRTOS/src&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">asmIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/FreeRTOS/config/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s">&#39;/iar&#39;</span><span class="p">)</span>
+                <span class="c">#print self.asmIncludes</span>
+                <span class="c">#print self.asmIncludes[&#39;state&#39;]</span>
+                <span class="c">#print self.asmIncludes[&#39;state&#39;][0]</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                <span class="n">archType</span> <span class="o">=</span> <span class="s">&#39;M4&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;M0&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug/config&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug/mqx&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug/mqx_stdlib&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/config/mcu/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/config/board/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/bsp&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/psp/cortex_m&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/psp/cortex_m/compiler/iar&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/psp/cortex_m/core/&#39;</span> <span class="o">+</span> <span class="n">archType</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/psp/cortex_m/cpu&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/include&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/config/common&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_dummy&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_mem&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_null&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_pipe&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_serial&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_tfs&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/mqx/source/nio/drivers/nio_tty&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosii&#39;</span><span class="p">:</span>
+                <span class="n">archType</span> <span class="o">=</span> <span class="s">&#39;ARM-Cortex-M4&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;ARM-Cortex-M0&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Ports/&#39;</span> <span class="o">+</span> <span class="n">archType</span> <span class="o">+</span> <span class="s">&#39;/Generic/IAR&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/uC-CPU/&#39;</span> <span class="o">+</span> <span class="n">archType</span> <span class="o">+</span> <span class="s">&#39;/IAR&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/config&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/uCOS-II/Source&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/uC-CPU&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSII/src/uC-LIB&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">:</span>
+                <span class="n">archType</span> <span class="o">=</span> <span class="s">&#39;ARM-Cortex-M4&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;ARM-Cortex-M0&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Ports/&#39;</span> <span class="o">+</span> <span class="n">archType</span> <span class="o">+</span> <span class="s">&#39;/Generic/IAR&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/uC-CPU/&#39;</span> <span class="o">+</span> <span class="n">archType</span> <span class="o">+</span> <span class="s">&#39;/IAR&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/config&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/uCOS-III/Source&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/uC-CPU&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/uCOSIII/src/uC-LIB&#39;</span><span class="p">)</span>
+
+        <span class="c"># Add relative paths to files</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                               <span class="s">&#39;xxx&#39;</span><span class="p">,</span> \
+                                                               <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                <span class="s">&#39;xxx&#39;</span><span class="p">,</span>\
+                                                <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                <span class="s">&#39;xxx&#39;</span><span class="p">,</span>\
+                                                <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                <span class="s">&#39;bbb&#39;</span><span class="p">,</span>\
+                                                <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosii&#39;</span><span class="p">:</span>
+                <span class="n">archType</span> <span class="o">=</span> <span class="s">&#39;ARM-Cortex-M4&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;ARM-Cortex-M0&#39;</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                <span class="s">&#39;ccc&#39;</span><span class="p">,</span>\
+                                                <span class="n">archType</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">:</span>
+                <span class="n">archType</span> <span class="o">=</span> <span class="s">&#39;ARM-Cortex-M4&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;ARM-Cortex-M0&#39;</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">],</span>\
+                                                <span class="s">&#39;ccc&#39;</span><span class="p">,</span>\
+                                                <span class="n">archType</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">kT</span><span class="o">.</span><span class="n">debug_log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span>  <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
+                                                      <span class="s">&#39;xxx&#39;</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> \
+                                        <span class="s">&#39;libksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.a&#39;</span><span class="p">,</span> \
+                                        <span class="s">&#39;libksdk_platform_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.a&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">string_replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
+                                                      <span class="s">&#39;ddd&#39;</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="n">mqxLib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug/mqx/lib_mqx.a&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mqxLib</span><span class="p">)</span>
+            <span class="n">mqxStdLib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projRelPath</span> <span class="o">+</span> <span class="s">&#39;rtos/mqx/lib/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.iar/debug/mqx_stdlib/lib_mqx_stdlib.a&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mqxStdLib</span><span class="p">)</span>
+
+
+        <span class="c">#    l = kT.string_replace(l, &#39;zzz&#39;, ksdkProj.rtos)</span>
+        <span class="c">#    kT.debug_log(l)</span>
+        <span class="c">#    if self.projType == &#39;usb&#39;:</span>
+        <span class="c">#        l = kT.string_replace(l, &#39;yyy&#39;, ksdkProj.board[1])</span>
+        <span class="c">#    b = l</span>
+
+        <span class="n">kT</span><span class="o">.</span><span class="n">debug_log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">])</span>
+
+        <span class="c"># Configure linker stack and heap</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">projType</span> <span class="o">==</span> <span class="s">&#39;usb&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s">&#39;kl&#39;</span> <span class="ow">in</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x400&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x1000&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s">&#39;kl&#39;</span> <span class="ow">in</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x400&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x1000&#39;</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x400&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__heap_size__=0x400&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;__ram_vector_table__=1&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__heap_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;__ram_vector_table__=1&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosii&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__heap_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;__ram_vector_table__=1&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__stack_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;__heap_size__=0x1000&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;__ram_vector_table__=1&#39;</span><span class="p">)</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">iF</span><span class="o">.</span><span class="n">iar_formatted_ewp</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s">&#39;option&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;OGChipSelectEditMenu&#39;</span><span class="p">:</span>
+                    <span class="n">projDev</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projDev</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">Freescale &#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projDev</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;FPU&#39;</span><span class="p">:</span>
+                    <span class="n">projFPU</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projFPU</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;5&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">else</span> <span class="s">&#39;0&#39;</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projFPU</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;GFPUCoreSlave&#39;</span><span class="p">:</span>
+                    <span class="n">projFPU</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projFPU</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;39&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">else</span> <span class="s">&#39;35&#39;</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projFPU</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;GBECoreSlave&#39;</span><span class="p">:</span>
+                    <span class="n">projBE</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projBE</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;39&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">else</span> <span class="s">&#39;35&#39;</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projBE</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;CCDefines&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                        <span class="n">projCDef</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                        <span class="n">projCDef</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">d</span>
+                        <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projCDef</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkConfigDefines&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">linkDefines</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                            <span class="n">projLDef</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                            <span class="n">projLDef</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">d</span>
+                            <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projLDef</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkOverrideProgramEntryLabel&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                            <span class="n">s</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;1&#39;</span>
+                            <span class="c">#print s.text</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkProgramEntryLabel&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                            <span class="n">s</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Reset_Handler&#39;</span>
+                            <span class="c">#print s.text</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkOutputFile&#39;</span><span class="p">:</span>
+                    <span class="n">projOut</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projOut</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linkOut</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projOut</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkIcfFile&#39;</span><span class="p">:</span>
+                    <span class="n">projIcf</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                    <span class="n">projIcf</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linkIcf</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projIcf</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;IlinkAdditionalLibs&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">linkLibs</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                        <span class="n">projLib</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                        <span class="n">projLib</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">l</span>
+                        <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projLib</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;CCIncludePath2&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">]:</span>
+                        <span class="n">projInc</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                        <span class="n">projInc</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">i</span>
+                        <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">projInc</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;AUserIncludes&#39;</span><span class="p">:</span>
+                    <span class="c">#print &quot;ASM Inlcudes&quot;</span>
+                    <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;freertos&#39;</span><span class="p">:</span>
+                        <span class="n">asmInc</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">)</span>
+                        <span class="n">asmInc</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asmIncludes</span><span class="p">[</span><span class="s">&#39;state&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">elem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asmInc</span><span class="p">)</span>
+
+        <span class="c"># Add file groups to ewp file</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="n">startGrp</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">)</span>
+            <span class="n">startName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">startGrp</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">startName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpStartup</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+                <span class="n">startFile</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">startGrp</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+                <span class="n">startFName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">startFile</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+                <span class="n">startFName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="n">sourceGrp</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">)</span>
+        <span class="n">sourceName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">sourceGrp</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">sourceName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpSources</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpSources</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+            <span class="n">sourceFile</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">sourceGrp</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+            <span class="n">sourceFName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">sourceFile</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">sourceFName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">useBSP</span><span class="p">:</span>
+            <span class="n">boardGrp</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">)</span>
+            <span class="n">boardName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">boardGrp</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">boardName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpBoard</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpBoard</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+                <span class="n">boardFile</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">boardGrp</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+                <span class="n">boardFName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">boardFile</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+                <span class="n">boardFName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+            <span class="n">utilsGrp</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">)</span>
+            <span class="n">utilsName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">utilsGrp</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">utilsName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpUtilities</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+                <span class="n">utilsFile</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">utilsGrp</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+                <span class="n">utilsFName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">utilsFile</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+                <span class="n">utilsFName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">!=</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="n">rtosGrp</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">)</span>
+            <span class="n">rtosName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">rtosGrp</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+            <span class="n">rtosName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ewpRtos</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+                <span class="n">rtosFile</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">rtosGrp</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+                <span class="n">rtosFName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">rtosFile</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+                <span class="n">rtosFName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">f</span>
+
+        <span class="n">prettyRoot</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">pretty_xml</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+
+        <span class="c"># Write data to file</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">iarPath</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">iarPath</span><span class="p">)</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">prettyRoot</span><span class="p">))</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">iarPath</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.ewp&#39;</span><span class="p">,</span> <span class="s">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+
+        <span class="c"># Gen ewd while we are here</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">iF</span><span class="o">.</span><span class="n">iar_formatted_ewd</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s">&#39;option&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;OCDynDriverList&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;CMSISDAP_ID&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;PEMICRO_ID&#39;</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;CMSISDAPResetList&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;5&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;10&#39;</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;CMSISDAPInterfaceRadio&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;1&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;0&#39;</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s">&#39;CMSISDAPSelectedCPUBehaviour&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;state&#39;</span><span class="p">):</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;cm4&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;0&#39;</span>
+
+        <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">iarPath</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.ewd&#39;</span><span class="p">,</span> <span class="s">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="KsdkIar.gen_eww"><a class="viewcode-back" href="../index.html#ksdkIar.KsdkIar.gen_eww">[docs]</a>    <span class="k">def</span> <span class="nf">gen_eww</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Generate the eww files for IAR project</span>
+
+<span class="sd">        :param ksdkProj: Instance of a KSDK project</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Get relative path</span>
+        <span class="n">iarPath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span> <span class="k">else</span> <span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;/iar&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLinked</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">=</span> <span class="s">&#39;$WS_DIR$/&#39;</span> <span class="o">+</span> <span class="n">kT</span><span class="o">.</span><span class="n">get_rel_path</span><span class="p">(</span><span class="n">iarPath</span><span class="p">,</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">sdkPath</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">=</span> <span class="s">&#39;$WS_DIR$/../&#39;</span>
+
+        <span class="c"># Get project library names</span>
+        <span class="c">## hal or platform library</span>
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;bm&#39;</span><span class="p">:</span>
+            <span class="n">sdkLibName</span> <span class="o">=</span> <span class="s">&#39;ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_lib&#39;</span>
+            <span class="n">sdkLibPath</span> <span class="o">=</span> <span class="s">&#39;lib/ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_lib/iar/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s">&#39;/ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">libList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_lib&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sdkLibName</span> <span class="o">=</span> <span class="s">&#39;ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">+</span> <span class="s">&#39;_lib&#39;</span>
+            <span class="n">sdkLibPath</span> <span class="o">=</span> <span class="s">&#39;lib/ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">+</span> <span class="s">&#39;_lib/iar/&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="s">&#39;/ksdk_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">+</span> <span class="s">&#39;_lib&#39;</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="n">mqxLibName</span> <span class="o">=</span> <span class="s">&#39;mqx_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">mqxLibPath</span> <span class="o">=</span> <span class="s">&#39;rtos/mqx/mqx/build/iar/&#39;</span> <span class="o">+</span> <span class="n">mqxLibName</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">mqxLibName</span> <span class="o">+</span> <span class="s">&#39;.ewp&#39;</span>
+            <span class="n">mqxStdLibName</span> <span class="o">=</span> <span class="s">&#39;mqx_stdlib_&#39;</span> <span class="o">+</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">mqxStdLibPath</span> <span class="o">=</span> <span class="s">&#39;rtos/mqx/mqx_stdlib/build/iar/&#39;</span> <span class="o">+</span> <span class="n">mqxStdLibName</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">mqxStdLibName</span> <span class="o">+</span> <span class="s">&#39;.ewp&#39;</span>
+
+        <span class="c"># Populate dictionaries with ksdkProj info</span>
+        <span class="c">## All</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">sdkLibName</span><span class="p">,</span> \
+                                     <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">sdkLibName</span><span class="p">,</span> \
+                                     <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+        <span class="c">## Release</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">sdkLibName</span><span class="p">,</span> \
+                                     <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+        <span class="c">## Debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">sdkLibName</span><span class="p">,</span> \
+                                     <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxStdLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxStdLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxStdLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Debug&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="n">mqxStdLibName</span><span class="p">,</span> \
+                                              <span class="s">&#39;configuration&#39;</span><span class="p">:</span> <span class="s">&#39;Release&#39;</span><span class="p">})</span>
+
+        <span class="c"># Create tree</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">()</span>
+
+        <span class="c"># Set root</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s">&#39;workspace&#39;</span><span class="p">)</span>
+
+        <span class="c"># Create subelements for batch builds</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;batchBuild&#39;</span><span class="p">)</span>
+
+        <span class="c">## All</span>
+        <span class="n">batchDefAll</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s">&#39;batchDefinition&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefAll</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchAll</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]:</span>
+            <span class="n">batchMember</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefAll</span><span class="p">,</span> <span class="s">&#39;member&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;project&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">]</span>
+            <span class="n">batchConfig</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">)</span>
+            <span class="n">batchConfig</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;configuration&#39;</span><span class="p">]</span>
+
+        <span class="c">## Release</span>
+        <span class="n">batchDefRls</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s">&#39;batchDefinition&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefRls</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchRls</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]:</span>
+            <span class="n">batchMember</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefRls</span><span class="p">,</span> <span class="s">&#39;member&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;project&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">]</span>
+            <span class="n">batchConfig</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">)</span>
+            <span class="n">batchConfig</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;configuration&#39;</span><span class="p">]</span>
+
+        <span class="c">## Debug</span>
+        <span class="n">batchDefDbg</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="s">&#39;batchDefinition&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefDbg</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+        <span class="n">batchName</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wsBatchDbg</span><span class="p">[</span><span class="s">&#39;member&#39;</span><span class="p">]:</span>
+            <span class="n">batchMember</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchDefDbg</span><span class="p">,</span> <span class="s">&#39;member&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;project&#39;</span><span class="p">)</span>
+            <span class="n">batchProj</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;project&#39;</span><span class="p">]</span>
+            <span class="n">batchConfig</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">batchMember</span><span class="p">,</span> <span class="s">&#39;configuration&#39;</span><span class="p">)</span>
+            <span class="n">batchConfig</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">&#39;configuration&#39;</span><span class="p">]</span>
+
+        <span class="c"># Edit dictionary to add ksdkProj info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;$WS_DIR$/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.ewp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">+</span> <span class="n">sdkLibPath</span> <span class="o">+</span> <span class="s">&#39;.ewp&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ksdkProj</span><span class="o">.</span><span class="n">rtos</span> <span class="o">==</span> <span class="s">&#39;mqx&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">+</span> <span class="n">mqxLibPath</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wsRelPath</span> <span class="o">+</span> <span class="n">mqxStdLibPath</span><span class="p">)</span>
+
+        <span class="c"># Populate project paths</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">projPaths</span><span class="p">[</span><span class="s">&#39;path&#39;</span><span class="p">]:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;project&#39;</span><span class="p">)</span>
+            <span class="n">projPath</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="s">&#39;path&#39;</span><span class="p">)</span>
+            <span class="n">projPath</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">p</span>
+
+        <span class="c"># Format data to make it more readable</span>
+        <span class="n">prettyRoot</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">pretty_xml</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+
+        <span class="c">#print prettyRoot</span>
+
+        <span class="c"># Write data to file</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">iarPath</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">iarPath</span><span class="p">)</span>
+
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">prettyRoot</span><span class="p">))</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">iarPath</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.eww&#39;</span><span class="p">,</span> <span class="s">&quot;iso-8859-1&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Freescale Semiconductor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

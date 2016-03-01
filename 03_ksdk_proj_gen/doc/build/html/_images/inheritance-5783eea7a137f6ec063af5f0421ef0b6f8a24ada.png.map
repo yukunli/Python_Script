@@ -1,0 +1,11 @@
+<map id="inheritance796c1a54a3" name="inheritance796c1a54a3">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="131,137,252,160"/>
+<area shape="rect" id="node6" title="Internal class." alt="" coords="295,71,391,94"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="5,137,88,160"/>
+<area shape="rect" id="node3" title="Geometry manager Grid." alt="" coords="152,5,232,27"/>
+<area shape="rect" id="node4" title="Geometry manager Pack." alt="" coords="149,49,234,71"/>
+<area shape="rect" id="node5" title="Geometry manager Place." alt="" coords="148,93,236,115"/>
+<area shape="rect" id="node9" title="Base class for Tk themed widgets." alt="" coords="433,71,507,94"/>
+<area shape="rect" id="node7" href="#ksdkGUI.PgGui" title="This class contains all the methods used to generate the GUI widgets" alt="" coords="663,71,763,94"/>
+<area shape="rect" id="node8" title="Ttk Frame widget is a container, used to group other widgets" alt="" coords="550,71,620,94"/>
+</map>

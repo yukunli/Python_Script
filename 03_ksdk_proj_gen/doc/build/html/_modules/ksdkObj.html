@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ksdkObj &mdash; KSDK_Project_Generator 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="KSDK_Project_Generator 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for ksdkObj</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">File:  ksdkObj.py</span>
+<span class="sd">=================</span>
+<span class="sd">Copyright (c) 2015 Freescale Semiconductor</span>
+
+<span class="sd">Brief</span>
+<span class="sd">+++++</span>
+<span class="sd">**Class for creating a KSDK object**</span>
+
+<span class="sd">.. codeauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. sectionauthor:: M. Hunt &lt;Martyn.Hunt@freescale.com&gt;</span>
+
+<span class="sd">.. versionadded:: 0.0.5</span>
+
+<span class="sd">Inheritance</span>
+<span class="sd">+++++++++++</span>
+<span class="sd">.. inheritance-diagram:: ksdkObj</span>
+
+<span class="sd">UML</span>
+<span class="sd">+++</span>
+<span class="sd">.. uml:: {{/../../../src/ksdkObj.py</span>
+
+<span class="sd">API</span>
+<span class="sd">+++</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">## USER MODULES</span>
+<span class="kn">from</span> <span class="nn">ksdkTools</span> <span class="kn">import</span> <span class="n">KsdkTools</span> <span class="k">as</span> <span class="n">kT</span>
+
+<span class="c">## PYTHON MODULES</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+
+<span class="c">#: List of supported toolchains</span>
+<span class="n">toolList</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&quot;GCC Makefile&quot;</span><span class="p">,</span> <span class="s">&quot;armgcc&quot;</span><span class="p">,</span> <span class="s">&quot;gcc&quot;</span><span class="p">),</span> \
+            <span class="p">(</span><span class="s">&quot;Kinetis Design Studio&quot;</span><span class="p">,</span> <span class="s">&quot;kds&quot;</span><span class="p">,</span> <span class="s">&quot;gcc&quot;</span><span class="p">),</span> \
+            <span class="p">(</span><span class="s">&quot;Atollic TrueSTUDIO&quot;</span><span class="p">,</span> <span class="s">&quot;atl&quot;</span><span class="p">,</span> <span class="s">&quot;gcc&quot;</span><span class="p">),</span> \
+            <span class="p">(</span><span class="s">&quot;IAR Embedded Workbench for ARM&quot;</span><span class="p">,</span> <span class="s">&quot;iar&quot;</span><span class="p">,</span> <span class="s">&quot;iar&quot;</span><span class="p">),</span> \
+            <span class="p">(</span><span class="s">&quot;Keil MDK-ARM&quot;</span><span class="p">,</span> <span class="s">&quot;mdk&quot;</span><span class="p">,</span> <span class="s">&quot;arm&quot;</span><span class="p">)]</span>
+
+<span class="n">globalBoardList</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c">##################</span>
+<span class="c">##  KSDK Class  ##</span>
+<span class="c">##################</span>
+<div class="viewcode-block" id="kinetisSDK"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK">[docs]</a><span class="k">class</span> <span class="nc">kinetisSDK</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksdkPath</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">ksdkPath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brdList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drvList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">halList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">othList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">libList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rtosLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devPkgList</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="kinetisSDK.get_version"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get KSDK version from manifest file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;api&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;version&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_boards"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_boards">[docs]</a>    <span class="k">def</span> <span class="nf">get_boards</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get supported board list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">boardsPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;boards&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">boardsPresent</span><span class="p">:</span>
+                <span class="n">boardCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user_name&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">brdList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">boardCheck</span><span class="p">))</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_drivers"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_drivers">[docs]</a>    <span class="k">def</span> <span class="nf">get_drivers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get supported platform driver list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">driversPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;components&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">driversPresent</span><span class="p">:</span>
+                <span class="n">driverCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">driverCheck</span> <span class="o">==</span> <span class="s">&#39;driver&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">drvList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)))</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_hal"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_hal">[docs]</a>    <span class="k">def</span> <span class="nf">get_hal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get support HAL list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">halPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;components&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">halPresent</span><span class="p">:</span>
+                <span class="n">halCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">halCheck</span> <span class="o">==</span> <span class="s">&#39;hal&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">halList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)))</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_libs"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_libs">[docs]</a>    <span class="k">def</span> <span class="nf">get_libs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Browse lib folder to get supported library list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">libDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/lib&#39;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">libDir</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s">&#39;hal&#39;</span> <span class="ow">in</span> <span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="s">&#39;platform&#39;</span> <span class="ow">in</span> <span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="s">&#39;std&#39;</span> <span class="ow">in</span> <span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="s">&#39;startup&#39;</span> <span class="ow">in</span> <span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">libList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rtosLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">libDir</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_other"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_other">[docs]</a>    <span class="k">def</span> <span class="nf">get_other</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get other supported drivers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">otherPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;components&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">otherPresent</span><span class="p">:</span>
+                <span class="n">otherCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">otherCheck</span> <span class="o">==</span> <span class="s">&#39;other&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">othList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)))</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_devices"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_devices">[docs]</a>    <span class="k">def</span> <span class="nf">get_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get supported devices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">devicesPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;devices&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">devicesPresent</span><span class="p">:</span>
+                <span class="n">deviceCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;full_name&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">devList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">deviceCheck</span><span class="p">))</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_dev_pkg"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_dev_pkg">[docs]</a>    <span class="k">def</span> <span class="nf">get_dev_pkg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deviceName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use ksdk_manifest file to get supported device packages</span>
+
+<span class="sd">        :param deviceName: name of device being used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/ksdk_manifest.xml&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="c">#Clear out package list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">devPkgList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">devicesPresent</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;devices&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">devicesPresent</span><span class="p">:</span>
+                <span class="n">deviceCheck</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;full_name&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">deviceCheck</span> <span class="o">==</span> <span class="n">deviceName</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">devPkgs</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;package&#39;</span><span class="p">):</span>
+                        <span class="n">devPkgName</span> <span class="o">=</span> <span class="n">devPkgs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">devPkgList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">devPkgName</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="kinetisSDK.get_projects"><a class="viewcode-back" href="../index.html#ksdkObj.kinetisSDK.get_projects">[docs]</a>    <span class="k">def</span> <span class="nf">get_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boardName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Use board and ksdk tree to list available projects</span>
+
+<span class="sd">        :param boardName: name of board used to find demos</span>
+
+<span class="sd">        .. todo::</span>
+
+<span class="sd">            Add 1.3.0 support</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
+
+        <span class="c"># Clear out list</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="p">[:]</span>
+        <span class="c">#print self.demoLst[:]</span>
+
+        <span class="c"># Populate demo list with demos to clone</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="s">&#39;1.2.0&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="s">&#39;1.3.0&#39;</span><span class="p">):</span>
+            <span class="n">dirChk</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;bm&#39;</span><span class="p">,</span> <span class="s">&#39;freertos&#39;</span><span class="p">,</span> <span class="s">&#39;mqx&#39;</span><span class="p">,</span> <span class="s">&#39;ucosii&#39;</span><span class="p">,</span> <span class="s">&#39;ucosiii&#39;</span><span class="p">]</span>
+            <span class="n">dirRoot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/examples/&#39;</span> <span class="o">+</span> <span class="n">boardName</span> <span class="o">+</span> <span class="s">&#39;/demo_apps&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">dirRoot</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s">&#39;usb&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;usb&#39;</span><span class="p">)</span>
+                <span class="n">usbRoot</span> <span class="o">=</span> <span class="n">dirRoot</span> <span class="o">+</span> <span class="s">&#39;/usb&#39;</span>
+                <span class="n">subDir</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">usbRoot</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">dirName</span> <span class="ow">in</span> <span class="n">subDir</span><span class="p">:</span>
+                    <span class="n">classDir</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">usbRoot</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dirName</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classDir</span><span class="p">:</span>
+                        <span class="n">dList</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">usbRoot</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dirName</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">dList</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dirChk</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dList</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;usb-&#39;</span> <span class="o">+</span> <span class="n">dirName</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;usb-&#39;</span> <span class="o">+</span> <span class="n">dirName</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s">&#39;lwip&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;lwip&#39;</span><span class="p">)</span>
+                <span class="n">lwipRoot</span> <span class="o">=</span> <span class="n">dirRoot</span> <span class="o">+</span> <span class="s">&#39;/lwip&#39;</span>
+                <span class="n">subDir</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">lwipRoot</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">dirName</span> <span class="ow">in</span> <span class="n">subDir</span><span class="p">:</span>
+                    <span class="n">classDir</span> <span class="o">=</span> <span class="n">kT</span><span class="o">.</span><span class="n">list_dirs</span><span class="p">(</span><span class="n">lwipRoot</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">dirName</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classDir</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">demoLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;lwip-&#39;</span> <span class="o">+</span> <span class="n">dirName</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">KSDK_Project_Generator 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Freescale Semiconductor.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

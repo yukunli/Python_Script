@@ -1,0 +1,20 @@
+Release Name: KSDK_Project_Generator     Version: 2.0
+Package - KSDK_Project_Generator
+
+Python
+Python is a programming language that lets you work more quickly and integrate your 
+systems more effectively. 
+Website: http://www.python.org
+License: Python License, Version 2 (Python-2.0), URL: http://opensource.org/licenses/PythonSoftFoundation.php
+Distribution Type: Binary
+Location: KSDK_Project_Generator package
+
+Python Tkinter graphical library
+Tkinter provides classes which allow the display, positioning and control of widgets. Toplevel 
+widgets are Tk and Toplevel. Other widgets are Frame, Label, Entry, Text, Canvas, Button, 
+Radiobutton, Checkbutton, Scale, Listbox, Scrollbar, OptionMenu, Spinbox LabelFrame and PanedWindow.
+Website: http://tkinter.unpythonic.net
+License: Python License, Version 2 (Python-2.0), URL: http://opensource.org/licenses/PythonSoftFoundation.php
+Distribution Type: Binary
+Location: KSDK_Project_Generator package
+
