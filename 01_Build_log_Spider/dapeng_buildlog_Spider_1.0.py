@@ -171,12 +171,12 @@ class Setting_Gui:
         
         self.master = master
         self.frame = Frame(self.master)
-        self.master.geometry('700x500')
-        self.master.minsize(700,400)
-        self.master.maxsize(700,500)
+        self.master.geometry('500x500')
+        self.master.winfo_width()
+        self.master.winfo_height()
         self.master.title("Build LOG spider1.0") 
         Button(self.master, text='Refresh The Settings Info', bg='blue',fg='white',\
-               font=('Arial', 10),command=self._Refresh_info).pack(fill=X,side=BOTTOM)
+               font=('Arial', 10),command=self.Refresh_info).pack(fill=X,side=BOTTOM)
         ##Requst number
         self.CaseNo_Input = StringVar()
         self.CaseNo_Input.set("3367")   
@@ -190,14 +190,11 @@ class Setting_Gui:
         Compiler_combobox = ttk.Combobox(self.master,text=self.compiler_Input,values=["iar","uv4","kds","atl","gcc_arm"],\
                                            width=5,font=('Arial', 15)).place(x=335,y=30)
         Label(self.master,text='Compiler select:',font=('Arial', 10)).place(x=230,y=30)
-        ## save button
-        Save_Button = Button(self.master,text = ' Save ',command=self._Save_info,font=('Arial', 10,'bold')).place(x=440,y=30)
         ## run button
-        Run_Button = Button(self.master,text=' Run ',command=self.Run_spider,font=('Arial', 10,'bold')).place(x=530,y=30)
-        ## stop button
-        Stop_Button = Button(self.master,text=' Stop ',command=self.Stop_spider,font=('Arial', 10,'bold')).place(x=610,y=30)
+        Run_Button=Button(self.master,text=' Run ',command=self.Run_spider,font=('Arial', 10,'bold')).place(x=435,y=30)
+
         ## Error info text
-        self.ERROR_Info = Text(self.master,font=('Arial',10),height=15,width=90)
+        self.ERROR_Info = Text(self.master,font=('Arial',10),height=10,width=60)
         self.ERROR_Info.insert(INSERT,"1:HELLO...\n")
         self.ERROR_Info.insert(END,"2:hdddoahd\n")
         self.ERROR_Info.insert(END,"3:hdddoahd\n")
@@ -211,31 +208,27 @@ class Setting_Gui:
         self.master.update()
        
         print self.ERROR_Info.get('1.0',END)
-    def _Refresh_info(self):
+    def Refresh_info(self):
         print " Please ..."
         CaseNo = self.CaseNo_Input.get()
         CompilerName = self.compiler_Input.get()
         self.ERROR_Info.delete('1.0',END)
         fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','r')
         Errors = fileERROR.readlines()
-        for line in Errors:
+        for line,i in Errors:
            self.ERROR_Info.insert(END,line)
         fileERROR.close()
-    def _Save_info(self):
-
-        CaseNo = self.CaseNo_Input.get()
-        CompilerName = self.compiler_Input.get()
-        ErrorInfo = self.ERROR_Info.get('1.0',END)
-        fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','w')
-        fileERROR.write(ErrorInfo)
-        fileERROR.close()
-        
-    def _Get_ErrorInfo(self):
+    def _Get_settingInfo(self):
 
         compare_dict = {}
         ERROR_List = []
         CaseNo = self.CaseNo_Input.get()
+        print CaseNo
         CompilerName = self.compiler_Input.get()
+        print CompilerName
+        fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','w')
+        fileERROR.write(self.ERROR_Info.get('1.0',END))
+        fileERROR.close()
         fileERROR = open('./'+CompilerName+'_ERROR_Type.txt','r')
         Errors = fileERROR.readlines()
         fileERROR.close()
@@ -263,7 +256,7 @@ class Setting_Gui:
         OtherErrorfail_num = 0
         compiler_list = ["iar","uv4","kds","atl"]
         
-        Settings = self._Get_ErrorInfo()
+        Settings = self._Get_settingInfo()
 
         Requst_NO = str(Settings[0])
         compiler_name = Settings[1]
@@ -289,8 +282,6 @@ class Setting_Gui:
             html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
         html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
         html_file.close()
-    def Stop_spider(self):
-        pass
 ####################################################
 
 if __name__ == '__main__':
