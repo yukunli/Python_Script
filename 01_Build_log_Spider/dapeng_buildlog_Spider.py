@@ -233,12 +233,18 @@ if __name__ == '__main__':
                     "error: unknown type name .*ENET_Type"
                ],
         'kds': [
-                    "duplicate definitions for .*s_dummyData",\
-                    "the size of an array must be greater than zero",\
-                    "fsl_clock.h: No such file or directory",\
+##                    "duplicate definitions for .*s_dummyData",\
+##                    "the size of an array must be greater than zero",\
+##                    "fsl_clock.h: No such file or directory",\
                     "region m_data overflowed with stack and heap",\
                     "error: 'TSI_Type' has no member named .*CRC",\
-                    "fatal error: portmacro.h: No such file or directory"
+                    "fatal error: portmacro.h: No such file or directory",\
+##                    "fatal error: fsl_uart.h: No such file or directory",\
+                    "error: unknown type name .*DAC_Type",\
+                    "error: unknown type name .*LPUART_Type",\
+                    "error: unknown type name .*TSI_Type",\
+                    "error: unknown type name .*ENET_Type",\
+                    "error: unknown type name .*CAN_Type'"
                ]
             
                 }

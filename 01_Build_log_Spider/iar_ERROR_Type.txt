@@ -1,16 +1,26 @@
-1: "duplicate definitions for .*s_dummyData"
-2: "the size of an array must be greater than zero"
-3: "Fatal Error.* cannot open source file .*fsl_clock.h"
-4: "Error.*: Cannot call intrinsic function .*__nounwind __DSB.* from Thumb mode in this architecture"
-5:  "Warning.* function .__get_PRIMASK. declared implicitly"
-6:  "Error.*: Cannot call intrinsic function .*__nounwind __WFI.* from Thumb mode in this architecture"
-7: "Error.*: This instruction is not available in the selected cpu/core",
-8: "Fatal Error.* cannot open source file .*portmacro.h"
-9: "Error.*: struct .* has no field .*CRC"
-10: "Fatal Error.* cannot open source file .*fsl_uart.h"
-11: "Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined"
-12:"Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined"
-13: "Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined"
-14: "Error.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined"
-15: "Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined"
+1:duplicate definitions for .*s_dummyData#
+2:the size of an array must be greater than zero#
+3:Fatal Error.* cannot open source file .*fsl_clock.h#
+4:Error.*: Cannot call intrinsic function .*__nounwind __DSB.* from Thumb mode in this architecture
+5:Warning.* function .__get_PRIMASK. declared implicitly
+6:Error.*: Cannot call intrinsic function .*__nounwind __WFI.* from Thumb mode in this architecture#
+7:Error.*: This instruction is not available in the selected cpu/core
+8:Fatal Error.* cannot open source file .*portmacro.h
+9:Error.*: struct .* has no field .*CRC
+10:Fatal Error.* cannot open source file .*fsl_uart.h
+11:Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined
+12:Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined
+13:Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined
+14:Error.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined
+15:Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined
+
+
+
+
+
+
+
+
+
+
 

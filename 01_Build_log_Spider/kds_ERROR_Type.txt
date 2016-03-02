@@ -1,0 +1,12 @@
+1:duplicate definitions for .*s_dummyData
+2:the size of an array must be greater than zero
+3:fsl_clock.h: No such file or directory
+4:region m_data overflowed with stack and heap
+5:error: .*TSI_Type.* has no member named .*CRC
+6:fatal error: portmacro.h: No such file or directory
+7:fatal error: fsl_uart.h: No such file or directory
+8:error: unknown type name .*DAC_Type
+9:error: unknown type name .*LPUART_Type
+10:error: unknown type name .*TSI_Type
+11:error: unknown type name .*ENET_Type
+12:error: unknown type name .*CAN_Type

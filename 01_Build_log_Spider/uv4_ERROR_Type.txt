@@ -1,0 +1,16 @@
+1:fsl_enet.h.* error:.*identifier .* is undefined
+2:Symbol s_dummyData multiply defined"
+3:fsl_slcd.h.* error:.* identifier .* is undefined"
+4:"cannot open source input file .*fsl_clock.h.*: No such file or directory
+5:the size of an array must be greater than zero
+6:cannot open source input file .*portmacro.h.*: No such file or directory
+7:error:.*struct .*has no field .*CRC
+8:No space in execution regions with .ANY selector matching
+9:error:.* identifier .*ENET_EIR_BABR_MASK.* is undefined
+10:warning:.* enumeration value is out of .*int.* range
+11:error:.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined
+12:error:.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined
+13:error:.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined
+14:error:.* cannot open source input file .*fsl_uart.h.*: No such file or directory
+15:error:.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined
+

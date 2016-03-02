@@ -1,0 +1,14 @@
+1:collect2.exe: error: ld returned 1 exit status
+2:fsl_slcd.h:.* error: unknown type name
+3:fsl_enet.c.* error: unknown type name
+4:fatal error: fsl_clock.h: No such file or directory
+5: region .*m_data.* overflowed by .* bytes
+6:fatal error: portmacro.h: No such file or directory
+7:fatal error: fsl_uart.h: No such file or directory
+8:error: unknown type name .*CAN_Type
+9:error: unknown type name .*DAC_Type
+10:error: unknown type name .*LPUART_Type
+11:error: unknown type name .*TSI_Type
+12:error: unknown type name .*ENET_Type
+
+
