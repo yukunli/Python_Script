@@ -324,7 +324,6 @@ class Setting_Gui:
 
 if __name__ == '__main__':
 
-
     root = Tk()
     app = Setting_Gui(root)
     root.mainloop()
