@@ -12,7 +12,7 @@ import ttk
 import tkFileDialog
 import tkMessageBox
 
-DEBUG = False
+DEBUG = True #False
 ##############################################
 #=============================================
 class get_fail_caseinfo():
@@ -30,7 +30,7 @@ class get_fail_caseinfo():
             if build_log:
                 return build_log
             else:
-                raise ValueError("can't find the build log in: %s"%line)
+                raise ValueError("Can't find the build log in: %s"%line)
         else:
             return None
             
@@ -80,6 +80,7 @@ class get_fail_caseinfo():
         try:
             page = urllib.urlopen(url)
             html = page.read()
+            print "ddddddddddddddddd"
         except:
             html = None
             print "read url fail in:  " + url
@@ -106,17 +107,20 @@ class compare():
             self.logList.append(re.compile(r".*"+ pattern +".*"))
         self.failcase = get_fail_caseinfo(dapeng_requst_path,compiler)
         self.compiler = compiler
+        
     def compare_fail_log(self):
         global fails_num
         global exitflag
-        compiler_dict = {"iar":3,"uv4":4,"gcc_arm":5,"kds":8,"atl":10}
-        print compiler_dict[self.compiler]
-        main_html = self.failcase.getHtml(self.requstPath + "?showall=1&compilerid="+str(compiler_dict[self.compiler])+"&buildresult=2" )
+        CompilerDict = {"iar":3,"uv4":4,"gcc_arm":5,"kds":8,"atl":10}
+        print CompilerDict[self.compiler]
+        print self.requstPath
+        main_html = self.failcase.getHtml(self.requstPath + "?showall=1&compilerid="+str(CompilerDict[self.compiler])+"&buildresult=2" )
+        print '<<<<<<<<<<<<<<<<<<<<<'
         self.failcase.write_html_txt(main_html)
         page_file = open('.\\page_html.txt','r')
         line = page_file.readlines()
         page_file.close()
-         
+        print '>>>>>>>>>>>>>>>>>>>>>>>.'
         for item in line:
             if not exitflag:
                 fail_build_info = self.failcase.check_fail_html(item)
@@ -130,6 +134,7 @@ class compare():
                 print "\n Thread is killed! "
                 break
         del main_html
+        del line
         print "compare build error finished!"
         
     def _match_pattern(self,fail_build_info):
