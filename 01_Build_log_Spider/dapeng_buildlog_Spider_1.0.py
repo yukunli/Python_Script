@@ -175,7 +175,8 @@ class Setting_Gui:
     """
     """
     def __init__(self,master = None):
-        
+
+        global Timeshow
         self.master = master
         self.frame = Frame(self.master)
         self.master.geometry('700x500')
@@ -212,9 +213,9 @@ class Setting_Gui:
         self.ERROR_Info.place(x=30,y=100)
 
         ## time show
-        self.Timeshow = StringVar()
-        self.Timeshow.set('Time: 00')
-        Timlabel = Label(self.master,textvariable=self.Timeshow,font=('Arial', 10)).place(x=30,y=350)
+        Timeshow = StringVar()
+        Timeshow.set('Time: 00')
+        Timlabel = Label(self.master,textvariable=Timeshow,font=('Arial', 10)).place(x=30,y=350)
         self.master.update()
         root.protocol("WM_DELETE_WINDOW", root.destroy)
     def _Refresh_info(self):
@@ -235,10 +236,11 @@ class Setting_Gui:
         fileERROR.close()
         
     def Run_spider(self):
-
+        
         global Requst_NO
         global compiler_name
         global compare_dict
+        global Timeshow
         compare_dict = {}
         ERROR_List = []
         Requst_NO = self.CaseNo_Input.get()
@@ -255,16 +257,28 @@ class Setting_Gui:
         print (Requst_NO,compiler_name,compare_dict[compiler_name])
         ## creat one thread 
         Main_thread = threading.Thread(group=None, target = self.Main_function)
+        Time_show_thread = threading.Thread(group=None, target = self.Time_function)
         try:
             Main_thread.start()
-            self.Timeshow.set(datetime.datetime.now())
+            Time_show_thread.start()
         except:
            print "\nError: unable to start thread"
 
     def Stop_spider(self):
         global exitflag
+        global timeflag
+        timeflag = 1
         exitflag = 1
-        time.sleep(1)  
+        time.sleep(1)
+    def Time_function(self):
+        global Timeshow
+        global timeflag
+        global starttime
+        timeflag =0
+        starttime = datetime.datetime.now()
+        while not timeflag:
+            endtime = datetime.datetime.now()
+            Timeshow.set(endtime - starttime)
     def Main_function(self):
             
             global Requst_NO
@@ -276,6 +290,7 @@ class Setting_Gui:
             global Error2fail_num
             global Erroelist
             global exitflag
+            global starttime
             exitflag = 0
             Erroelist = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
             Error1fail_num = 0
@@ -293,7 +308,6 @@ class Setting_Gui:
             html_file.write('Check The Build Errors : --\n')
             html_file.close()
             
-            starttime = datetime.datetime.now()
             build_failcase = compare(dapeng_requst_fail_path,compiler_name,compare_dict[compiler_name])
             build_failcase.compare_fail_log()
             endtime = datetime.datetime.now()
@@ -303,84 +317,14 @@ class Setting_Gui:
             html_file.write('Final Result: '+'Total compile fails num is '+str(fails_num)+'\n')
             for i in range(0,len(compare_dict[compiler_name])):
                 html_file.write('Final Result: '+' This Error '+str(i)+' num is '+str(Erroelist[i])+'\n')
-            html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
+            while not exitflag:
+                html_file.write('Final Result: '+'Other Errors fails num is '+str(OtherErrorfail_num)+'  END at: '+str(endtime)+'\n')
             html_file.close()
 ####################################################
 
 if __name__ == '__main__':
 
-##    Main_thread = threading.Thread(group=None, target = Main_function)
 
     root = Tk()
     app = Setting_Gui(root)
     root.mainloop()
-
-    # ============config the compare info===================
-
-    compare_remark = {
-        'iar': [
-##                    "duplicate definitions for .*s_dummyData",\
-##                    "the size of an array must be greater than zero",\
-##                    "Fatal Error.* cannot open source file .*fsl_clock.h",\
-##                    "Error.*: Cannot call intrinsic function .*__nounwind __DSB.* from Thumb mode in this architecture",\
-##                    "Warning.* function .__get_PRIMASK. declared implicitly",\
-##                    "Error.*: Cannot call intrinsic function .*__nounwind __WFI.* from Thumb mode in this architecture",\
-                    "Error.*: This instruction is not available in the selected cpu/core",\
-                    "Fatal Error.* cannot open source file .*portmacro.h",\
-                    "Error.*: struct .* has no field .*CRC",\
-##                    "Fatal Error.* cannot open source file .*fsl_uart.h",\
-##                    "Error.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
-##                    "Error.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
-##                    "Error.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
-                    "Error.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined",\
-                    "Error.* identifier .*ENET_EIR_BABR_MASK.* is undefined",\
-               ],
-        'uv4': [
-                    "fsl_enet.h.* error:.*identifier .* is undefined",\
-                    "Symbol s_dummyData multiply defined",\
-                    "fsl_slcd.h.* error:.* identifier .* is undefined",\
-                    "cannot open source input file .*fsl_clock.h.*: No such file or directory",\
-                    "the size of an array must be greater than zero",\
-                    "cannot open source input file .*portmacro.h.*: No such file or directory",
-                    "error:.*struct .*has no field .*CRC",\
-                    "No space in execution regions with .ANY selector matching",\
-                    "error:.* identifier .*ENET_EIR_BABR_MASK.* is undefined",\
-                    "warning:.* enumeration value is out of .*int.* range",\
-                    "error:.* identifier .*DAC_SR_DACBFRPTF_MASK.* is undefined",\
-                    "error:.* identifier .*LPUART_BAUD_RXEDGIE_MASK.* is undefined",\
-                    "error:.* identifier .*TSI_GENCS_EOSF_MASK.* is undefined",\
-                    "error:.* cannot open source input file .*fsl_uart.h.*: No such file or directory",\
-                    "error:.* identifier .*CAN_CTRL1_BOFFMSK_MASK.* is undefined"
-               ],
-        
-        'atl': [
-##                    "collect2.exe: error: ld returned 1 exit status",\
-##                    "fsl_slcd.h:.* error: unknown type name",\
-##                    "fsl_enet.c.* error: unknown type name",\
-##                    "fatal error: fsl_clock.h: No such file or directory",\
-                    " region .*m_data.* overflowed by .* bytes",\
-                    "fatal error: portmacro.h: No such file or directory",\
-                    "fatal error: fsl_uart.h: No such file or directory",\
-                    "error: unknown type name .*CAN_Type",\
-                    "error: unknown type name .*DAC_Type",\
-                    "error: unknown type name .*LPUART_Type",\
-                    "error: unknown type name .*TSI_Type",\
-                    "error: unknown type name .*ENET_Type"
-               ],
-        'kds': [
-                    "duplicate definitions for .*s_dummyData",\
-                    "the size of an array must be greater than zero",\
-                    "fsl_clock.h: No such file or directory",\
-                    "region m_data overflowed with stack and heap",\
-                    "error: 'TSI_Type' has no member named .*CRC",\
-                    "fatal error: portmacro.h: No such file or directory"
-               ]
-            
-                }
-    
-
-
-   
-
-    
-    

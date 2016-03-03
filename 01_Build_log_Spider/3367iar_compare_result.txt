@@ -1,15 +1,2 @@
 http://10.192.225.198/dapeng/EditMcuautoRequest/3367/ -- iar --
 Check The Build Errors : --
-Final Result: Total compile fails num is 0
-Final Result:  This Error 0 num is 0
-Final Result:  This Error 1 num is 0
-Final Result:  This Error 2 num is 0
-Final Result:  This Error 3 num is 0
-Final Result:  This Error 4 num is 0
-Final Result:  This Error 5 num is 0
-Final Result:  This Error 6 num is 0
-Final Result:  This Error 7 num is 0
-Final Result:  This Error 8 num is 0
-Final Result:  This Error 9 num is 0
-Final Result:  This Error 10 num is 0
-Final Result: Other Errors fails num is 0  END at: 2016-03-02 19:16:20.237000
