@@ -1,0 +1,5 @@
+ 1. in the c:/python27/script/ folder
+ 	run the cmd windows
+ 	then :"pip install wheel" 
+ 2. copy the xxx.whl files to the python27/ folder
+ 3. run "pip install c:/Python27/xxx.whl"
